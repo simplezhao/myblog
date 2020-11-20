@@ -3,6 +3,7 @@ title: python library package
 tags:
   - python library
 categories: python
+abbrlink: 205e
 ---
 
 ## 视觉
