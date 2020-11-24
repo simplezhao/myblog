@@ -6,8 +6,6 @@ categories: git
 abbrlink: 76bd
 ---
 
-> 提交git 时，如何能将提交的信息写清晰明了，避免不规范的代码提交
->
 > git 每次提交都需要写commit message，否则就不允许提交，一般来说，commit message应该清晰明了，说明本次提交的目的，具体做了什么操作，但是在日常开发中，大家的commit message千奇百怪，中英文混合使用，fix bug等各种笼统的message司空见怪，规范git commit message很重要
 
 比较流行的规范整理如下。
