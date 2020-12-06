@@ -93,8 +93,9 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 sudo apt-get install docker-compose
 
 ```
-** apt-get是从国外网站下载，可能速度会非常慢**，可以下载deb离线包：
+**apt-get是从国外网站下载，可能速度会非常慢**，可以下载deb离线包：
 [https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/][11]
+
 > Go to https://download.docker.com/linux/ubuntu/dists/, choose your Ubuntu version, browse to pool/stable/, choose amd64, armhf, arm64, ppc64el, or s390x, and download the .deb file for the Docker Engine - Community version you want to install.
 使用dpkg -i \*.deb 安装顺序为：
 1. containerd.io
@@ -115,6 +116,7 @@ sudo usermod -aG docker your-user
 在控制台输入docker info，查看当前docker 存储位置
 ![][image-1]
 在/etc/docker/下新建daemon.json文件, graph为存储位置
+
 ```json
 {
   "registry-mirrors": ["https://1x2ypu6h.mirror.aliyuncs.com"],
