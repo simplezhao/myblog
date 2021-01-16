@@ -3,6 +3,7 @@ title: Python
 tags:
   - dependency
 categories: python
+abbrlink: aaa7
 ---
 
 > 参考：
