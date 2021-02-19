@@ -1,7 +1,7 @@
 {% extends '_layout.swig' %}
 {% import '_macro/sidebar.swig' as sidebar_template with context %}
 
-{% block title %}{{ title }}{%- if theme.index_with_subtitle and subtitle %} - {{ subtitle }}{%- endif %}{% endblock %}
+{% block title %}{{ theme.keywords }}{{ title }}{%- if theme.index_with_subtitle and subtitle %} - {{ subtitle }}{%- endif %}{{ theme.description }}{% endblock %}
 
 {% block content %}
 
