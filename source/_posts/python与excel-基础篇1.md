@@ -4,7 +4,7 @@ tags:
   - excel
   - python
 categories: python
-keywords: openpyxl, python
+keywords: 'openpyxl, python'
 description: 使用openpyxl对excel读写操作
 abbrlink: df7e
 ---
@@ -129,4 +129,12 @@ wb.close()
 ```
 
 
+
+## 参考
+
+[1] [官方文档](https://openpyxl.readthedocs.io/en/stable/tutorial.html)
+
+[2] [选择sheet](https://stackoverflow.com/questions/41556378/openpyxl-set-active-sheet/50117733)
+
+[3] [realpython openpyxl guide](https://realpython.com/openpyxl-excel-spreadsheets-python/)
 
