@@ -1,0 +1,988 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Python</title>
+    <url>/posts/aaa7/</url>
+    <content><![CDATA[<blockquote>
+<p>参考：</p>
+<ol>
+<li><a href="https://github.com/python-poetry/poetry" target="_blank" rel="noopener">https://github.com/python-poetry/poetry</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/110721747" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/110721747</a></li>
+<li><a href="https://blog.csdn.net/daihaoxin/article/details/109262807" target="_blank" rel="noopener">https://blog.csdn.net/daihaoxin/article/details/109262807</a></li>
+</ol>
+</blockquote>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>dependency</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python Type Checking</title>
+    <url>/posts/acc1/</url>
+    <content><![CDATA[<blockquote>
+<p>参考：</p>
+<ol>
+<li>
+<p><a href="https://testdriven.io/blog/python-type-checking/" target="_blank" rel="noopener">https://testdriven.io/blog/python-type-checking/</a></p>
+</li>
+<li>
+<p><a href="https://testdriven.io/blog/python-code-quality/#running-code-quality-tools" target="_blank" rel="noopener">https://testdriven.io/blog/python-code-quality/#running-code-quality-tools</a></p>
+</li>
+</ol>
+</blockquote>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ZSH下使用Anaconda</title>
+    <url>/posts/e37f/</url>
+    <content><![CDATA[<blockquote>
+<p>在zsh下面找不到conda或者查看python，并不是用的anaconda版本的<br>
+anaconda的安装参考：<a href="https://docs.anaconda.com/anaconda/install/" target="_blank" rel="noopener">https://docs.anaconda.com/anaconda/install/</a></p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 编辑zshrc文件，将下面这句加到zshrc中；anaconda_home为anaconda的安装目录</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="string">"[anaconda_home]/bin:<span class="variable">$PATH</span>"</span></span><br></pre></td></tr></table></figure>
+<p>参考：</p>
+<ol>
+<li><a href="https://www.jianshu.com/p/74b1c60148e8" target="_blank" rel="noopener">https://www.jianshu.com/p/74b1c60148e8</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>Anaconda</tag>
+        <tag>ZSH</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker部署记录</title>
+    <url>/posts/c5ac/</url>
+    <content><![CDATA[<ul>
+<li><a href="">x</a> 磁盘初始化</li>
+<li><a href="">x</a> 修改系统时区为UTC+8</li>
+<li><a href="">x</a> 部署docker环境，修改docker安装位置</li>
+<li><a href="">x</a> 优化docker环境，适配china</li>
+<li><a href="">x</a> 修改代码配置文件，适配测试环境和生产环境</li>
+<li><a href="">x</a> 代码merge到master分支</li>
+<li><a href="">x</a> 安装docker镜像</li>
+<li><a href="">x</a> 从git获取代码，部署</li>
+<li><a href=""> </a> 配置https</li>
+<li><a href=""> </a> 测试</li>
+</ul>
+<blockquote>
+<p>本文记录在Azure 上部署docker应用的过程</p>
+</blockquote>
+<h2 id="磁盘初始化">磁盘初始化</h2>
+<p>Azure提供的磁盘为系统盘+数据盘，数据盘的大小在新建虚拟机的时候可以选，默认数据盘是未挂载到系统上的，需要手动挂载，挂载数据盘可以参考：<br>
+<a href="https://docs.azure.cn/zh-cn/virtual-machines/linux/add-disk" target="_blank" rel="noopener">https://docs.azure.cn/zh-cn/virtual-machines/linux/add-disk</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 通过dh -h命令查看当前系统磁盘的大小和使用情况，目前没有数据盘</span></span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">udev            3.9G     0  3.9G   0% /dev</span><br><span class="line">tmpfs           796M  676K  795M   1% /run</span><br><span class="line">/dev/sda1        29G  1.5G   28G   5% /</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /dev/shm</span><br><span class="line">tmpfs           5.0M     0  5.0M   0% /run/lock</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /sys/fs/cgroup</span><br><span class="line">/dev/sda15      105M  3.6M  101M   4% /boot/efi</span><br><span class="line">/dev/sdb1        16G   45M   15G   1% /mnt</span><br><span class="line">tmpfs           796M     0  796M   0% /run/user/1000</span><br><span class="line">........</span><br><span class="line"><span class="comment"># 操作完之后， df -h，最后一行已经挂在到/datadrive上</span></span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">udev            3.9G     0  3.9G   0% /dev</span><br><span class="line">tmpfs           796M  680K  795M   1% /run</span><br><span class="line">/dev/sda1        29G  1.5G   28G   5% /</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /dev/shm</span><br><span class="line">tmpfs           5.0M     0  5.0M   0% /run/lock</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /sys/fs/cgroup</span><br><span class="line">/dev/sda15      105M  3.6M  101M   4% /boot/efi</span><br><span class="line">/dev/sdb1        16G   45M   15G   1% /mnt</span><br><span class="line">tmpfs           796M     0  796M   0% /run/user/1000</span><br><span class="line">/dev/sdc1       196G   61M  186G   1% /datadrive</span><br></pre></td></tr></table></figure>
+<p><strong>之后的所有文件操作都是在/datadrive下</strong><br>
+默认datadrive的权限为root权限，修改所有者为当前用户</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo chown -R cniabservice:cniabservice /datadrive/</span><br></pre></td></tr></table></figure>
+<h2 id="修改系统时区">修改系统时区</h2>
+<p>Azure提供的linux默认时区为UTC，需要改为中国UTC+8时区<br>
+简单操作如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br></pre></td></tr></table></figure>
+<p><strong>!docker 内时区默认也为UTC，跟主机并不同步，需要修改为UTC+8，下面会说明，不在这里介绍</strong></p>
+<h2 id="安装docker">安装docker</h2>
+<h3 id="1-使用Ubuntu-源进行安装">1. 使用Ubuntu 源进行安装</h3>
+<p>参考 <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/" target="_blank" rel="noopener">https://docs.docker.com/install/linux/docker-ce/ubuntu/</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install \</span><br><span class="line">apt-transport-https \</span><br><span class="line">ca-certificates \</span><br><span class="line">curl \</span><br><span class="line">gnupg-agent \</span><br><span class="line">software-properties-common</span><br><span class="line"></span><br><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br><span class="line"></span><br><span class="line">sudo add-apt-repository \</span><br><span class="line">   <span class="string">"deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">   <span class="variable">$(lsb_release -cs)</span> \</span></span><br><span class="line"><span class="string">   stable"</span></span><br><span class="line"></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br><span class="line">sudo apt-get install docker-compose</span><br></pre></td></tr></table></figure>
+<p><strong>apt-get是从国外网站下载，可能速度会非常慢</strong>，可以下载deb离线包：<br>
+<a href="https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/" target="_blank" rel="noopener" title="针对于ubuntu 18.04">https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/</a></p>
+<blockquote>
+<p>Go to <a href="https://download.docker.com/linux/ubuntu/dists/" target="_blank" rel="noopener">https://download.docker.com/linux/ubuntu/dists/</a>, choose your Ubuntu version, browse to pool/stable/, choose amd64, armhf, arm64, ppc64el, or s390x, and download the .deb file for the Docker Engine - Community version you want to install.<br>
+使用dpkg -i *.deb 安装顺序为：</p>
+</blockquote>
+<ol>
+<li><a href="http://containerd.io" target="_blank" rel="noopener">containerd.io</a></li>
+<li>docker-ce</li>
+<li>docker-ce-cli</li>
+<li>最后 apt-get install docker-compose</li>
+</ol>
+<p>docker默认root权限操作，将当前用户加入root组，免每次操作输入密码</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># If you would like to use Docker as a non-root user, you should now consider adding your user to the “docker” group with something like:</span></span><br><span class="line">sudo usermod -aG docker your-user</span><br></pre></td></tr></table></figure>
+<h3 id="2-修改docker镜像存储等存储位置">2. 修改docker镜像存储等存储位置</h3>
+<p>默认存储位置在系统盘，要将其迁移至数据盘<br>
+在控制台输入docker info，查看当前docker 存储位置<br>
+<img src="https://oss.smart-lifestyle.cn/blog/qx062.jpg" alt=""><br>
+在/etc/docker/下新建daemon.json文件, graph为存储位置</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"registry-mirrors"</span>: [<span class="string">"https://1x2ypu6h.mirror.aliyuncs.com"</span>],</span><br><span class="line">  <span class="attr">"hosts"</span>:[</span><br><span class="line">    <span class="string">"tcp://0.0.0.0:2375"</span>,</span><br><span class="line">    <span class="string">"unix:///var/run/docker.sock"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"graph"</span>: <span class="string">"/datadrive/dockerdata"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重启docker，sudo service docker restart，再次docker info查看配置<br>
+<img src="https://oss.smart-lifestyle.cn/blog/7rvdj.jpg" alt=""><br>
+<strong>修改成功！</strong></p>
+<h2 id="从代码仓库获取代码">从代码仓库获取代码</h2>
+<h3 id="1-pull-request-to-Master">1. pull request to Master</h3>
+<p>遇到问题，没有权限进行合并操作，只有审批功能，修改如下地方<br>
+<img src="https://oss.smart-lifestyle.cn/blog/98qaq.jpg" alt=""></p>
+<h3 id="2-在远程服务器使用git-clone获取代码">2. 在远程服务器使用git clone获取代码</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用如下用户名密码</span></span><br><span class="line"><span class="comment"># 用户名：jenkins 密码：***************</span></span><br><span class="line">git <span class="built_in">clone</span> https://dev.azure.com/ds-rnd/*************</span><br></pre></td></tr></table></figure>
+<h2 id="环境配置">环境配置</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir redisdb</span><br><span class="line">mkdir mysqldb</span><br><span class="line">mkdir ssl_key</span><br><span class="line">mkdir conf</span><br><span class="line"><span class="comment"># 修改nginx.conf文件</span></span><br><span class="line">mkdir -p static/.well-known</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"1.0.0"</span> \&gt; version</span><br></pre></td></tr></table></figure>
+<h3 id="1-构建docker">1. 构建docker</h3>
+<p>在工程根目录下执行 docker-compose up 进行首次编译镜像和启动容器</p>
+<h3 id="2-初始化数据库">2. 初始化数据库</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建abbdrive数据库</span></span><br><span class="line">python manage.py makemigrations abbdrivemodel</span><br><span class="line">python manage.py migrate</span><br><span class="line">执行</span><br><span class="line">http://g*************.cloudapp.chinacloudapi.cn/**********</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git commit规范</title>
+    <url>/posts/76bd/</url>
+    <content><![CDATA[<blockquote>
+<p>提交git 时，如何能将提交的信息写清晰明了，避免不规范的代码提交</p>
+<p>git 每次提交都需要写commit message，否则就不允许提交，一般来说，commit message应该清晰明了，说明本次提交的目的，具体做了什么操作，但是在日常开发中，大家的commit message千奇百怪，中英文混合使用，fix bug等各种笼统的message司空见怪，规范git commit message很重要</p>
+</blockquote>
+<p>比较流行的规范整理如下。</p>
+<h2 id="commit-message-格式">commit message 格式</h2>
+<p>建议每行不超过100个字符</p>
+<p><code>&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</span><br><span class="line">&lt;BLANK LINE&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;BLANK LINE&gt;</span><br><span class="line">&lt;footer&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>type(必须)</p>
+<p>用于说明git commit的类别，只允许使用下面的标识。</p>
+<p>feat: 新功能（feature）</p>
+<p>fix: 修复bug，可以是QA发现的BUG，也可以是研发自己发现的BUG</p>
+<p>docs: 文档（document）</p>
+<p>style: 格式（不影响代码运行的变动, 比如删除多余的空行）</p>
+<p>refactor: 重构（即不是新增功能，也不是修改bug的代码运动）</p>
+<p>perf: 优化相关，比如提升性能、体验</p>
+<p>test: 增加测试</p>
+<p>chore: 构建过程或者辅助工具的变动</p>
+<p>revert: 回滚到上一个版本，需要在body中写上从哪一个版本revert的</p>
+<p>merge: 代码合并</p>
+<p>sync: 同步主线或者分布的bug</p>
+</li>
+<li>
+<p>scope（可选）</p>
+<p>scope用于说明影响的范围，比如数据层、控制层、视图层等等，视项目的不同而不同</p>
+<p>如果修改影响了不止一个socope，你可以使用*代替</p>
+</li>
+<li>
+<p>subject（必须）</p>
+<p>subject是commit目的的简短描述，不超过50字符。</p>
+<p>建议使用中文。</p>
+<p>结尾不加句号或者其他标点符号</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 举例</span></span><br><span class="line">docs(api): 接口说明完善</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">feat($</span><span class="bash">browser): onUrlChange event (popstate/hashchange/polling)</span></span><br><span class="line"></span><br><span class="line">Added new event to $browser:</span><br><span class="line">- forward popstate event if available</span><br><span class="line">- forward hashchange event if popstate not available</span><br><span class="line">- do polling when neither popstate nor hashchange available</span><br><span class="line"></span><br><span class="line">Breaks $browser.onHashChange, which was removed (use onUrlChange instead)</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">fix($</span><span class="bash">compile): couple of unit tests <span class="keyword">for</span> IE9</span></span><br><span class="line"></span><br><span class="line">Older IEs serialize html uppercased, but IE9 does not...</span><br><span class="line">Would be better to expect case insensitive, unfortunately jasmine does</span><br><span class="line">not allow to user regexps for throw expectations.</span><br><span class="line"></span><br><span class="line">Closes #392</span><br><span class="line">Breaks foo.bar api, foo.baz should be used instead</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">feat($</span><span class="bash">compile): simplify isolate scope bindings</span></span><br><span class="line"></span><br><span class="line">Changed the isolate scope binding options to:</span><br><span class="line">  - @attr - attribute binding (including interpolation)</span><br><span class="line">  - =model - by-directional model binding</span><br><span class="line">  - &amp;expr - expression execution binding</span><br><span class="line"></span><br><span class="line">This change simplifies the terminology as well as</span><br><span class="line">number of choices available to the developer. It</span><br><span class="line">also supports local name aliasing from the parent.</span><br><span class="line"></span><br><span class="line">BREAKING CHANGE: isolate scope bindings definition has changed and</span><br><span class="line">the inject option for the directive controller injection was removed.</span><br><span class="line"></span><br><span class="line">To migrate the code follow the example below:</span><br><span class="line"></span><br><span class="line">Before:</span><br><span class="line"></span><br><span class="line">scope: &#123;</span><br><span class="line">  myAttr: 'attribute',</span><br><span class="line">  myBind: 'bind',</span><br><span class="line">  myExpression: 'expression',</span><br><span class="line">  myEval: 'evaluate',</span><br><span class="line">  myAccessor: 'accessor'</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">After:</span><br><span class="line"></span><br><span class="line">scope: &#123;</span><br><span class="line">  myAttr: '@',</span><br><span class="line">  myBind: '@',</span><br><span class="line">  myExpression: '&amp;',</span><br><span class="line">  // myEval - usually not useful, but in cases where the expression is assignable, you can use '='</span><br><span class="line">  myAccessor: '=' // in directive's template change myAccessor() to myAccessor</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">The removed `inject` wasn't generaly useful for directives so there should be no code using it.</span><br></pre></td></tr></table></figure>
+<h3 id="使用git-commit-规范的好处">使用git commit 规范的好处</h3>
+<ol>
+<li>便于追溯提交历史进行追溯</li>
+<li>一旦约束了commit message，就不能再一股脑的把各种各样的改动都放在一个git commit里面</li>
+<li>便于自动化输出change log(<a href="http://CHANGELOG.md" target="_blank" rel="noopener">CHANGELOG.md</a>)</li>
+</ol>
+<p>[1] <a href="https://developer.aliyun.com/article/770277?accounttraceid=d4154093542c440aa51196b76d1ccbe3eyfz" target="_blank" rel="noopener">https://developer.aliyun.com/article/770277?accounttraceid=d4154093542c440aa51196b76d1ccbe3eyfz</a></p>
+<p>[2] <a href="https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#" target="_blank" rel="noopener">https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#</a></p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git commit</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>.gitignore模式匹配</title>
+    <url>/posts/4da0/</url>
+    <content><![CDATA[<ul>
+<li>匹配模式前使用 <code>/</code> 表示根目录<br>
+/filename 表示匹配根目录下的文件filename</li>
+<li>匹配模式后使用 <code>/</code> 代表是目录（不是文件）<br>
+dirname/ 表示匹配的是dirname文件夹</li>
+<li>匹配模式前加 <code>！</code> 表示取反</li>
+<li><code>*</code> 代表任意个字符<br>
+db*.json 表示匹配以db开头的json文件</li>
+<li><code>?</code> 匹配任意一个字符<br>
+db?.json 表示以db开头并且文件名为三个字符的json文件</li>
+<li><code>**</code> 匹配任意级目录</li>
+</ul>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>gitignore</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jupyterlab + jupyterhub + supervisor</title>
+    <url>/posts/93be/</url>
+    <content><![CDATA[<blockquote>
+<p>记录在jupyterhub 中使用jupyterlab，并且使用supervisor管理进程运行<br>
+supervisor 在非root用户下运行和管理进程</p>
+</blockquote>
+<h3 id="安装jupyterhub">安装jupyterhub</h3>
+<blockquote>
+<p>前提条件</p>
+<ol>
+<li>python 3.5+</li>
+<li>nodejs/npm</li>
+</ol>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 安装 http-proxy，并使用淘宝镜像</span></span><br><span class="line">npm install -g configurable-http-proxy --registry=https://registry.npm.taobao.org</span><br><span class="line"><span class="comment"># 安装 jupyterhub，并使用豆瓣镜像</span></span><br><span class="line">python3 -m pip install jupyterhub -i https://pypi.douban.com/simple/</span><br><span class="line"><span class="comment"># 在终端中输入jupyterhub 看是否运行</span></span><br><span class="line">jupyterhub</span><br><span class="line"><span class="comment"># Visit https://localhost:8000 in your browser, and sign in with your unix PAM credentials.</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装-jupyterlab，并配置到-jupyterhub中">安装 jupyterlab，并配置到 jupyterhub中</h3>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装 jupyterlab</span></span><br><span class="line">python3 -m pip install jupyterlab -i https://pypi.douban.com/simple/</span><br><span class="line"><span class="comment"># 通过 jupyterhub生成配置文件，并存放在 $HOME/jupyterhub中</span></span><br><span class="line">jupyterhub --generate-config</span><br><span class="line"><span class="comment"># 编辑 jupyterhub_config.py</span></span><br><span class="line"><span class="comment"># 设定你的启动打开目录</span></span><br><span class="line">c.Spawner.notebook_dir = <span class="string">'/home/simple/develop/jupyter_home'</span></span><br><span class="line"><span class="comment"># 设定以 jupyterlab运行</span></span><br><span class="line">c.Spawner.default_url = <span class="string">'/lab'</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装supervisor，并将-jupyterhub管理加入其中">安装supervisor，并将 jupyterhub管理加入其中</h3>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装supervisor</span></span><br><span class="line">python -m pip install supervisor</span><br><span class="line"><span class="comment"># 生成配置文件，放在/etc/ 中</span></span><br><span class="line">echo_supervisord_conf &gt; /etc/supervisord.conf </span><br><span class="line"><span class="comment"># 创建配置文件夹</span></span><br><span class="line">sudo mkdir -p /etc/supervisor/conf.d/</span><br><span class="line"><span class="comment"># 编辑 supervisord.conf ，在最后取消注释，加入f iles = /etc/supervisor/conf.d/*.conf</span></span><br><span class="line">[include]</span><br><span class="line">;files = relative/directory/*.ini</span><br><span class="line">files = /etc/supervisor/conf.d/*.conf</span><br><span class="line"><span class="comment"># 修改启动用户为当前用户，如果是root，请忽略</span></span><br><span class="line">[supervisord]</span><br><span class="line">user=simple</span><br></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"># 在 /etc/supervisor/<span class="keyword">conf</span>.d/ 新建 jupyterhub.<span class="keyword">conf</span>， 内容如下</span><br><span class="line">[program:jupyterhub]</span><br><span class="line"><span class="keyword">command</span>=jupyterhub -<span class="keyword">f</span> /home/simple/jupyterhub/jupyterhub_config.<span class="keyword">py</span></span><br><span class="line">directory=/home/simple/jupyterhub</span><br><span class="line">autostart=true</span><br><span class="line">autorestart=true</span><br><span class="line">startretries=<span class="number">3</span></span><br><span class="line">exitcodes=<span class="number">0</span>,<span class="number">2</span></span><br><span class="line">stopsignal=TERM</span><br><span class="line">redirect_stderr=true</span><br><span class="line">stdout_logfile=/home/simple/jupyterhub/<span class="built_in">log</span>/jupyterhub.<span class="built_in">log</span></span><br><span class="line">stdout_logfile_maxbytes=<span class="number">1</span>MB</span><br><span class="line">stdout_logfile_backups=<span class="number">10</span></span><br><span class="line">user=simple</span><br></pre></td></tr></table></figure>
+<h3 id="运行">运行</h3>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在任意位置运行 supervisord，启动 supervisor 主进程</span></span><br><span class="line">supervisord</span><br><span class="line"><span class="comment"># 通过supervisorctl status 查看状态</span></span><br><span class="line">supervisorctl status</span><br><span class="line">$ jupyterhub                       RUNNING   pid 16161, uptime 0:24:15</span><br></pre></td></tr></table></figure>
+<p>在浏览器中访问ip:8000，输入系统的设置的用户名密码进行登录</p>
+<h3 id="配置https">配置https</h3>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 编辑 jupyterhub_config.py， 配置ssl_cert 和 ssl_key</span></span><br><span class="line">c.JupyterHub.ssl_cert = <span class="string">'/****/*****/ssl_file/full_chain.pem'</span></span><br><span class="line">c.JupyterHub.ssl_key = <span class="string">'/****/****/ssl_file/private.key'</span></span><br><span class="line"><span class="comment"># 保存后重启supervisor</span></span><br><span class="line">supervisorctl restart jupyterhub</span><br></pre></td></tr></table></figure>
+<p><em>ssl 证书申请可以参考：<a href="https://freessl.cn/" target="_blank" rel="noopener">https://freessl.cn/</a></em><br>
+最终效果：<br>
+<img src="https://oss.smart-lifestyle.cn/blog/mrwzk.png" alt="效果"></p>
+<h3 id="Tips">Tips</h3>
+<ul>
+<li>启用jupyterlab 插件管理</li>
+</ul>
+<ul>
+<li>Settings --&gt; Enable Extension Manager 启用</li>
+<li>在 Extension Manager中搜索manager，选择@jupyter-widgets/jupyterlab-manager，点击安装</li>
+</ul>
+<h3 id="参考">参考</h3>
+<ol>
+<li><a href="https://juejin.im/post/5d80da83e51d45620c1c5471" target="_blank" rel="noopener">如何安装supervisor</a></li>
+<li><a href="https://developer.aliyun.com/mirror/NPM" target="_blank" rel="noopener">npm淘宝镜像</a></li>
+<li><a href="https://www.jianshu.com/p/c5b7c619dd0b" target="_blank" rel="noopener">豆瓣python源</a></li>
+<li><a href="https://github.com/jupyterhub/jupyterhub-tutorial/tree/master/supervisor" target="_blank" rel="noopener">jupyterhub官网 supervisor参考</a></li>
+<li><a href="https://jupyterlab.readthedocs.io/en/latest/user/jupyterhub.html" target="_blank" rel="noopener">配置jupyterhub 使用jupyterlab</a></li>
+<li><a href="https://jupyter.org/install" target="_blank" rel="noopener">jupyterlab安装</a></li>
+<li><a href="https://github.com/jupyterhub/jupyterhub" target="_blank" rel="noopener">jupyterhub安装</a></li>
+<li><a href="https://jupyterhub.readthedocs.io/en/stable/getting-started/security-basics.html" target="_blank" rel="noopener">ssl 加密 https化</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>jupyterlab</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World 201903080551</title>
+    <url>/posts/59f6/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start">Quick Start</h2>
+<h3 id="Create-a-new-post">Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server">Run server</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files">Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>book</category>
+      </categories>
+      <tags>
+        <tag>Testing</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python library package</title>
+    <url>/posts/205e/</url>
+    <content><![CDATA[<h2 id="视觉">视觉</h2>
+<ol>
+<li></li>
+</ol>
+<img src="https://oss.smart-lifestyle.cn/blog/cc19h.jpg" />
+<blockquote>
+<p>[<a href="https://github.com/bokeh/bokeh" target="_blank" rel="noopener">https://github.com/bokeh/bokeh</a>][1]<br>
+Bokeh is an interactive visualization library for modern web browsers. It provides elegant, concise construction of versatile graphics, and affords high-performance interactivity over large or streaming datasets. Bokeh can help anyone who would like to quickly and easily make interactive plots, dashboards, and data applications.</p>
+</blockquote>
+<p>![][image-2]![][image-3]![][image-4]![][image-5]</p>
+<h3 id="install">install</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install bokeh</span><br></pre></td></tr></table></figure>
+<h2 id="生产力">生产力</h2>
+<ol>
+<li><img src="https://oss.smart-lifestyle.cn/file/r7d0g.jpg" alt=""></li>
+</ol>
+<blockquote>
+<p>[<a href="https://github.com/PyCQA/isort" target="_blank" rel="noopener">https://github.com/PyCQA/isort</a>][2]<br>
+isort your imports, so you don’t have to.<br>
+isort is a Python utility / library to sort imports alphabetically, and automatically separated into sections and by type. It provides a command line utility, Python library and plugins for various editors to quickly sort all your imports. It requires Python 3.6+ to run but supports formatting Python 2 code too.</p>
+</blockquote>
+<h3 id="install-2">install</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install isort</span><br></pre></td></tr></table></figure>
+<h3 id="use">use</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">isort file.py</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><img src="https://oss.smart-lifestyle.cn/file/4dv6l.jpg" alt=""></li>
+</ol>
+<blockquote>
+<p>[<a href="https://github.com/pypyr/pypyr" target="_blank" rel="noopener">https://github.com/pypyr/pypyr</a>][3]<br>
+pypyr is a free &amp; open-source task-runner that lets you define and run sequential steps in a pipeline.</p>
+</blockquote>
+<h3 id="install-3">install</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install --upgrade pypyr</span><br></pre></td></tr></table></figure>
+<h2 id="框架">框架</h2>
+<h3 id="事件驱动，观察者模式">事件驱动，观察者模式</h3>
+<ol>
+<li>RxPY v3.0</li>
+</ol>
+<blockquote>
+<p>[<a href="https://github.com/ReactiveX/RxPY" target="_blank" rel="noopener">https://github.com/ReactiveX/RxPY</a>][4]<br>
+A library for composing asynchronous and event-based programs using observable collections and query operator functions in Python</p>
+</blockquote>
+<h3 id="install-4">install</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip3 install rx</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python library</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>shell变量与环境变量</title>
+    <url>/posts/77ae/</url>
+    <content><![CDATA[<blockquote>
+<p>Shell 变量只在主shell有效，子进程无效，环境变量在主shell和子进程都有效，可以通过export命令将shell变量变为环境变量</p>
+<p>使用set命令查看shell变量</p>
+<p>使用printenv命令查看环境变量</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="背景">背景</h2>
+<p>在python工程中，想通过环境变量获取参数值，并赋值给python变量</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">print(<span class="string">f"PID: <span class="subst">&#123;os.getpid()&#125;</span>, PPID: <span class="subst">&#123;os.getppid()&#125;</span>"</span>)</span><br><span class="line">host = os.getenv(<span class="string">'REDIS_HOST'</span>)</span><br><span class="line">port = os.getenv(<span class="string">'REDIS_PORT'</span>)</span><br><span class="line">password = os.getenv(<span class="string">'REDIS_PASSWORD'</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">f"<span class="subst">&#123;password&#125;</span>@<span class="subst">&#123;host&#125;</span>:<span class="subst">&#123;port&#125;</span>"</span>)</span><br></pre></td></tr></table></figure>
+<p>而参数值放在一个env文件里</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">REDIS_HOST=example.com</span><br><span class="line">REDIS_PORT=5432</span><br><span class="line">REDIS_PASSWORD=123456</span><br></pre></td></tr></table></figure>
+<p>通过执行<code>source .env</code> 后在终端查看</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$REDIS_HOST</span> <span class="variable">$REDIS_PORT</span> <span class="variable">$REDIS_PASSWORD</span></span><br><span class="line">&gt; example.com 5432 123456</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看当前shell pid</span></span><br><span class="line"><span class="built_in">echo</span> $$</span><br><span class="line">&gt; 22650</span><br><span class="line"><span class="comment"># 运行python 文件</span></span><br><span class="line">python variables.py</span><br><span class="line">&gt; PID: 23034, PPID: 22650</span><br><span class="line">&gt; None@None:None</span><br></pre></td></tr></table></figure>
+<p>发现python并未获取到存在shell环境变量中的值，python运行的父进程号为当前shell的进程号，而当时python运行是在子进程中运行</p>
+<p>以上的<code>souce .env</code>操作是将变量存入到shell变量中，但未在环境变量中</p>
+<h2 id="shell变量和环境变量">shell变量和环境变量</h2>
+<p>For <a href="http://www.ee.surrey.ac.uk/Teaching/Unix/unix8.html" target="_blank" rel="noopener">Standard UNIX variables</a> , says:</p>
+<blockquote>
+<p>Standard UNIX variables are split into two categories, environment variables and shell variables. In broad terms, shell variables apply only to the current instance of the shell and are used to set short-term working conditions; environment variables have a farther reaching significance, and those set at login are valid for the duration of the session. By convention, environment variables have UPPER CASE and shell variables have lower case names.</p>
+<p>标准UNIX变量分为两类：环境变量和shell变量，shell变量仅在当前shell（主进程）有效，环境变量可以在子进程有效，通常环境变量为大写，shell变量为小写</p>
+</blockquote>
+<p>For <a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_05_03" target="_blank" rel="noopener">POSIX-compatible shells</a> (including Bash), the standard says:</p>
+<blockquote>
+<p><strong>2.5.3 Shell Variables</strong><br>
+Variables shall be initialized from the environment <em>[…]</em> If a variable is initialized from the environment, it shall be marked for export immediately; see the export special built-in. New variables can be defined and initialized with variable assignments, <em>[etc.]</em></p>
+<p>如果shell变量要转化为环境变量，执行export 命令</p>
+</blockquote>
+<h3 id="查看shell变量和环境变量">查看shell变量和环境变量</h3>
+<ul>
+<li>查看shell变量使用<code>set</code>命令</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set</span></span><br><span class="line"><span class="comment"># 截取部分</span></span><br><span class="line">&gt; ...</span><br><span class="line">&gt; status=0</span><br><span class="line">&gt; termcap</span><br><span class="line">&gt; terminfo</span><br><span class="line">&gt; userdirs</span><br><span class="line">&gt; usergroups</span><br><span class="line">&gt; watch=(  )</span><br><span class="line">&gt; widgets</span><br><span class="line">&gt; zle_bracketed_paste=( $<span class="string">'\C-[[?2004h'</span> $<span class="string">'\C-[[?2004l'</span> )</span><br><span class="line">&gt; zsh_eval_context=( toplevel )</span><br><span class="line">&gt; zsh_scheduled_events</span><br><span class="line">&gt; ...</span><br></pre></td></tr></table></figure>
+<p>另外可以通过set/unset 来设置/删除shell变量</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set</span></span><br><span class="line"></span><br><span class="line">  Display, <span class="built_in">set</span> or <span class="built_in">unset</span> values of shell attributes and positional parameters.</span><br><span class="line"></span><br><span class="line">  - Display the names and values of shell variables:</span><br><span class="line">    <span class="built_in">set</span></span><br><span class="line"></span><br><span class="line">  - Mark variables that are modified or created <span class="keyword">for</span> <span class="built_in">export</span>:</span><br><span class="line">    <span class="built_in">set</span> -a</span><br><span class="line"></span><br><span class="line">  - Notify of job termination immediately:</span><br><span class="line">    <span class="built_in">set</span> -b</span><br><span class="line"></span><br><span class="line">  - Set various options, e.g. <span class="built_in">enable</span> vi style line editing:</span><br><span class="line">    <span class="built_in">set</span> -o vi</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">unset</span></span><br><span class="line"></span><br><span class="line">  Remove shell variables or <span class="built_in">functions</span>.</span><br><span class="line"></span><br><span class="line">  - Remove the variable foo, or <span class="keyword">if</span> the variable doesn<span class="string">'t exist, remove the function foo:</span></span><br><span class="line"><span class="string">    unset foo</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  - Remove the variables foo and bar:</span></span><br><span class="line"><span class="string">    unset -v foo bar</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  - Remove the function my_func:</span></span><br><span class="line"><span class="string">    unset -f my_func</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看环境变量使用env或者printenv</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">printenv</span><br><span class="line">&gt; VIRTUALENVWRAPPER_WORKON_CD=1</span><br><span class="line">&gt; VIRTUALENVWRAPPER_SCRIPT=/opt/anaconda3/bin/virtualenvwrapper.sh</span><br><span class="line">&gt; WORKON_HOME=/Users/simple/.virtualenvs</span><br><span class="line">&gt; VIRTUALENVWRAPPER_HOOK_DIR=/Users/simple/.virtualenvs</span><br><span class="line">&gt; ANDROID_HOME=/Users/simple/Library/Android/sdk</span><br><span class="line">&gt; _=/usr/bin/printenv</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">env</span><br><span class="line"></span><br><span class="line">  Show the environment or run a program <span class="keyword">in</span> a modified environment.</span><br><span class="line"></span><br><span class="line">  - Show the environment:</span><br><span class="line">    env</span><br><span class="line"></span><br><span class="line">  - Run a program. Often used <span class="keyword">in</span> scripts after the shebang (<span class="comment">#!) for looking up the path to the program:</span></span><br><span class="line">    env program</span><br><span class="line"></span><br><span class="line">  - Clear the environment and run a program:</span><br><span class="line">    env -i program</span><br><span class="line"></span><br><span class="line">  - Remove variable from the environment and run a program:</span><br><span class="line">    env -u variable program</span><br><span class="line"></span><br><span class="line">  - Set a variable and run a program:</span><br><span class="line">    env variable=value program</span><br><span class="line"></span><br><span class="line">  - Set multiple variables and run a program:</span><br><span class="line">    env variable1=value variable2=value variable3=value program</span><br></pre></td></tr></table></figure>
+<h2 id="解决">解决</h2>
+<p>方法就比较明显了</p>
+<p>第一种，修改.env文件，加入export，然后执行<code>source .env</code>，最后运行python命令</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> REDIS_HOST=example.com</span><br><span class="line"><span class="built_in">export</span> REDIS_PORT=5432</span><br><span class="line"><span class="built_in">export</span> REDIS_PASSWORD=123456</span><br></pre></td></tr></table></figure>
+<p>第二种，在运行python 命令前面加上env操作</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">env REDIS_HOST=example.com REDIS_PORT=5432 REDIS_PASSWORD=123456 python variables.py</span><br><span class="line">&gt; PID: 23517, PPID: 22650</span><br><span class="line">&gt; 123456@example.com:5432</span><br></pre></td></tr></table></figure>
+<h2 id="Tips">Tips</h2>
+<p>在shell中获取当前进程ID，父进程ID以及UID</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"PID of this script: $$"</span></span><br><span class="line">&gt; 22650</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"PPID of this script: <span class="variable">$PPID</span>"</span></span><br><span class="line">&gt; 22649</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"UID of this script: <span class="variable">$UID</span>"</span></span><br><span class="line">&gt; 501</span><br></pre></td></tr></table></figure>
+<p>在python脚本中获取当前进程ID以及父进程ID</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">print(<span class="string">f"PID: <span class="subst">&#123;os.getpid()&#125;</span>, PPID: <span class="subst">&#123;os.getppid()&#125;</span>"</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="参考">参考</h2>
+<p>[1] <a href="http://www.ee.surrey.ac.uk/Teaching/Unix/unix8.html" target="_blank" rel="noopener">UNIX Tutorial Eight</a></p>
+<p>[2] <a href="https://stackoverflow.com/questions/3341372/difference-between-shell-and-environment-variables" target="_blank" rel="noopener">difference-between-shell-and-environment-variables</a></p>
+<p>[3] <a href="https://unix.stackexchange.com/questions/364655/shell-variable-vs-environment-variable-which-one-is-preferred-if-both-have-the" target="_blank" rel="noopener">shell-variable-vs-environment-variable-which-one-is-preferred-if-both-have-the-same-name</a></p>
+<p>[4] <a href="https://linuxize.com/post/how-to-set-and-list-environment-variables-in-linux/" target="_blank" rel="noopener">How to Set and List Environment Variables in Linux</a></p>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>virtualenvwrapper的安装和使用</title>
+    <url>/posts/9fc5/</url>
+    <content><![CDATA[<blockquote>
+<p>virtualenvwrapper 是python虚拟运行环境的管理工具，在多个项目时，防止包版本不同造成冲突等麻烦<br>
+也可以在共享项目时，不引入不必要的python包<br>
+​</p>
+</blockquote>
+<h3 id="安装">安装</h3>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">python -m pip install virtualenvwrapper</span><br><span class="line"><span class="comment"># 执行</span></span><br><span class="line"><span class="built_in">source</span> /usr/<span class="built_in">local</span>/bin/virtualenvwrapper.sh</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
+<h3 id="配置">配置</h3>
+<p>安装完 virtualenvwrapper，默认没有生效，需要在终端中执行 <code>source /usr/local/bin/virtualenvwrapper.sh</code> 才能生效，而且每次运行前都需要执行该命令，因此需要将其配置到 终端的.* shrc 文件中</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 根据终端类型，修改 对应的.zshrc .bashrc文件，加入下面这句话</span></span><br><span class="line"><span class="built_in">source</span> /usr/<span class="built_in">local</span>/bin/virtualenvwrapper.sh</span><br><span class="line"><span class="comment"># 应用新的配置文件，以zshrc为例</span></span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+<p>​</p>
+<h3 id="使用">使用</h3>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看当前系统虚拟环境列表</span></span><br><span class="line">lsvirtualenv</span><br><span class="line"><span class="comment"># 创建新的虚拟环境, [name] 为虚拟环境名字</span></span><br><span class="line">mkvirtualenv [name]</span><br><span class="line"><span class="comment"># 删除虚拟环境</span></span><br><span class="line">rmvirtualenv [name]</span><br><span class="line"><span class="comment"># 应用某个虚拟环境</span></span><br><span class="line">workon [name]</span><br></pre></td></tr></table></figure>
+<p>​</p>
+<h3 id="参考">参考</h3>
+<ol>
+<li><a href="https://virtualenvwrapper.readthedocs.io/en/latest/install.html" target="_blank" rel="noopener">virtualenvwrapper.readthedocs.io</a><br>
+​</li>
+</ol>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>virtualenv</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在Ubuntu中创建sudo user</title>
+    <url>/posts/c222/</url>
+    <content><![CDATA[<ul>
+<li>创建用户</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建用户为username的用户，并指定主目录home</span></span><br><span class="line">sudo user add [username] --home [home]</span><br><span class="line"><span class="comment"># 为创建的用户设定密码</span></span><br><span class="line">passwd [username]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过usermod命令将用户添加到sudo group（部署root组）</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo usermode -aG sudo [username]</span><br><span class="line"><span class="comment"># 之后就可以使用sudo 将当前用户权限提升到管理员权限</span></span><br><span class="line">su [username]</span><br><span class="line"><span class="comment"># 输入密码</span></span><br><span class="line"><span class="comment"># sudo + command 执行命令</span></span><br></pre></td></tr></table></figure>
+<p>参考：</p>
+<ol>
+<li>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-ubuntu-quickstart" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-ubuntu-quickstart</a></p>
+</li>
+<li>
+<p><a href="https://ohmyz.sh/" target="_blank" rel="noopener">https://ohmyz.sh/</a></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在linux中安装oh-my-zsh</title>
+    <url>/posts/ea0a/</url>
+    <content><![CDATA[<blockquote>
+<p>oh-my-zsh 是zsh的管理配置工具，因此在使用oh-my-zsh之前安装zsh</p>
+</blockquote>
+<p><img src="https://oss.smart-lifestyle.cn/blog/w5ahz.jpg" alt="zsh"></p>
+<ol>
+<li>判断当前系统使用的shell</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 打印当前系统使用的shell</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$SHELL</span></span><br><span class="line"><span class="comment"># 可能会输出</span></span><br><span class="line"><span class="comment"># /bin/bash</span></span><br><span class="line"><span class="comment"># /bin/sh</span></span><br><span class="line"><span class="comment"># /bin/zsh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看当前系统支持的shell</span></span><br><span class="line">cat /etc/shells</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>安装zsh</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 如果未安装zsh</span></span><br><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>切换shell为zsh</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 需要重启</span></span><br><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>安装 oh my zsh</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># via curl</span></span><br><span class="line">sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>"</span></span><br><span class="line"><span class="comment"># via wget</span></span><br><span class="line">sh -c <span class="string">"<span class="variable">$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>"</span></span><br></pre></td></tr></table></figure>
+<p>参考：</p>
+<ol>
+<li><a href="https://www.jianshu.com/p/d194d29e488c" target="_blank" rel="noopener">https://www.jianshu.com/p/d194d29e488c</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>zsh</category>
+      </categories>
+      <tags>
+        <tag>oh-my-zsh</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>小程序下拉刷新操作</title>
+    <url>/posts/1ea1/</url>
+    <content><![CDATA[<ul>
+<li>功能： 实现手动下拉刷新触发事件</li>
+</ul>
+<ul>
+<li>在需要加载下拉刷新页面的json文件中加入 <strong>“enablePullDownRefresh”: true, “backgroundTextStyle”: “dark”</strong>,</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"enablePullDownRefresh"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"backgroundTextStyle"</span>: <span class="string">"dark"</span>,</span><br><span class="line">    <span class="attr">"usingComponents"</span>: &#123;</span><br><span class="line">    <span class="attr">"mp-dialog"</span>: <span class="string">"../../weui-miniprogram/dialog/dialog"</span>,</span><br><span class="line">    <span class="attr">"mp-navigation-bar"</span>: <span class="string">"../../weui-miniprogram/navigation-bar/navigation-bar"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>在对应的js文件中配置方法</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">onPullDownRefresh: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      wx.showNavigationBarLoading();</span><br><span class="line">      <span class="comment">// 你要触发的函数</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'refresh'</span>);</span><br><span class="line">      setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 标题栏隐藏刷新转圈圈图标</span></span><br><span class="line">        wx.hideNavigationBarLoading();</span><br><span class="line">        wx.stopPullDownRefresh(&#123;</span><br><span class="line">          complete: <span class="function">(<span class="params">res</span>) =&gt;</span> &#123;&#125;,</span><br><span class="line">        &#125;)</span><br><span class="line">  </span><br><span class="line">        &#125;, <span class="number">500</span>);</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>在onShow中加入startPullDownRefresh，会每次show 页面时调用刷新函数</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">onShow: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      wx.startPullDownRefresh(&#123;</span><br><span class="line">         complete: <span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">           <span class="built_in">console</span>.log(<span class="string">'===============onshow resfrsh use info'</span>)</span><br><span class="line">         &#125;,</span><br><span class="line">       &#125;)</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
+<p>参考：</p>
+<ol>
+<li><a href="https://blog.csdn.net/weichen913/article/details/79360658" target="_blank" rel="noopener">小程序上拉加载和下拉刷新问题总结</a></li>
+</ol>
+<hr>
+<p>最后效果<br>
+<img src="https://oss.smart-lifestyle.cn/blog/yqv6s.gif" alt="image"></p>
+]]></content>
+      <categories>
+        <category>小程序</category>
+      </categories>
+      <tags>
+        <tag>小程序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>微信小程序全局变量</title>
+    <url>/posts/b9a0/</url>
+    <content><![CDATA[<blockquote>
+<p>通过在app.js中声明globalData，将所需要的变量及其值放在这里</p>
+</blockquote>
+<ol>
+<li>定义声明</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">globalData: &#123;</span><br><span class="line">    userInfo: <span class="literal">null</span>,</span><br><span class="line">    <span class="comment">// dev or prod</span></span><br><span class="line">    platform: <span class="string">"dev"</span>,</span><br><span class="line">    dev_server: <span class="string">"xxxx"</span>,</span><br><span class="line">    prod_server: <span class="string">"xxxxxx"</span>,</span><br><span class="line">    feedback_server: <span class="string">"xxxxx"</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>引用</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在需要使用全局变量的地方，声明变量</span></span><br><span class="line"><span class="keyword">const</span> app = getApp();</span><br><span class="line"><span class="comment">// 引用</span></span><br><span class="line"><span class="keyword">var</span> paltform = app.globalData.platform</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>参考：</p>
+<ol>
+<li><a href="https://www.jianshu.com/p/925aad432874" target="_blank" rel="noopener">微信小程序 全局变量</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>小程序</category>
+      </categories>
+      <tags>
+        <tag>小程序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>测试</title>
+    <url>/posts/938d/</url>
+    <content><![CDATA[<p>用于测试SEO</p>
+]]></content>
+      <categories>
+        <category>test</category>
+      </categories>
+      <tags>
+        <tag>SEO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>组件化实战</title>
+    <url>/posts/9b54/</url>
+    <content><![CDATA[<p>目前前端三大框架（Vue.js, Angular.js, React.js）都在引领着前端的组件化开发方向，组件化的前端开发方式的确为业务实现带来了前所未有的方便，但如何封装一个优秀的组件，可能并不是每位前端开发者都能够做好的。</p>
+<h2 id="组件化的特点">组件化的特点</h2>
+<ul>
+<li>组件化是对实现的分层，是更有效地代码组合方式</li>
+<li>组件化是对资源的重组和优化，从而使项目资源管理更合理</li>
+<li>组件化有利于单元测试</li>
+<li>组件化对重构较友好</li>
+</ul>
+<h3 id="组件与模块">组件与模块</h3>
+<p>模块(Module)通常强调的是职责（分离、内聚），组件是可复用模块和相关依赖的封装。</p>
+<blockquote>
+<p>In my view, Module and Component are all just a couple of functions and assets.<br>
+And the different between them is:<br>
+<strong>Component has business logical and module not.</strong><br>
+For example,this text input area is just a Module, but when there was some post api called,it become a Component. you can put a module everywhere and it will work fine, but Componet just can be used in a specific page or view(coz it has a specific api call)</p>
+</blockquote>
+<h3 id="组件化结构">组件化结构</h3>
+<p>一个组件包括以下部分：</p>
+<ul>
+<li>Attribute</li>
+<li>Config &amp; State</li>
+<li>Event</li>
+<li>Lifecycle</li>
+<li>Children</li>
+<li>Properties</li>
+<li>Methods</li>
+<li>Inherit<br>
+<img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-170957.png" alt=""></li>
+</ul>
+<h2 id="Webpack资源组件化">Webpack资源组件化</h2>
+<blockquote>
+<p>webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle<br>
+<img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-160837.jpg" alt=""><br>
+从图上我们可以看到，webpack将多种静态资源js、css、less等转化成一个静态文件，减少页面的请求<br>
+Webpack包括四个核心概念：入口、输出、loader、插件</p>
+</blockquote>
+<h3 id="入口">入口</h3>
+<p>入口起点(entry point)指示 webpack 应该使用哪个模块，来作为构建其内部依赖图的开始。进入入口起点后，webpack 会找出有哪些模块和库是入口起点（直接和间接）依赖的，可以通过在 webpack 配置中配置 entry 属性，来指定一个入口起点（或多个入口起点）</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">mode: <span class="string">'development'</span>,</span><br><span class="line">  entry: <span class="string">'./src/index.js'</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist'</span>),</span><br><span class="line">    filename: <span class="string">'main.js'</span></span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="出口">出口</h3>
+<p>output 属性告诉 webpack 在哪里输出它所创建的 bundles，以及如何命名这些文件，默认值为 ./dist。你可以通过在配置中指定一个 output 字段，来配置这些处理过程</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">mode: <span class="string">'development'</span>,</span><br><span class="line">  entry: <span class="string">'./src/index.js'</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist'</span>),</span><br><span class="line">    filename: <span class="string">'main.js'</span></span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="LOADER">LOADER</h3>
+<p>loader 让 webpack 能够去处理那些非 JavaScript 文件（webpack 自身只理解 JavaScript）。loader 可以将所有类型的文件转换为 webpack 能够处理的有效模块，然后你就可以利用 webpack 的打包能力，对它们进行处理。<br>
+本质上，webpack loader 将所有类型的文件，转换为应用程序的依赖图（和最终的 bundle）可以直接引用的模块。<br>
+在更高层面，在 webpack 的配置中 loader 有两个目标：</p>
+<ol>
+<li>test 属性，用于标识出应该被对应的 loader 进行转换的某个或某些文件。</li>
+<li>use 属性，表示进行转换时，应该使用哪个 loader。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123; <span class="attr">test</span>: <span class="regexp">/\.js$/</span>, <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span>, <span class="attr">loader</span>: <span class="string">"babel-loader"</span> &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.css$/i</span>,</span><br><span class="line">        use: [<span class="string">'style-loader'</span>, <span class="string">'css-loader'</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.s[ac]ss$/i</span>,</span><br><span class="line">        use: [</span><br><span class="line">          <span class="string">'style-loader'</span>,</span><br><span class="line">          <span class="string">'css-loader'</span>,</span><br><span class="line">          &#123;</span><br><span class="line">            loader: <span class="string">'sass-loader'</span>,</span><br><span class="line">            options: &#123;</span><br><span class="line">              <span class="comment">// Prefer `dart-sass`</span></span><br><span class="line">              implementation: <span class="built_in">require</span>(<span class="string">'sass'</span>),</span><br><span class="line">            &#125;,</span><br><span class="line">          &#125;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;,</span><br><span class="line">     </span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="插件">插件</h3>
+<p>loader 被用于转换某些类型的模块，而插件则可以用于执行范围更广的任务。想要使用一个插件，你只需要 require() 它，然后把它添加到 plugins 数组中。多数插件可以通过选项(option)自定义。你也可以在一个配置文件中因为不同目的而多次使用同一个插件，这时需要通过使用 new 操作符来创建它的一个实例。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> CopyPlugin([</span><br><span class="line">      &#123; <span class="attr">from</span>: <span class="string">'./static/'</span>, <span class="attr">to</span>: <span class="string">'static/'</span>, <span class="attr">force</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">from</span>: <span class="string">'./index.html'</span>, <span class="attr">to</span>: <span class="string">'index.html'</span>, <span class="attr">force</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">    ]),</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
+<p>本项目中完整webpack实例</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"># webpack.config.js</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">var</span> CopyPlugin = <span class="built_in">require</span>(<span class="string">'copy-webpack-plugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  mode: <span class="string">'development'</span>,</span><br><span class="line">  entry: <span class="string">'./src/index.js'</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist'</span>),</span><br><span class="line">    filename: <span class="string">'main.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123; <span class="attr">test</span>: <span class="regexp">/\.js$/</span>, <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span>, <span class="attr">loader</span>: <span class="string">"babel-loader"</span> &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.css$/i</span>,</span><br><span class="line">        use: [<span class="string">'style-loader'</span>, <span class="string">'css-loader'</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.s[ac]ss$/i</span>,</span><br><span class="line">        use: [</span><br><span class="line">          <span class="string">'style-loader'</span>,</span><br><span class="line">          <span class="string">'css-loader'</span>,</span><br><span class="line">          &#123;</span><br><span class="line">            loader: <span class="string">'sass-loader'</span>,</span><br><span class="line">            options: &#123;</span><br><span class="line">              <span class="comment">// Prefer `dart-sass`</span></span><br><span class="line">              implementation: <span class="built_in">require</span>(<span class="string">'sass'</span>),</span><br><span class="line">            &#125;,</span><br><span class="line">          &#125;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;,</span><br><span class="line">     </span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> CopyPlugin([</span><br><span class="line">      &#123; <span class="attr">from</span>: <span class="string">'./static/'</span>, <span class="attr">to</span>: <span class="string">'static/'</span>, <span class="attr">force</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">from</span>: <span class="string">'./index.html'</span>, <span class="attr">to</span>: <span class="string">'index.html'</span>, <span class="attr">force</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">    ]),</span><br><span class="line">  ],</span><br><span class="line">  devtool: <span class="string">'inline-source-map'</span>,</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    contentBase: <span class="string">'./dist'</span>,</span><br><span class="line">    host: <span class="string">'0.0.0.0'</span>,</span><br><span class="line">    port: <span class="string">'8000'</span>,</span><br><span class="line">    hot: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  optimization: &#123;</span><br><span class="line">    minimize: <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="组件实战">组件实战</h2>
+<h3 id="Tab组件">Tab组件</h3>
+<h4 id="通过点击Tab-Header实现">通过点击Tab Header实现</h4>
+<ol>
+<li>Display 切换<br>
+<img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-165152.png" alt=""></li>
+<li>Animation切换<br>
+￼<img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-165231.png" alt=""></li>
+</ol>
+<h4 id="通过手势切换">通过手势切换</h4>
+<p>跟 Carousel 同一原理<br>
+<img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-165814.png" alt=""></p>
+<h4 id="Scroll组件">Scroll组件</h4>
+<ol>
+<li>ScrollTop<br>
+￼<img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-165949.png" alt=""></li>
+<li>通过站位元素实现<br>
+<img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-170030.png" alt=""></li>
+</ol>
+<h2 id="最终效果">最终效果</h2>
+<p><img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-2019-11-17%2001.21.51.gif" alt=""></p>
+<h2 id="总结">总结</h2>
+<p>通过三个月跟着极客大学前端训练营和winter老师的学习，从基本功能实现一个简单的有好货页面。<br>
+组件化化思想很重要，避免了重复造轮子，使自己的代码更加健全，需要之后的工作中多多实践，深刻体会组件化思想，目前我还需要多练多体会。<br>
+革命尚未成功，同志还需努力。<br>
+<strong>未完结</strong><br>
+完整代码地址：<br>
+<a href="https://github.com/simplezhao/Front-end" target="_blank" rel="noopener" title="前段训练营"></a></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>前端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>通过ftplib获取ftp指定日期间的文件</title>
+    <url>/posts/e530/</url>
+    <content><![CDATA[<h2 id="使用python-ftplib-库获取-某一天的文件列表，并下载到本地">使用python ftplib 库获取 某一天的文件列表，并下载到本地</h2>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ftp 设置</span></span><br><span class="line">ftp_server = <span class="string">"******"</span></span><br><span class="line">ftp_user = <span class="string">"*****"</span></span><br><span class="line">ftp_password = <span class="string">"******"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> ftplib <span class="keyword">import</span> FTP</span><br><span class="line"></span><br><span class="line">ftp = FTP(host=ftp_server, user=ftp_user, passwd=ftp_password)</span><br><span class="line"><span class="comment"># 通过nlst获取文件列表</span></span><br><span class="line">file_list = ftp.nlst()</span><br><span class="line"><span class="comment"># 通过voidcmd 获取文件更新（上传）时间</span></span><br><span class="line">date = ftp.voidcmd(<span class="string">f"MDTM 202002190502.csv"</span>)</span><br><span class="line">print(date)</span><br></pre></td></tr></table></figure>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"># <span class="number">213</span> <span class="number">20200219170403</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获取文件</span></span><br><span class="line">filter_date = <span class="string">'20200520'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 遍历所有文件，生成一个迭代器</span></span><br><span class="line">items = filter(<span class="keyword">lambda</span> x: ftp.voidcmd(<span class="string">f"MDTM <span class="subst">&#123;x&#125;</span>"</span>)[<span class="number">4</span>:<span class="number">12</span>] == filter_date, file_list)</span><br><span class="line"><span class="comment"># 遍历迭代器, 通过retrbinary下载文件</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">    print(<span class="string">f"file name: <span class="subst">&#123;item&#125;</span>"</span>)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">f'temp/<span class="subst">&#123;item&#125;</span>'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">        ftp.retrbinary(<span class="string">f'RETR <span class="subst">&#123;item&#125;</span>'</span>, fp.write)</span><br><span class="line"><span class="comment"># 关闭ftp</span></span><br><span class="line">ftp.quit()</span><br></pre></td></tr></table></figure>
+<figure class="highlight delphi"><table><tr><td class="code"><pre><span class="line"><span class="keyword">file</span> <span class="keyword">name</span>: HMI123456789_20200508.csv</span><br><span class="line"><span class="keyword">file</span> <span class="keyword">name</span>: HMI123456789_20200509.csv</span><br><span class="line"><span class="keyword">file</span> <span class="keyword">name</span>: HMI123456789_20200514.csv</span><br><span class="line"><span class="keyword">file</span> <span class="keyword">name</span>: HMI123456789_20200520.csv</span><br><span class="line"></span><br><span class="line"><span class="string">'221 Goodbye.'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 当ftp 服务器关闭是，再遍历过滤后的迭代器将为空</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">    print(itme)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>另外还可以通过ftp.dir获取，具体实现参考文档：<a href="https://www.semicolonworld.com/question/57790/how-to-get-ftp-file-39-s-modify-time-using-python-ftplib" target="_blank" rel="noopener">https://www.semicolonworld.com/question/57790/how-to-get-ftp-file-39-s-modify-time-using-python-ftplib</a></p>
+<p>参考：</p>
+<ol>
+<li><a href="https://docs.python.org/3/library/ftplib.html" target="_blank" rel="noopener" title="ftplib">https://docs.python.org/3/library/ftplib.html</a></li>
+<li><a href="https://stackoverflow.com/questions/8990598/python-ftp-get-the-most-recent-file-by-date?answertab=votes#tab-top" target="_blank" rel="noopener" title="Python FTP get the most recent file by date">https://stackoverflow.com/questions/8990598/python-ftp-get-the-most-recent-file-by-date?answertab=votes#tab-top</a></li>
+<li><a href="https://stackoverflow.com/questions/29026709/how-to-get-ftp-files-modify-time-using-python-ftplib" target="_blank" rel="noopener" title="How to get FTP file's modify time using Python ftplib">https://stackoverflow.com/questions/29026709/how-to-get-ftp-files-modify-time-using-python-ftplib</a></li>
+<li><a href="https://tools.ietf.org/html/rfc3659#section-3" target="_blank" rel="noopener" title="rfc3659">https://tools.ietf.org/html/rfc3659#section-3</a></li>
+<li><a href="https://www.semicolonworld.com/question/57790/how-to-get-ftp-file-39-s-modify-time-using-python-ftplib" target="_blank" rel="noopener"> https://www.semicolonworld.com/question/57790/how-to-get-ftp-file-39-s-modify-time-using-python-ftplib </a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>ftplib</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>谷歌工程实践 — code review 开发者指南</title>
+    <url>/posts/3c88/</url>
+    <content><![CDATA[<blockquote>
+<p>更好的通过Code review<br>
+参考地址：<a href="https://xindoo.github.io/eng-practices-cn/" target="_blank" rel="noopener" title="谷歌工程实践">https://xindoo.github.io/eng-practices-cn/</a></p>
+</blockquote>
+<h2 id="写一个好的CL-1-描述">写一个好的CL[^1]描述</h2>
+<blockquote>
+<p>一个CL描述记录了做了什么更改以及为什么做这个更改</p>
+</blockquote>
+<h3 id="第一行">第一行</h3>
+<p>CL描述的第一行，应该是对CL正在做的具体工作的短简总结，要做到：</p>
+<ul>
+<li>言简意赅</li>
+<li>语义完整</li>
+<li>空行隔开</li>
+</ul>
+<h3 id="正文内容丰富">正文内容丰富</h3>
+<p>其余描述应该具体丰富，可能包括正在解决问题的简要概述、为什么这么做，如果存在缺点，应该提及到。也应该包括相关的背景信息</p>
+<h3 id="举例">举例</h3>
+<h4 id="反例">反例</h4>
+<ul>
+<li>修复bug</li>
+<li>添加补丁</li>
+<li>阶段1<br>
+以上描述不够充分，不知道究竟在干什么</li>
+</ul>
+<h4 id="好的CL描述">好的CL描述</h4>
+<figure class="highlight md"><table><tr><td class="code"><pre><span class="line">重构，将modbus采集由同步方式改为异步方式</span><br><span class="line"></span><br><span class="line">多路modbus采集时，同步方式导致采集时间过长，影响后续的数据处理，改为异步方式后，增加并发数，提高采集速度。</span><br></pre></td></tr></table></figure>
+<h2 id="CL应该尽可能简短">CL应该尽可能简短</h2>
+<blockquote>
+<p>简短的CL指的是尽可能在一次减少提交变更，避免巨大改动<br>
+如果你提供不了简短的CL，说明你的代码可能需要重构了<br>
+CL更简短，有如下优点：</p>
+</blockquote>
+<ul>
+<li>code review 更快</li>
+<li>减少导致bug的可能性</li>
+<li>较少不必要的工作</li>
+<li>更方便的合并代码</li>
+<li>有助于做出更好的设计</li>
+<li>降低审查者的难度</li>
+</ul>
+<h3 id="怎么算简短">怎么算简短</h3>
+<p>通常CL的正确大小是一个独立的更改，这意味着：CL所做的最小更改仅解决了一件事情，比如你需要增加两个独立的API接口，应该分别提交API。</p>
+<h3 id="把代码重构分离出来">把代码重构分离出来</h3>
+<p>重构最好不要和功能修改或者bug fix一起提CL，比如重命名一个Class，最好和这个CLass的bug fix分开提CL，这样对于评审者来说，更容易理解</p>
+<h3 id="将相关测试代码保存在同一CL中">将相关测试代码保存在同一CL中</h3>
+<p>应该避免将测试代码拆分为单独的CL，验证代码修改的测试也应该进入相同的CL</p>
+<p>[^1]:	CL is ChangeList</p>
+]]></content>
+      <categories>
+        <category>book</category>
+      </categories>
+      <tags>
+        <tag>code review</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python与excel-基础篇1</title>
+    <url>/posts/df7e/</url>
+    <content><![CDATA[<blockquote>
+<p>使用openpyxl对excel文件进行读写</p>
+<p><a href="https://openpyxl.readthedocs.io/en/stable/tutorial.html" target="_blank" rel="noopener">官方指导文档</a></p>
+</blockquote>
+<h2 id="准备">准备</h2>
+<h3 id="excel基本术语">excel基本术语</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spreadsheet or Workbook</td>
+<td>excel文件</td>
+</tr>
+<tr>
+<td>Worksheet or Sheet</td>
+<td>表，一个workbook/spreadsheet可以有多个sheet</td>
+</tr>
+<tr>
+<td>Column</td>
+<td>表格列A…Z…</td>
+</tr>
+<tr>
+<td>Row</td>
+<td>表格行1…10…</td>
+</tr>
+<tr>
+<td>Cell</td>
+<td>单元格A1…A2…</td>
+</tr>
+</tbody>
+</table>
+<h3 id="安装openpyxl">安装openpyxl</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install openpyxl -i https://pypi.douban.com/simple/</span><br></pre></td></tr></table></figure>
+<h2 id="基本操作">基本操作</h2>
+<h3 id="新建workbook">新建workbook</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> openpyxl <span class="keyword">import</span> Workbook</span><br><span class="line">wb = Workbook()</span><br></pre></td></tr></table></figure>
+<h3 id="加载已经存在的工作簿">加载已经存在的工作簿</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> openpyxl <span class="keyword">import</span> load_workbook</span><br><span class="line">wb = load_workbook(<span class="string">'File Name'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="选择sheet">选择sheet</h3>
+<p>默认Workbook创建时，会有一个sheet，通过<code>ws = wb.active</code> 选择并使用它</p>
+<p>存在多个sheet时，可以通过<code>ws = wb[Sheet Name]</code> 选择所有操作的sheet，也可以通过以下操作选择</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获取当前所有sheetname</span></span><br><span class="line">sheetlist = wb.sheetnames</span><br><span class="line"><span class="comment"># &gt;&gt; ['1st Sheet', '标签内容信息- Basic', '标签内容信息 -Standard', 'Readme', 'Add your sheets and content...']</span></span><br><span class="line">ws = wb[sheetlist[<span class="number">2</span>]] <span class="comment"># 或者</span></span><br><span class="line">ws.active = <span class="number">2</span></span><br><span class="line">ws = wb.active</span><br><span class="line"><span class="comment"># 查看当前sheet名字</span></span><br><span class="line">ws.title</span><br><span class="line">&gt;&gt; 标签内容信息- Basic</span><br></pre></td></tr></table></figure>
+<p><code>ws = wb[Sheet Name]</code> 方法没有改变当前活跃的表格名</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">wb.active</span><br><span class="line">&gt;&gt; &lt;Worksheet <span class="string">"标签内容信息- Basic"</span>&gt;</span><br><span class="line">ws = wb[<span class="string">'标签内容信息 -Standard'</span>]</span><br><span class="line">wb.active <span class="comment"># 还是运来的单元格</span></span><br><span class="line">&gt;&gt; &lt;Worksheet <span class="string">"标签内容信息- Basic"</span>&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="新建sheet">新建sheet</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 默认插在最后位置</span></span><br><span class="line">ws = wb.create_sheet(<span class="string">'Sheet Name'</span>)</span><br><span class="line"><span class="comment"># 也可以在sheet name参数后增加一个参数，表示创建位置</span></span><br><span class="line">ws = wb.create_sheet(<span class="string">'Sheet Name'</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="修改sheet-tittle">修改sheet tittle</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ws.title = New Title</span><br></pre></td></tr></table></figure>
+<h3 id="写入单元格">写入单元格</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ws[<span class="string">'A1'</span>] = <span class="string">'Name'</span></span><br><span class="line">ws[<span class="string">'B1'</span>] = <span class="string">'Age'</span></span><br><span class="line">ws[<span class="string">'C1'</span>] = <span class="string">'score'</span></span><br><span class="line">ws[<span class="string">'A2'</span>] = <span class="string">'张三'</span></span><br><span class="line">ws[<span class="string">'B2'</span>] = <span class="number">18</span></span><br><span class="line">ws[<span class="string">'C3'</span>] = <span class="number">95</span></span><br></pre></td></tr></table></figure>
+<h3 id="查看单元格内容">查看单元格内容</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ws[<span class="string">'A2'</span>].value</span><br><span class="line">&gt;&gt; <span class="string">'张三'</span></span><br></pre></td></tr></table></figure>
+<h3 id="保存文件-工作簿">保存文件/工作簿</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 如果filename已经存在，会没有确认的修改这个文件</span></span><br><span class="line">wb.save(filename)</span><br></pre></td></tr></table></figure>
+<h3 id="关闭工作簿">关闭工作簿</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 可能没有用？</span></span><br><span class="line">wb.close()</span><br></pre></td></tr></table></figure>
+<h2 id="参考">参考</h2>
+<p>[1] <a href="https://openpyxl.readthedocs.io/en/stable/tutorial.html" target="_blank" rel="noopener">官方文档</a></p>
+<p>[2] <a href="https://stackoverflow.com/questions/41556378/openpyxl-set-active-sheet/50117733" target="_blank" rel="noopener">选择sheet</a></p>
+<p>[3] <a href="https://realpython.com/openpyxl-excel-spreadsheets-python/" target="_blank" rel="noopener">realpython openpyxl guide</a></p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>excel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>pydantic基础用法1</title>
+    <url>/posts/e075/</url>
+    <content><![CDATA[<blockquote>
+<p>使用pydantic校验输入参数，可以省去后续函数体内的校验，并可以作为一个通用的校验器方便其他方法调用，做的入参校验与入参调用的解耦</p>
+<p>著名的FastAPI框架，也是使用的pydantic作为http请求中参数的校验</p>
+</blockquote>
+<h3 id="安装">安装</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># need python3.6+</span></span><br><span class="line">pip install pydantic -i https://pypi.douban.com/simple/</span><br></pre></td></tr></table></figure>
+<h3 id="基本模型用法">基本模型用法</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># model.py</span></span><br><span class="line"><span class="keyword">from</span> pydantic <span class="keyword">import</span> BaseModel, validator</span><br><span class="line"><span class="comment"># 创建一个模型</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubscriptionRequest</span><span class="params">(BaseModel)</span>:</span></span><br><span class="line">    bearer_token: str = <span class="literal">None</span></span><br><span class="line">    validDateTime: str = <span class="literal">None</span></span><br><span class="line">    validPeriodTime: int = <span class="number">12</span></span><br><span class="line">    count: int = <span class="number">200</span></span><br><span class="line">    deviceTypeId: int = <span class="number">2</span></span><br><span class="line">    subscriptionLevelId: int = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获得json格式内容，不返还bearer_token</span></span><br><span class="line">    <span class="comment"># def data_json(self):</span></span><br><span class="line">    <span class="comment">#    return self.json(exclude=&#123;'bearer_token'&#125;)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 校验参数</span></span><br><span class="line">    <span class="comment"># @validator('validDateTime')</span></span><br><span class="line">    <span class="comment"># def create_default_date(cls, v):</span></span><br><span class="line">    <span class="comment">#    if v is None:</span></span><br><span class="line">    <span class="comment">#        v = get_default_valid_datetime().strftime("%Y-%m-%dT23:59:59.000Z")</span></span><br><span class="line">    <span class="comment">#    return v</span></span><br></pre></td></tr></table></figure>
+<p>因为给模型中每个字段都设置了默认值，在没有传入参数时也不会报错</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&gt;&gt; <span class="keyword">from</span> model <span class="keyword">import</span> SubscriptionRequest</span><br><span class="line">&gt;&gt; m = SubscriptionRequest()</span><br><span class="line">&gt;&gt; print(m)</span><br><span class="line">bearer_token=<span class="literal">None</span> validDateTime=<span class="literal">None</span> validPeriodTime=<span class="number">12</span> count=<span class="number">200</span> deviceTypeId=<span class="number">2</span> subscriptionLevelId=<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>现在将模型文件中一些参数默认值去掉</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># model.py</span></span><br><span class="line"><span class="keyword">from</span> pydantic <span class="keyword">import</span> BaseModel, validator</span><br><span class="line"><span class="comment"># 创建一个模型</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubscriptionRequest</span><span class="params">(BaseModel)</span>:</span></span><br><span class="line">    bearer_token: str</span><br><span class="line">    validDateTime: str</span><br><span class="line">    validPeriodTime: int = <span class="number">12</span></span><br><span class="line">    count: int = <span class="number">200</span></span><br><span class="line">    deviceTypeId: int = <span class="number">2</span></span><br><span class="line">    subscriptionLevelId: int = <span class="number">2</span></span><br><span class="line">		...</span><br></pre></td></tr></table></figure>
+<p>继续执行，将会提示参数缺失</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&gt;&gt; <span class="keyword">from</span> model <span class="keyword">import</span> SubscriptionRequest</span><br><span class="line">&gt;&gt; m = SubscriptionRequest()</span><br><span class="line">&gt;&gt; print(m)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/Users/simple/workspace/Columbus/admin_tools/serializer.py"</span>, line <span class="number">60</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    m = SubscriptionRequest()</span><br><span class="line">  File <span class="string">"pydantic/main.py"</span>, line <span class="number">391</span>, <span class="keyword">in</span> pydantic.main.BaseModel.__init__</span><br><span class="line">pydantic.error_wrappers.ValidationError: <span class="number">2</span> validation errors <span class="keyword">for</span> SubscriptionRequest</span><br><span class="line">bearer_token</span><br><span class="line">  field required (type=value_error.missing)</span><br><span class="line">validDateTime</span><br><span class="line">  field required (type=value_error.missing)</span><br></pre></td></tr></table></figure>
+<p>正常用法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&gt;&gt; data= &#123;</span><br><span class="line"><span class="meta">... </span>       <span class="string">'bearer_token'</span>: <span class="string">'1234567=='</span>,</span><br><span class="line"><span class="meta">... </span>       <span class="string">'validDateTime'</span>: <span class="literal">None</span>,</span><br><span class="line"><span class="meta">... </span>       <span class="string">'validPeriodTime'</span>: <span class="number">12</span>,</span><br><span class="line"><span class="meta">... </span>       <span class="string">'count'</span>: <span class="number">12</span>,</span><br><span class="line"><span class="meta">... </span>       <span class="string">'deviceTypeId'</span>: <span class="number">2</span>,</span><br><span class="line"><span class="meta">... </span>       <span class="string">'subscriptionLevelId'</span>: <span class="number">2</span></span><br><span class="line"><span class="meta">... </span>   &#125;</span><br><span class="line">&gt;&gt; m = SubscriptionRequest(**data)</span><br><span class="line">&gt;&gt; print(m)</span><br><span class="line">bearer_token=<span class="string">'1234567=='</span> validDateTime=<span class="string">'2022-09-01T23:59:59.000Z'</span> validPeriodTime=<span class="number">12</span> count=<span class="number">12</span> deviceTypeId=<span class="number">2</span> subscriptionLevelId=<span class="number">2</span></span><br><span class="line"><span class="comment"># 输出json格式</span></span><br><span class="line">&gt;&gt; m.json()</span><br><span class="line">&#123;<span class="string">"bearer_token"</span>: <span class="string">"1234567=="</span>, <span class="string">"validDateTime"</span>: <span class="string">"2022-09-01T23:59:59.000Z"</span>, <span class="string">"validPeriodTime"</span>: <span class="number">12</span>, <span class="string">"count"</span>: <span class="number">12</span>, <span class="string">"deviceTypeId"</span>: <span class="number">2</span>, <span class="string">"subscriptionLevelId"</span>: <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面返回json结果中，除了bearer_token，其他都是要赋值给body json，因此想在json输出中去除</p>
+<p><code>bearer_token</code></p>
+<p>在模型类中增加如下方法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">获得json格式内容，不返还bearer_token</span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">data_json</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.json(exclude=&#123;<span class="string">'bearer_token'</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p>同样如果想对输入的参数做具体校验，validDateTime如果为None，就为它赋值一个时间戳</p>
+<p>在模型类中增加一个validator</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#校验参数</span></span><br><span class="line"><span class="meta">     @validator('validDateTime')</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">create_default_date</span><span class="params">(cls, v)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> v <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            v = get_default_valid_datetime().strftime(<span class="string">"%Y-%m-%dT23:59:59.000Z"</span>)</span><br><span class="line">        <span class="keyword">return</span> v</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_default_valid_datetime</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    默认有效期时间为当前时间+1年半</span></span><br><span class="line"><span class="string">    :return: 时间戳字符串</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    diff = <span class="number">365</span> + int(<span class="number">365</span>/<span class="number">2</span>)</span><br><span class="line">    valid_datetime = datetime.utcnow() + timedelta(days=diff)</span><br><span class="line">    <span class="comment"># return valid_datetime.strftime("%Y-%m-%dT23:59:59.000Z")</span></span><br><span class="line">    <span class="keyword">return</span> valid_datetime</span><br></pre></td></tr></table></figure>
+<p>需要注意的是validator装饰的为类函数，函数的第一个参数为cls，不是self，另外这个函数还有其他参数</p>
+<ul>
+<li>
+<p>v 为当前参数的值</p>
+</li>
+<li>
+<p>values为当前传递到模型所有参数的字典集合，比如通过values[‘count’] 来获取count的值</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@validator('validDateTime')</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">create_default_date</span><span class="params">(cls, v, values, **kwargs)</span>:</span></span><br><span class="line">    		<span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p><strong>另外如果校验的参数没有传递，而是有一个默认值，不会调用校验方法</strong></p>
+<h3 id="参考">参考</h3>
+<p>[1] <a href="https://pydantic-docs.helpmanual.io/usage/validators/" target="_blank" rel="noopener">pydantic validators</a></p>
+<p>[2] <a href="https://pydantic-docs.helpmanual.io/usage/exporting_models/#json_encoders" target="_blank" rel="noopener">export json</a></p>
+<p>[3] <a href="https://pydantic-docs.helpmanual.io/install/" target="_blank" rel="noopener">install</a></p>
+<p>[4] <a href="https://pydantic-docs.helpmanual.io/usage/models/" target="_blank" rel="noopener">basic models</a></p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>pydantic</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python基础 -- time与datetime常见用法</title>
+    <url>/posts/3a95/</url>
+    <content><![CDATA[<p>在HTTP API接口，以及跟数据库交互时经常用到时间戳（时间），这里整理python中常见的time、datetime用法，以及之间的相互转化方法</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> timedelta</span><br></pre></td></tr></table></figure>
+<h2 id="time基本用法">time基本用法</h2>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获取当前unix时间戳，返回值为float</span></span><br><span class="line">&gt; time.time()</span><br><span class="line"><span class="number">1615178606.6729627</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取本地时间（struct time）</span></span><br><span class="line">&gt; time.localtime()</span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">8</span>, tm_hour=<span class="number">12</span>, tm_min=<span class="number">47</span>, tm_sec=<span class="number">12</span>, tm_wday=<span class="number">0</span>, tm_yday=<span class="number">67</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取UTC时间（struct time）</span></span><br><span class="line">&gt; time.gmtime()</span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">8</span>, tm_hour=<span class="number">4</span>, tm_min=<span class="number">47</span>, tm_sec=<span class="number">25</span>, tm_wday=<span class="number">0</span>, tm_yday=<span class="number">67</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取毫秒级Unix 时间戳 int</span></span><br><span class="line">&gt; int(time.time()*<span class="number">1000</span>)</span><br><span class="line"><span class="number">1615178896227</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取秒级Unix 时间戳 int</span></span><br><span class="line">&gt; int(time.time())</span><br><span class="line"><span class="number">1615178924</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Unix 时间戳（int/float）转化为 struct time</span></span><br><span class="line">&gt; time.localtime(time.time())</span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">25</span>, tm_hour=<span class="number">21</span>, tm_min=<span class="number">44</span>, tm_sec=<span class="number">6</span>, tm_wday=<span class="number">3</span>, tm_yday=<span class="number">84</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># strcut time 转化为 Unix时间戳（float）</span></span><br><span class="line"><span class="comment"># 主要mktime的参数应该是localtime，不能是UTCtime</span></span><br><span class="line">&gt; time.mktime(time.localtime())</span><br><span class="line"><span class="number">1616680137.0</span></span><br></pre></td></tr></table></figure>
+<h2 id="datetime基本用法">datetime基本用法</h2>
+<ul>
+<li>datetime(year, month, day[, hour[, minute[, second[, microsecond[,tzinfo]]]]])</li>
+</ul>
+<p><em>注意：秒后面是微秒，不是毫秒</em></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获取当前时刻的datetime</span></span><br><span class="line">&gt; datetime.now()</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">21</span>, <span class="number">59</span>, <span class="number">29</span>, <span class="number">534163</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取当前时刻的UTC datetime</span></span><br><span class="line">&gt; datetime.utcnow()</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">13</span>, <span class="number">59</span>, <span class="number">39</span>, <span class="number">803165</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取当前时刻的Unix 时间戳, 参数为 datetime</span></span><br><span class="line">&gt; datatime.timestamp(datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">13</span>, <span class="number">59</span>, <span class="number">39</span>, <span class="number">803165</span>))</span><br><span class="line"><span class="number">1616651979.803165</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新datetime,replace(year, month, day, hour, minute, second, microsecond...)</span></span><br><span class="line">&gt; datetime.now().replace(year=<span class="number">2022</span>)</span><br><span class="line">datetime.datetime(<span class="number">2022</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">21</span>, <span class="number">59</span>, <span class="number">29</span>, <span class="number">534163</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="iosformat用法">iosformat用法</h3>
+<ul>
+<li>isoformat(sep=‘T’, timespec=‘auto’)</li>
+</ul>
+<p>默认情况下，如果微秒存在，则输出微秒，如果微秒为0，则微秒会被忽略，而不是输出0</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 不修改默认参数时，返回格式化字符串</span></span><br><span class="line">&gt; datetime.isoformat(datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">13</span>, <span class="number">59</span>, <span class="number">39</span>, <span class="number">803165</span>))</span><br><span class="line"><span class="string">'2021-03-25T13:59:39.803165'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 支持两个参数，sep， timespec</span></span><br><span class="line"><span class="comment"># sep 默认为'T'，即用T做分隔符</span></span><br><span class="line"><span class="comment"># timespec默认为'auto', 可以为'hours', 'seconds', 'milliseconds', 'microseconds'</span></span><br><span class="line"><span class="comment"># 输出带微秒</span></span><br><span class="line">&gt; datetime.isoformat(datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">13</span>, <span class="number">59</span>, <span class="number">39</span>, <span class="number">1</span>))</span><br><span class="line"><span class="string">'2021-03-25T13:59:39.000001'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 微秒被忽略</span></span><br><span class="line">&gt; datetime.isoformat(datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">13</span>, <span class="number">59</span>, <span class="number">39</span>, <span class="number">0</span>))</span><br><span class="line"><span class="string">'2021-03-25T13:59:39'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果timespec为milliseconds，小于1ms会输出000</span></span><br><span class="line">&gt; datetime.isoformat(datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">13</span>, <span class="number">59</span>, <span class="number">39</span>, <span class="number">2</span>), timespec=<span class="string">'milliseconds'</span>)</span><br><span class="line"><span class="string">'2021-03-25T13:59:39.000'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 等于0时，也会输出000</span></span><br><span class="line">&gt; datetime.isoformat(datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">13</span>, <span class="number">59</span>, <span class="number">39</span>), timespec=<span class="string">'milliseconds'</span>)</span><br><span class="line"><span class="string">'2021-03-25T13:59:39.000'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以空格作为分隔符</span></span><br><span class="line">&gt; datetime.isoformat(datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">13</span>, <span class="number">59</span>, <span class="number">39</span>, <span class="number">1000</span>), timespec=<span class="string">'milliseconds'</span>, sep=<span class="string">' '</span>)</span><br><span class="line"><span class="string">'2021-03-25 13:59:39.001'</span></span><br></pre></td></tr></table></figure>
+<h3 id="timedelta">timedelta</h3>
+<ul>
+<li>datetime.timedelta(days, seconds, microseconds, minutes, hours, weeks)</li>
+</ul>
+<p>两个datetime直接的时间间隔</p>
+<blockquote>
+<p>只有 <em>days</em>,<em>seconds</em> 和 <em>microseconds</em> 会存储在内部，即python内部以 <em>days</em>,<em>seconds</em> 和 <em>microseconds</em> 三个单位作为存储的基本单位。参数单位转换规则如下：</p>
+<ul>
+<li>1毫秒会转换成1000微秒。</li>
+<li>1分钟会转换成60秒。</li>
+<li>1小时会转换成3600秒。</li>
+<li>1星期会转换成7天。</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 比当前时刻少1天5分钟</span></span><br><span class="line">&gt; datetime.now() + timedelta(days=<span class="number">-1</span>, minutes=<span class="number">-5</span>)</span><br><span class="line">&gt; datetime.now() - timedelta(days=<span class="number">1</span>, minutes=<span class="number">5</span>)</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">24</span>, <span class="number">23</span>, <span class="number">41</span>, <span class="number">10</span>, <span class="number">557550</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="str与datetime互转">str与datetime互转</h2>
+<ul>
+<li>
+<p>datetime.strptime(string, format) 将字符串时间转为datetime</p>
+</li>
+<li>
+<p>datetime.strftime(format) 将datetime转化为字符串时间</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># str --&gt; datetime</span></span><br><span class="line"><span class="comment"># '2021-03-25T13:59:39.001'</span></span><br><span class="line">&gt; datetime_str = datetime.isoformat(datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">13</span>, <span class="number">59</span>, <span class="number">39</span>, <span class="number">1000</span>), timespec=<span class="string">'milliseconds'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># %f 用于格式化微秒</span></span><br><span class="line">&gt; datetime.strptime(datetime_str, <span class="string">"%Y-%m-%dT%H:%M:%S.%f"</span>)</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">13</span>, <span class="number">59</span>, <span class="number">39</span>, <span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># datetime --&gt; str</span></span><br><span class="line"><span class="comment"># 推荐第一种用上面提到的isoformat</span></span><br><span class="line"><span class="comment"># 第二种使用strftime</span></span><br><span class="line">&gt; datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">13</span>, <span class="number">59</span>, <span class="number">39</span>, <span class="number">1000</span>).strftime(format=<span class="string">"%Y-%m-%dT%H:%M:%S.%f"</span>)</span><br><span class="line"><span class="string">'2021-03-25T13:59:39.001000'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将微秒输出为000</span></span><br><span class="line">&gt; datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">13</span>, <span class="number">59</span>, <span class="number">39</span>, <span class="number">1000</span>).strftime(format=<span class="string">"%Y-%m-%dT%H:%M:%S.000"</span>)</span><br><span class="line"><span class="string">'2021-03-25T13:59:39.000'</span></span><br></pre></td></tr></table></figure>
+<h2 id="str与time互转">str与time互转</h2>
+<ul>
+<li>
+<p>time.strftime(format[,t]) 将time换位为字符串时间，如果t(time)未提供，则使用locatime()获取当前时间</p>
+</li>
+<li>
+<p>time.strptime(string[,format]) 将字符串时间转换为 struct time</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># local time</span></span><br><span class="line"><span class="comment"># time.struct_time(tm_year=2021, tm_mon=3, tm_mday=25, tm_hour=23, tm_min=12, tm_sec=10, tm_wday=3, tm_yday=84, tm_isdst=0)</span></span><br><span class="line">&gt; now = time.localtime()</span><br><span class="line"></span><br><span class="line"><span class="comment"># time --&gt; str</span></span><br><span class="line"><span class="comment"># 转化为字符串时间, 不支持微秒</span></span><br><span class="line">&gt; time.strftime( <span class="string">"%Y-%m-%dT%H:%M:%S"</span>, now)</span><br><span class="line"><span class="string">'2021-03-25T23:12:10'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># str --&gt; time</span></span><br><span class="line"><span class="comment"># 将字符串时间转换为 struct time</span></span><br><span class="line">&gt; time.strptime(time.strftime( <span class="string">"%Y-%m-%dT%H:%M:%S"</span>, now), <span class="string">"%Y-%m-%dT%H:%M:%S"</span>)</span><br><span class="line"></span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">25</span>, tm_hour=<span class="number">23</span>, tm_min=<span class="number">12</span>, tm_sec=<span class="number">10</span>, tm_wday=<span class="number">3</span>, tm_yday=<span class="number">84</span>, tm_isdst=<span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="time与datetime互转">time与datetime互转</h2>
+<ul>
+<li>
+<p>datetime.timetuple(datetime) 将datetime转化为 struct time</p>
+</li>
+<li>
+<p>datetime.fromtimestamp(unix时间戳) 将unix时间戳转化为datetime</p>
+</li>
+<li>
+<p>datetime.timestamp() 将datetime转化为unix 时间戳</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># time --&gt; datetime</span></span><br><span class="line"><span class="comment"># 第一种 unix 时间戳 转化为 datetime</span></span><br><span class="line">&gt; datetime.fromtimestamp(time.time())</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">23</span>, <span class="number">28</span>, <span class="number">33</span>, <span class="number">548042</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二种 struct time转化为 datetime</span></span><br><span class="line">&gt; datetime.fromtimestamp(time.mktime(time.localtime()))</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">25</span>, <span class="number">23</span>, <span class="number">30</span>, <span class="number">23</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># datetime --&gt; time</span></span><br><span class="line"><span class="comment"># 第一种使用timetuple</span></span><br><span class="line">&gt; datetime.timetuple(datetime.now())</span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">25</span>, tm_hour=<span class="number">23</span>, tm_min=<span class="number">33</span>, tm_sec=<span class="number">9</span>, tm_wday=<span class="number">3</span>, tm_yday=<span class="number">84</span>, tm_isdst=<span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二种使用Unix时间戳</span></span><br><span class="line">&gt; time.localtime(datetime.timestamp(datetime.now()))</span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">25</span>, tm_hour=<span class="number">23</span>, tm_min=<span class="number">34</span>, tm_sec=<span class="number">6</span>, tm_wday=<span class="number">3</span>, tm_yday=<span class="number">84</span>, tm_isdst=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<h1>参考</h1>
+<p>[1] <a href="https://pythontic.com/datetime/datetime/isoformat" target="_blank" rel="noopener">Isoformat() Method Of Datetime Class In Python</a></p>
+<p>[2] <a href="https://docs.python.org/zh-cn/3.7/library/datetime.html" target="_blank" rel="noopener">datetime — 基本的日期和时间类型</a></p>
+<p>[3] <a href="https://docs.python.org/zh-cn/3/library/time.html" target="_blank" rel="noopener">time — 时间的访问和转换</a></p>
+<p>[4] <a href="https://docs.python.org/zh-cn/3.7/library/datetime.html#strftime-and-strptime-behavior" target="_blank" rel="noopener">strftime() 和 strptime()的行为</a></p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+</search>
