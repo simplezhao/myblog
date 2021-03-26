@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://blog.smart-lifestyle.cn/"/>
-  <updated>2021-03-25T15:51:27.350Z</updated>
-  <id>http://blog.smart-lifestyle.cn/</id>
+  <link href="https://blog.smart-lifestyle.cn/"/>
+  <updated>2021-03-26T06:31:41.849Z</updated>
+  <id>https://blog.smart-lifestyle.cn/</id>
   
   <author>
     <name>simple</name>
@@ -17,9 +17,34 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>github actions初试牛刀</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/9f77/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/9f77/</id>
+    <published>2021-03-26T05:59:27.000Z</published>
+    <updated>2021-03-26T06:31:41.849Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>最近将hex博客部署由手动执行，改为通过github actions自动部署，这里做下记录</p></blockquote><h3 id="自动部署原理">自动部署原理</h3><p>使用github actions功能，将hexo生成的静态文件在每次提交代码时，通过scp将文件上传到服务器</p><h3 id="使用步骤">使用步骤</h3><p><img src="https://oss.smart-lifestyle.cn/file/jl6ye.png" alt="image-20210326140634778"></p><p>在git仓库新增actions，内容如下：</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is a basic workflow to help you get started with Actions</span></span><br><span class="line"></span><br><span class="line"><span class="attr">name:</span> <span class="string">CI</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Controls when the action will run. </span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="comment"># Triggers the workflow on push or pull request events but only for the master branch</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> <span class="string">[</span> <span class="string">master</span> <span class="string">]</span></span><br><span class="line">  <span class="attr">pull_request:</span></span><br><span class="line">    <span class="attr">branches:</span> <span class="string">[</span> <span class="string">master</span> <span class="string">]</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Allows you to run this workflow manually from the Actions tab</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A workflow run is made up of one or more jobs that can run sequentially or in parallel</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="comment"># This workflow contains a single job called "build"</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="comment"># The type of runner that the job will run on</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Steps represent a sequence of tasks that will be executed as part of the job</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="comment"># Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># Runs a single command using the runners shell</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">a</span> <span class="string">one-line</span> <span class="string">script</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">echo</span> <span class="string">Hello,</span> <span class="string">world!</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># Runs a set of commands using the runners shell</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">a</span> <span class="string">multi-line</span> <span class="string">script</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">echo</span> <span class="string">Add</span> <span class="string">other</span> <span class="string">actions</span> <span class="string">to</span> <span class="string">build,</span></span><br><span class="line">          <span class="string">echo</span> <span class="string">test,</span> <span class="string">and</span> <span class="string">deploy</span> <span class="string">your</span> <span class="string">project.</span></span><br><span class="line">          <span class="string">ls</span></span><br><span class="line">          <span class="string">pwd</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">copy</span> <span class="string">file</span> <span class="string">via</span> <span class="string">ssh</span> <span class="string">password</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">appleboy/scp-action@master</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">host:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.HOST</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">username:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.USERNAME</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">password:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.PASSWORD</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">port:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.PORT</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">source:</span> <span class="string">"public/*,!public/robots.txt"</span></span><br><span class="line">          <span class="attr">target:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.TARGET_DIR</span> <span class="string">&#125;&#125;</span></span><br></pre></td></tr></table></figure><p>说明</p><ul><li><p>on 触发条件</p><ul><li>push 推送目标仓库</li><li>pull_request 合并分支仓库</li></ul></li><li><p>steps 步骤</p><ul><li>uses: actions/checkout@v2 获取代码</li><li>uses: appleboy/scp-action@master 使用第三方库，通过scp 传输文件<ul><li>host: $</li><li>username: $</li><li>password: $</li><li>port: $</li><li>source: “public/*,!public/robots.txt”</li><li>target: $</li></ul></li></ul></li></ul><p>上面的secrets信息在github上进行配置</p><p><img src="https://oss.smart-lifestyle.cn/file/oydi5.png" alt="image-20210326141554880"></p><p>每当push代码到仓库master分支时，会进行执行actions，进行博客部署</p><p><img src="https://oss.smart-lifestyle.cn/file/jbae5.png" alt="image-20210326141938875"></p><h3 id="不足">不足</h3><ol><li>目前没有通过github actions生成静态文件，也就是推送之前需要手动执行hexo g，这个在进一步研究之后再尝试</li><li>github 本身可以添加Deploy keys，为了安全，scp应该避免使用密码进行操作，也在研究明白之后再尝试</li><li>由于问题1，尤为hexo g会重新生成静态文件，每次push的时候会有大量带提交文件。。。</li></ol><h3 id="参考">参考</h3><p>[1] <a href="http://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html" target="_blank" rel="noopener">GitHub Actions 入门教程</a></p><p>[2] <a href="https://github.com/appleboy/scp-action" target="_blank" rel="noopener">🚀 SCP for GitHub Actions</a></p><p>[3] <a href="https://dev.to/miangame/how-to-automate-a-deploy-in-a-vps-with-github-actions-via-ssh-101e" target="_blank" rel="noopener">How to automate a deploy in a VPS with GitHub actions via SSH</a></p>]]></content>
+    
+    <summary type="html">
+    
+      通过github actions部署hexo博客
+    
+    </summary>
+    
+    
+      <category term="部署" scheme="https://blog.smart-lifestyle.cn/categories/%E9%83%A8%E7%BD%B2/"/>
+    
+    
+      <category term="github actions" scheme="https://blog.smart-lifestyle.cn/tags/github-actions/"/>
+    
+      <category term="hexo" scheme="https://blog.smart-lifestyle.cn/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
     <title>python基础 -- time与datetime常见用法</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/3a95/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/3a95/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/3a95/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/3a95/</id>
     <published>2021-03-25T13:31:20.790Z</published>
     <updated>2021-03-25T15:51:27.350Z</updated>
     
@@ -32,17 +57,17 @@
     </summary>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/categories/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/tags/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
     
   </entry>
   
   <entry>
     <title>pydantic基础用法1</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/e075/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/e075/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/e075/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/e075/</id>
     <published>2021-03-03T14:39:18.126Z</published>
     <updated>2021-03-03T15:34:59.545Z</updated>
     
@@ -55,19 +80,19 @@
     </summary>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/categories/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/tags/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
     
-      <category term="pydantic" scheme="http://blog.smart-lifestyle.cn/tags/pydantic/"/>
+      <category term="pydantic" scheme="https://blog.smart-lifestyle.cn/tags/pydantic/"/>
     
   </entry>
   
   <entry>
     <title>python与excel-基础篇1</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/df7e/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/df7e/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/df7e/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/df7e/</id>
     <published>2021-03-02T05:20:11.240Z</published>
     <updated>2021-03-02T07:04:20.331Z</updated>
     
@@ -80,19 +105,19 @@
     </summary>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/categories/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/tags/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
     
-      <category term="excel" scheme="http://blog.smart-lifestyle.cn/tags/excel/"/>
+      <category term="excel" scheme="https://blog.smart-lifestyle.cn/tags/excel/"/>
     
   </entry>
   
   <entry>
     <title>shell变量与环境变量</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/77ae/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/77ae/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/77ae/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/77ae/</id>
     <published>2021-02-27T02:14:32.000Z</published>
     <updated>2021-02-27T14:18:53.188Z</updated>
     
@@ -105,19 +130,19 @@
     </summary>
     
     
-      <category term="linux" scheme="http://blog.smart-lifestyle.cn/categories/linux/"/>
+      <category term="linux" scheme="https://blog.smart-lifestyle.cn/categories/linux/"/>
     
     
-      <category term="linux" scheme="http://blog.smart-lifestyle.cn/tags/linux/"/>
+      <category term="linux" scheme="https://blog.smart-lifestyle.cn/tags/linux/"/>
     
-      <category term="shell" scheme="http://blog.smart-lifestyle.cn/tags/shell/"/>
+      <category term="shell" scheme="https://blog.smart-lifestyle.cn/tags/shell/"/>
     
   </entry>
   
   <entry>
     <title>测试</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/938d/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/938d/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/938d/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/938d/</id>
     <published>2021-02-19T06:21:51.560Z</published>
     <updated>2021-02-19T06:21:51.560Z</updated>
     
@@ -130,17 +155,17 @@
     </summary>
     
     
-      <category term="test" scheme="http://blog.smart-lifestyle.cn/categories/test/"/>
+      <category term="test" scheme="https://blog.smart-lifestyle.cn/categories/test/"/>
     
     
-      <category term="SEO" scheme="http://blog.smart-lifestyle.cn/tags/SEO/"/>
+      <category term="SEO" scheme="https://blog.smart-lifestyle.cn/tags/SEO/"/>
     
   </entry>
   
   <entry>
     <title>Python</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/aaa7/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/aaa7/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/aaa7/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/aaa7/</id>
     <published>2021-01-16T06:39:20.391Z</published>
     <updated>2021-01-16T06:39:20.391Z</updated>
     
@@ -159,17 +184,17 @@
     </summary>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/categories/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
     
     
-      <category term="dependency" scheme="http://blog.smart-lifestyle.cn/tags/dependency/"/>
+      <category term="dependency" scheme="https://blog.smart-lifestyle.cn/tags/dependency/"/>
     
   </entry>
   
   <entry>
     <title>Python Type Checking</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/acc1/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/acc1/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/acc1/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/acc1/</id>
     <published>2020-12-06T14:48:54.139Z</published>
     <updated>2020-12-06T14:48:54.139Z</updated>
     
@@ -189,17 +214,17 @@
     </summary>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/categories/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/tags/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
     
   </entry>
   
   <entry>
     <title>python library package</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/205e/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/205e/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/205e/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/205e/</id>
     <published>2020-12-06T14:40:36.325Z</published>
     <updated>2020-12-06T14:40:36.325Z</updated>
     
@@ -221,17 +246,17 @@ Bokeh is an interactive visualization library for modern web browsers. It provid
     </summary>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/categories/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
     
     
-      <category term="python library" scheme="http://blog.smart-lifestyle.cn/tags/python-library/"/>
+      <category term="python library" scheme="https://blog.smart-lifestyle.cn/tags/python-library/"/>
     
   </entry>
   
   <entry>
     <title>docker部署记录</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/c5ac/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/c5ac/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/c5ac/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/c5ac/</id>
     <published>2020-12-06T14:29:56.852Z</published>
     <updated>2020-12-06T14:29:56.852Z</updated>
     
@@ -262,17 +287,17 @@ Bokeh is an interactive visualization library for modern web browsers. It provid
     </summary>
     
     
-      <category term="docker" scheme="http://blog.smart-lifestyle.cn/categories/docker/"/>
+      <category term="docker" scheme="https://blog.smart-lifestyle.cn/categories/docker/"/>
     
     
-      <category term="docker" scheme="http://blog.smart-lifestyle.cn/tags/docker/"/>
+      <category term="docker" scheme="https://blog.smart-lifestyle.cn/tags/docker/"/>
     
   </entry>
   
   <entry>
     <title>git commit规范</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/76bd/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/76bd/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/76bd/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/76bd/</id>
     <published>2020-11-24T08:59:59.158Z</published>
     <updated>2020-11-24T08:59:59.158Z</updated>
     
@@ -292,17 +317,17 @@ Bokeh is an interactive visualization library for modern web browsers. It provid
     </summary>
     
     
-      <category term="git" scheme="http://blog.smart-lifestyle.cn/categories/git/"/>
+      <category term="git" scheme="https://blog.smart-lifestyle.cn/categories/git/"/>
     
     
-      <category term="git commit" scheme="http://blog.smart-lifestyle.cn/tags/git-commit/"/>
+      <category term="git commit" scheme="https://blog.smart-lifestyle.cn/tags/git-commit/"/>
     
   </entry>
   
   <entry>
     <title>.gitignore模式匹配</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/4da0/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/4da0/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/4da0/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/4da0/</id>
     <published>2020-11-20T05:26:11.066Z</published>
     <updated>2020-11-20T05:26:11.066Z</updated>
     
@@ -322,19 +347,19 @@ dirname/ 表示匹配的是dirna
     </summary>
     
     
-      <category term="git" scheme="http://blog.smart-lifestyle.cn/categories/git/"/>
+      <category term="git" scheme="https://blog.smart-lifestyle.cn/categories/git/"/>
     
     
-      <category term="git" scheme="http://blog.smart-lifestyle.cn/tags/git/"/>
+      <category term="git" scheme="https://blog.smart-lifestyle.cn/tags/git/"/>
     
-      <category term="gitignore" scheme="http://blog.smart-lifestyle.cn/tags/gitignore/"/>
+      <category term="gitignore" scheme="https://blog.smart-lifestyle.cn/tags/gitignore/"/>
     
   </entry>
   
   <entry>
     <title>通过ftplib获取ftp指定日期间的文件</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/e530/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/e530/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/e530/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/e530/</id>
     <published>2020-05-20T13:46:14.347Z</published>
     <updated>2020-05-20T13:46:14.347Z</updated>
     
@@ -351,19 +376,19 @@ dirname/ 表示匹配的是dirna
     </summary>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/categories/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/tags/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
     
-      <category term="ftplib" scheme="http://blog.smart-lifestyle.cn/tags/ftplib/"/>
+      <category term="ftplib" scheme="https://blog.smart-lifestyle.cn/tags/ftplib/"/>
     
   </entry>
   
   <entry>
     <title>ZSH下使用Anaconda</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/e37f/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/e37f/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/e37f/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/e37f/</id>
     <published>2020-05-20T13:25:04.204Z</published>
     <updated>2020-05-20T13:25:04.204Z</updated>
     
@@ -381,19 +406,19 @@ anaconda的安装参考：&lt;a href=&quot;https://docs.anaconda.com/anaconda/in
     </summary>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/categories/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
     
     
-      <category term="Anaconda" scheme="http://blog.smart-lifestyle.cn/tags/Anaconda/"/>
+      <category term="Anaconda" scheme="https://blog.smart-lifestyle.cn/tags/Anaconda/"/>
     
-      <category term="ZSH" scheme="http://blog.smart-lifestyle.cn/tags/ZSH/"/>
+      <category term="ZSH" scheme="https://blog.smart-lifestyle.cn/tags/ZSH/"/>
     
   </entry>
   
   <entry>
     <title>jupyterlab + jupyterhub + supervisor</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/93be/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/93be/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/93be/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/93be/</id>
     <published>2020-04-25T16:05:01.000Z</published>
     <updated>2020-04-25T16:05:01.000Z</updated>
     
@@ -419,17 +444,17 @@ supervisor 在非root用户下运行和管理进程&lt;/p&gt;
     </summary>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/categories/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
     
     
-      <category term="jupyterlab" scheme="http://blog.smart-lifestyle.cn/tags/jupyterlab/"/>
+      <category term="jupyterlab" scheme="https://blog.smart-lifestyle.cn/tags/jupyterlab/"/>
     
   </entry>
   
   <entry>
     <title>在Ubuntu中创建sudo user</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/c222/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/c222/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/c222/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/c222/</id>
     <published>2020-04-25T16:05:01.000Z</published>
     <updated>2020-04-25T16:05:01.000Z</updated>
     
@@ -450,17 +475,17 @@ supervisor 在非root用户下运行和管理进程&lt;/p&gt;
     </summary>
     
     
-      <category term="linux" scheme="http://blog.smart-lifestyle.cn/categories/linux/"/>
+      <category term="linux" scheme="https://blog.smart-lifestyle.cn/categories/linux/"/>
     
     
-      <category term="ubuntu" scheme="http://blog.smart-lifestyle.cn/tags/ubuntu/"/>
+      <category term="ubuntu" scheme="https://blog.smart-lifestyle.cn/tags/ubuntu/"/>
     
   </entry>
   
   <entry>
     <title>在linux中安装oh-my-zsh</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/ea0a/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/ea0a/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/ea0a/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/ea0a/</id>
     <published>2020-04-25T16:05:01.000Z</published>
     <updated>2020-04-25T16:05:01.000Z</updated>
     
@@ -483,17 +508,17 @@ supervisor 在非root用户下运行和管理进程&lt;/p&gt;
     </summary>
     
     
-      <category term="zsh" scheme="http://blog.smart-lifestyle.cn/categories/zsh/"/>
+      <category term="zsh" scheme="https://blog.smart-lifestyle.cn/categories/zsh/"/>
     
     
-      <category term="oh-my-zsh" scheme="http://blog.smart-lifestyle.cn/tags/oh-my-zsh/"/>
+      <category term="oh-my-zsh" scheme="https://blog.smart-lifestyle.cn/tags/oh-my-zsh/"/>
     
   </entry>
   
   <entry>
     <title>小程序下拉刷新操作</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/1ea1/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/1ea1/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/1ea1/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/1ea1/</id>
     <published>2020-04-25T16:05:01.000Z</published>
     <updated>2020-04-25T16:05:01.000Z</updated>
     
@@ -516,17 +541,17 @@ supervisor 在非root用户下运行和管理进程&lt;/p&gt;
     </summary>
     
     
-      <category term="小程序" scheme="http://blog.smart-lifestyle.cn/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
+      <category term="小程序" scheme="https://blog.smart-lifestyle.cn/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
     
     
-      <category term="小程序" scheme="http://blog.smart-lifestyle.cn/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
+      <category term="小程序" scheme="https://blog.smart-lifestyle.cn/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
     
   </entry>
   
   <entry>
     <title>微信小程序全局变量</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/b9a0/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/b9a0/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/b9a0/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/b9a0/</id>
     <published>2020-04-25T16:05:01.000Z</published>
     <updated>2020-04-25T16:05:01.000Z</updated>
     
@@ -549,17 +574,17 @@ supervisor 在非root用户下运行和管理进程&lt;/p&gt;
     </summary>
     
     
-      <category term="小程序" scheme="http://blog.smart-lifestyle.cn/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
+      <category term="小程序" scheme="https://blog.smart-lifestyle.cn/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
     
     
-      <category term="小程序" scheme="http://blog.smart-lifestyle.cn/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
+      <category term="小程序" scheme="https://blog.smart-lifestyle.cn/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
     
   </entry>
   
   <entry>
     <title>virtualenvwrapper的安装和使用</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/9fc5/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/9fc5/</id>
+    <link href="https://blog.smart-lifestyle.cn/posts/9fc5/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/9fc5/</id>
     <published>2020-04-25T15:48:01.000Z</published>
     <updated>2020-04-25T15:48:01.000Z</updated>
     
@@ -580,42 +605,10 @@ supervisor 在非root用户下运行和管理进程&lt;/p&gt;
     </summary>
     
     
-      <category term="python" scheme="http://blog.smart-lifestyle.cn/categories/python/"/>
+      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
     
     
-      <category term="virtualenv" scheme="http://blog.smart-lifestyle.cn/tags/virtualenv/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>谷歌工程实践 — code review 开发者指南</title>
-    <link href="http://blog.smart-lifestyle.cn/posts/3c88/"/>
-    <id>http://blog.smart-lifestyle.cn/posts/3c88/</id>
-    <published>2020-01-11T04:07:00.000Z</published>
-    <updated>2020-01-11T04:07:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>更好的通过Code review<br>参考地址：<a href="https://xindoo.github.io/eng-practices-cn/" target="_blank" rel="noopener" title="谷歌工程实践">https://xindoo.github.io/eng-practices-cn/</a></p></blockquote><h2 id="写一个好的CL-1-描述">写一个好的CL[^1]描述</h2><blockquote><p>一个CL描述记录了做了什么更改以及为什么做这个更改</p></blockquote><h3 id="第一行">第一行</h3><p>CL描述的第一行，应该是对CL正在做的具体工作的短简总结，要做到：</p><ul><li>言简意赅</li><li>语义完整</li><li>空行隔开</li></ul><h3 id="正文内容丰富">正文内容丰富</h3><p>其余描述应该具体丰富，可能包括正在解决问题的简要概述、为什么这么做，如果存在缺点，应该提及到。也应该包括相关的背景信息</p><h3 id="举例">举例</h3><h4 id="反例">反例</h4><ul><li>修复bug</li><li>添加补丁</li><li>阶段1<br>以上描述不够充分，不知道究竟在干什么</li></ul><h4 id="好的CL描述">好的CL描述</h4><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">重构，将modbus采集由同步方式改为异步方式</span><br><span class="line"></span><br><span class="line">多路modbus采集时，同步方式导致采集时间过长，影响后续的数据处理，改为异步方式后，增加并发数，提高采集速度。</span><br></pre></td></tr></table></figure><h2 id="CL应该尽可能简短">CL应该尽可能简短</h2><blockquote><p>简短的CL指的是尽可能在一次减少提交变更，避免巨大改动<br>如果你提供不了简短的CL，说明你的代码可能需要重构了<br>CL更简短，有如下优点：</p></blockquote><ul><li>code review 更快</li><li>减少导致bug的可能性</li><li>较少不必要的工作</li><li>更方便的合并代码</li><li>有助于做出更好的设计</li><li>降低审查者的难度</li></ul><h3 id="怎么算简短">怎么算简短</h3><p>通常CL的正确大小是一个独立的更改，这意味着：CL所做的最小更改仅解决了一件事情，比如你需要增加两个独立的API接口，应该分别提交API。</p><h3 id="把代码重构分离出来">把代码重构分离出来</h3><p>重构最好不要和功能修改或者bug fix一起提CL，比如重命名一个Class，最好和这个CLass的bug fix分开提CL，这样对于评审者来说，更容易理解</p><h3 id="将相关测试代码保存在同一CL中">将相关测试代码保存在同一CL中</h3><p>应该避免将测试代码拆分为单独的CL，验证代码修改的测试也应该进入相同的CL</p><p>[^1]:CL is ChangeList</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;更好的通过Code review&lt;br&gt;
-参考地址：&lt;a href=&quot;https://xindoo.github.io/eng-practices-cn/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; title=&quot;谷歌工程实践&quot;&gt;https://xindoo.github.io/eng-practices-cn/&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;写一个好的CL-1-描述&quot;&gt;写一个好的CL[^1]描述&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;一个CL描述记录了做了什么更改以及为什么做这个更改&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;第一行&quot;&gt;第一行&lt;/h3&gt;
-&lt;p&gt;CL描述的第一行，应该是对CL正在做的具体工作的短简总结，要做到：&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="book" scheme="http://blog.smart-lifestyle.cn/categories/book/"/>
-    
-    
-      <category term="code review" scheme="http://blog.smart-lifestyle.cn/tags/code-review/"/>
+      <category term="virtualenv" scheme="https://blog.smart-lifestyle.cn/tags/virtualenv/"/>
     
   </entry>
   
