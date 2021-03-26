@@ -44,4 +44,4 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           source: "public/*,!public/robots.txt"
-          target: "/root/public"
+          target: ${{ secrets.TARGET_DIR }}
