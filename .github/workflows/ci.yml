@@ -36,3 +36,6 @@ jobs:
           echo test, and deploy your project.
           ls
           pwd
+      - name: deploy to the server via scp
+        run: |
+          scp public root@${{ secrets.SERVER_IP }}:/root/public
