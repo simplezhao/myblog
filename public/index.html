@@ -338,10 +338,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-03-25 21:31:20 / 修改时间：23:51:27" itemprop="dateCreated datePublished" datetime="2021-03-25T21:31:20+08:00">2021-03-25</time>
+              <time title="创建时间：2021-03-25 21:31:20" itemprop="dateCreated datePublished" datetime="2021-03-25T21:31:20+08:00">2021-03-25</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-29 16:45:32" itemprop="dateModified" datetime="2021-03-29T16:45:32+08:00">2021-03-29</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -360,14 +366,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.9k</span>
+              <span>6.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
+              <span>12 分钟</span>
             </span>
             <div class="post-description">str、time、datetime之间的转换</div>
 
@@ -381,7 +387,7 @@
 
       
           <p>在HTTP API接口，以及跟数据库交互时经常用到时间戳（时间），这里整理python中常见的time、datetime用法，以及之间的相互转化方法</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> timedelta</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> timedelta</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> timezone</span><br></pre></td></tr></table></figure>
 <h2 id="time基本用法">time基本用法</h2>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取当前unix时间戳，返回值为float</span></span><br><span class="line">&gt; time.time()</span><br><span class="line"><span class="number">1615178606.6729627</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取本地时间（struct time）</span></span><br><span class="line">&gt; time.localtime()</span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">8</span>, tm_hour=<span class="number">12</span>, tm_min=<span class="number">47</span>, tm_sec=<span class="number">12</span>, tm_wday=<span class="number">0</span>, tm_yday=<span class="number">67</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取UTC时间（struct time）</span></span><br><span class="line">&gt; time.gmtime()</span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">8</span>, tm_hour=<span class="number">4</span>, tm_min=<span class="number">47</span>, tm_sec=<span class="number">25</span>, tm_wday=<span class="number">0</span>, tm_yday=<span class="number">67</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取毫秒级Unix 时间戳 int</span></span><br><span class="line">&gt; int(time.time()*<span class="number">1000</span>)</span><br><span class="line"><span class="number">1615178896227</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取秒级Unix 时间戳 int</span></span><br><span class="line">&gt; int(time.time())</span><br><span class="line"><span class="number">1615178924</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Unix 时间戳（int/float）转化为 struct time</span></span><br><span class="line">&gt; time.localtime(time.time())</span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">25</span>, tm_hour=<span class="number">21</span>, tm_min=<span class="number">44</span>, tm_sec=<span class="number">6</span>, tm_wday=<span class="number">3</span>, tm_yday=<span class="number">84</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># strcut time 转化为 Unix时间戳（float）</span></span><br><span class="line"><span class="comment"># 主要mktime的参数应该是localtime，不能是UTCtime</span></span><br><span class="line">&gt; time.mktime(time.localtime())</span><br><span class="line"><span class="number">1616680137.0</span></span><br></pre></td></tr></table></figure>
 <h2 id="datetime基本用法">datetime基本用法</h2>
@@ -1334,12 +1340,12 @@ Bokeh is an interactive visualization library for modern web browsers. It provid
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">33k</span>
+    <span title="站点总字数">35k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:01</span>
+    <span title="站点阅读时长">1:03</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
   </div>

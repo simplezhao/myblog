@@ -304,5 +304,7 @@ time.struct_time(tm_year=2021, tm_mon=3, tm_mday=25, tm_hour=23, tm_min=34, tm_s
 
 [4] [strftime() 和 strptime()的行为](https://docs.python.org/zh-cn/3.7/library/datetime.html#strftime-and-strptime-behavior)
 
+[5] [Convert a python UTC datetime to a local datetime](https://stackoverflow.com/questions/4563272/convert-a-python-utc-datetime-to-a-local-datetime-using-only-python-standard-lib/13287083#13287083)
+
 
 

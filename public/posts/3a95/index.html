@@ -56,7 +56,7 @@
 <meta property="og:description" content="str、time、datetime之间的转换">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-25T13:31:20.790Z">
-<meta property="article:modified_time" content="2021-03-25T15:51:27.350Z">
+<meta property="article:modified_time" content="2021-03-29T08:45:32.021Z">
 <meta property="article:author" content="simple">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
@@ -241,10 +241,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-03-25 21:31:20 / 修改时间：23:51:27" itemprop="dateCreated datePublished" datetime="2021-03-25T21:31:20+08:00">2021-03-25</time>
+              <time title="创建时间：2021-03-25 21:31:20" itemprop="dateCreated datePublished" datetime="2021-03-25T21:31:20+08:00">2021-03-25</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-29 16:45:32" itemprop="dateModified" datetime="2021-03-29T16:45:32+08:00">2021-03-29</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -270,14 +276,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.9k</span>
+              <span>6.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
+              <span>12 分钟</span>
             </span>
             <div class="post-description">str、time、datetime之间的转换</div>
 
@@ -291,7 +297,7 @@
 
       
         <p>在HTTP API接口，以及跟数据库交互时经常用到时间戳（时间），这里整理python中常见的time、datetime用法，以及之间的相互转化方法</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> timedelta</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> timedelta</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> timezone</span><br></pre></td></tr></table></figure>
 <h2 id="time基本用法">time基本用法</h2>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取当前unix时间戳，返回值为float</span></span><br><span class="line">&gt; time.time()</span><br><span class="line"><span class="number">1615178606.6729627</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取本地时间（struct time）</span></span><br><span class="line">&gt; time.localtime()</span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">8</span>, tm_hour=<span class="number">12</span>, tm_min=<span class="number">47</span>, tm_sec=<span class="number">12</span>, tm_wday=<span class="number">0</span>, tm_yday=<span class="number">67</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取UTC时间（struct time）</span></span><br><span class="line">&gt; time.gmtime()</span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">8</span>, tm_hour=<span class="number">4</span>, tm_min=<span class="number">47</span>, tm_sec=<span class="number">25</span>, tm_wday=<span class="number">0</span>, tm_yday=<span class="number">67</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取毫秒级Unix 时间戳 int</span></span><br><span class="line">&gt; int(time.time()*<span class="number">1000</span>)</span><br><span class="line"><span class="number">1615178896227</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取秒级Unix 时间戳 int</span></span><br><span class="line">&gt; int(time.time())</span><br><span class="line"><span class="number">1615178924</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Unix 时间戳（int/float）转化为 struct time</span></span><br><span class="line">&gt; time.localtime(time.time())</span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">25</span>, tm_hour=<span class="number">21</span>, tm_min=<span class="number">44</span>, tm_sec=<span class="number">6</span>, tm_wday=<span class="number">3</span>, tm_yday=<span class="number">84</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># strcut time 转化为 Unix时间戳（float）</span></span><br><span class="line"><span class="comment"># 主要mktime的参数应该是localtime，不能是UTCtime</span></span><br><span class="line">&gt; time.mktime(time.localtime())</span><br><span class="line"><span class="number">1616680137.0</span></span><br></pre></td></tr></table></figure>
 <h2 id="datetime基本用法">datetime基本用法</h2>
@@ -321,6 +327,21 @@
 </ul>
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 比当前时刻少1天5分钟</span></span><br><span class="line">&gt; datetime.now() + timedelta(days=<span class="number">-1</span>, minutes=<span class="number">-5</span>)</span><br><span class="line">&gt; datetime.now() - timedelta(days=<span class="number">1</span>, minutes=<span class="number">5</span>)</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">24</span>, <span class="number">23</span>, <span class="number">41</span>, <span class="number">10</span>, <span class="number">557550</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="timezone-astimezone">timezone/astimezone</h3>
+<p>将UTC时间转化为本地时间</p>
+<blockquote>
+<p>假如数据库存储的时间戳都是UTC时间，如果客户端获取到后，转化为本地时间，可以借助timezone和astimezone</p>
+<p>简单可以使用timedelta(hours=±8)进行北京时间和UTC时间转换</p>
+</blockquote>
+<p>具体如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取一个UTC时间</span></span><br><span class="line">&gt; date = datetime.utcnow()</span><br><span class="line">&gt; date</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">29</span>, <span class="number">7</span>, <span class="number">22</span>, <span class="number">21</span>, <span class="number">240199</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 有趣的时，如果此时获取tzinfo，不是utc，而是None</span></span><br><span class="line">&gt; date.tzinfo</span><br><span class="line"><span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 因此先给它赋值一个UTC timezone</span></span><br><span class="line">&gt; new = date.replace(tzinfo=timezone.utc)</span><br><span class="line">&gt; new</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">29</span>, <span class="number">7</span>, <span class="number">22</span>, <span class="number">21</span>, <span class="number">240199</span>, tzinfo=datetime.timezone.utc)</span><br><span class="line"></span><br><span class="line"><span class="comment"># astimezone 接受一个tz参数，默认为None，为None时，转化为本地时间</span></span><br><span class="line"><span class="comment"># 28800 = 8h * 3600</span></span><br><span class="line">&gt; new.astimezone()</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">29</span>, <span class="number">15</span>, <span class="number">22</span>, <span class="number">21</span>, <span class="number">240199</span>, tzinfo=datetime.timezone(datetime.timedelta(seconds=<span class="number">28800</span>), <span class="string">'CST'</span>))</span><br></pre></td></tr></table></figure>
+<p>本地时间转化为utc时间</p>
+<blockquote>
+<p>写入到数据库时，需要将实际转化为UTC时间</p>
+<p>方法一：通过astimezone转换，<a href="http://%E6%AD%A4%E6%97%B6tz=timezone.info" target="_blank" rel="noopener">此时tz=timezone.info</a></p>
+<p>方法二：借助于fromtimestamp/utcfromtimestamp转换</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取一个本地时间</span></span><br><span class="line">&gt; localdate = datetime.now()</span><br><span class="line">&gt; localdate</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">29</span>, <span class="number">16</span>, <span class="number">16</span>, <span class="number">33</span>, <span class="number">974434</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法1，给datetime加上时区信息，然后通过astimezone转换</span></span><br><span class="line">&gt; new_localdate = localdate.replace(tzinfo=timezone(timedelta(seconds=<span class="number">28800</span>)))</span><br><span class="line">&gt; new_localdate</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">29</span>, <span class="number">16</span>, <span class="number">16</span>, <span class="number">33</span>, <span class="number">974434</span>, tzinfo=datetime.timezone(datetime.timedelta(seconds=<span class="number">28800</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 转化时区</span></span><br><span class="line">&gt; utc_date = new_localdate.astimezone(tz=timezone.utc)</span><br><span class="line">&gt; utc_date</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">29</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">33</span>, <span class="number">974434</span>, tzinfo=datetime.timezone.utc)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2，借助于timestamp转换</span></span><br><span class="line">&gt; timestamp = localdate.timestamp()</span><br><span class="line">&gt; utc_date = datetime.utcfromtimestamp(timestamp)</span><br><span class="line">&gt; utc_date</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">29</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">33</span>, <span class="number">974434</span>)</span><br><span class="line"><span class="comment"># 或者使用fromtimestamp 加上时区参数</span></span><br><span class="line">&gt; utc_date = datetime.fromtimestamp(timestamp, tz=timezone.utc)</span><br><span class="line">&gt; utc_date</span><br><span class="line">datetime.datetime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">29</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">33</span>, <span class="number">974434</span>, tzinfo=datetime.timezone.utc)</span><br></pre></td></tr></table></figure>
 <h2 id="str与datetime互转">str与datetime互转</h2>
 <ul>
 <li>
@@ -359,6 +380,7 @@
 <p>[2] <a href="https://docs.python.org/zh-cn/3.7/library/datetime.html" target="_blank" rel="noopener">datetime — 基本的日期和时间类型</a></p>
 <p>[3] <a href="https://docs.python.org/zh-cn/3/library/time.html" target="_blank" rel="noopener">time — 时间的访问和转换</a></p>
 <p>[4] <a href="https://docs.python.org/zh-cn/3.7/library/datetime.html#strftime-and-strptime-behavior" target="_blank" rel="noopener">strftime() 和 strptime()的行为</a></p>
+<p>[5] <a href="https://stackoverflow.com/questions/4563272/convert-a-python-utc-datetime-to-a-local-datetime-using-only-python-standard-lib/13287083#13287083" target="_blank" rel="noopener">Convert a python UTC datetime to a local datetime</a></p>
 
     </div>
 
@@ -444,7 +466,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#time基本用法"><span class="nav-number">1.</span> <span class="nav-text">time基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#datetime基本用法"><span class="nav-number">2.</span> <span class="nav-text">datetime基本用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iosformat用法"><span class="nav-number">2.1.</span> <span class="nav-text">iosformat用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#timedelta"><span class="nav-number">2.2.</span> <span class="nav-text">timedelta</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#str与datetime互转"><span class="nav-number">3.</span> <span class="nav-text">str与datetime互转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#str与time互转"><span class="nav-number">4.</span> <span class="nav-text">str与time互转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time与datetime互转"><span class="nav-number">5.</span> <span class="nav-text">time与datetime互转</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number"></span> <span class="nav-text">参考</span></a></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#time基本用法"><span class="nav-number">1.</span> <span class="nav-text">time基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#datetime基本用法"><span class="nav-number">2.</span> <span class="nav-text">datetime基本用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iosformat用法"><span class="nav-number">2.1.</span> <span class="nav-text">iosformat用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#timedelta"><span class="nav-number">2.2.</span> <span class="nav-text">timedelta</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#timezone-astimezone"><span class="nav-number">2.3.</span> <span class="nav-text">timezone&#x2F;astimezone</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#str与datetime互转"><span class="nav-number">3.</span> <span class="nav-text">str与datetime互转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#str与time互转"><span class="nav-number">4.</span> <span class="nav-text">str与time互转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time与datetime互转"><span class="nav-number">5.</span> <span class="nav-text">time与datetime互转</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number"></span> <span class="nav-text">参考</span></a></div>
       </div>
       <!--/noindex-->
 
@@ -518,12 +540,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">33k</span>
+    <span title="站点总字数">35k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:01</span>
+    <span title="站点阅读时长">1:03</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
   </div>
