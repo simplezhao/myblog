@@ -16,6 +16,7 @@ keywords:
 import time
 from datetime import datetime
 from datetime import timedelta
+from datetime import timezone
 ```
 
 
@@ -136,6 +137,74 @@ datetime.datetime(2022, 3, 25, 21, 59, 29, 534163)
 > datetime.now() + timedelta(days=-1, minutes=-5)
 > datetime.now() - timedelta(days=1, minutes=5)
 datetime.datetime(2021, 3, 24, 23, 41, 10, 557550)
+```
+
+### timezone/astimezone
+
+将UTC时间转化为本地时间
+
+> 假如数据库存储的时间戳都是UTC时间，如果客户端获取到后，转化为本地时间，可以借助timezone和astimezone
+>
+> 简单可以使用timedelta(hours=±8)进行北京时间和UTC时间转换
+
+具体如下：
+
+```python
+# 获取一个UTC时间
+> date = datetime.utcnow()
+> date
+datetime.datetime(2021, 3, 29, 7, 22, 21, 240199)
+
+# 有趣的时，如果此时获取tzinfo，不是utc，而是None
+> date.tzinfo
+None
+
+# 因此先给它赋值一个UTC timezone
+> new = date.replace(tzinfo=timezone.utc)
+> new
+datetime.datetime(2021, 3, 29, 7, 22, 21, 240199, tzinfo=datetime.timezone.utc)
+
+# astimezone 接受一个tz参数，默认为None，为None时，转化为本地时间
+# 28800 = 8h * 3600
+> new.astimezone()
+datetime.datetime(2021, 3, 29, 15, 22, 21, 240199, tzinfo=datetime.timezone(datetime.timedelta(seconds=28800), 'CST'))
+
+
+```
+
+本地时间转化为utc时间
+
+> 写入到数据库时，需要将实际转化为UTC时间
+>
+> 方法一：通过astimezone转换，此时tz=timezone.info
+>
+> 方法二：借助于fromtimestamp/utcfromtimestamp转换
+
+```python
+# 获取一个本地时间
+> localdate = datetime.now()
+> localdate
+datetime.datetime(2021, 3, 29, 16, 16, 33, 974434)
+
+# 方法1，给datetime加上时区信息，然后通过astimezone转换
+> new_localdate = localdate.replace(tzinfo=timezone(timedelta(seconds=28800)))
+> new_localdate
+datetime.datetime(2021, 3, 29, 16, 16, 33, 974434, tzinfo=datetime.timezone(datetime.timedelta(seconds=28800)))
+
+# 转化时区
+> utc_date = new_localdate.astimezone(tz=timezone.utc)
+> utc_date
+datetime.datetime(2021, 3, 29, 8, 16, 33, 974434, tzinfo=datetime.timezone.utc)
+
+# 方法2，借助于timestamp转换
+> timestamp = localdate.timestamp()
+> utc_date = datetime.utcfromtimestamp(timestamp)
+> utc_date
+datetime.datetime(2021, 3, 29, 8, 16, 33, 974434)
+# 或者使用fromtimestamp 加上时区参数
+> utc_date = datetime.fromtimestamp(timestamp, tz=timezone.utc)
+> utc_date
+datetime.datetime(2021, 3, 29, 8, 16, 33, 974434, tzinfo=datetime.timezone.utc)
 ```
 
 
