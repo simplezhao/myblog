@@ -1,5 +1,5 @@
 ---
-title: pydantic基础用法1
+title: python web -- pydantic基础用法-1
 tags:
   - python
   - pydantic
