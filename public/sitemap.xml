@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.smart-lifestyle.cn/posts/de34/</loc>
+    
+    <lastmod>2021-03-31</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/posts/9b/</loc>
+    
+    <lastmod>2021-03-31</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/posts/b1/</loc>
+    
+    <lastmod>2021-03-31</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/posts/3277/</loc>
+    
+    <lastmod>2021-03-31</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.smart-lifestyle.cn/posts/f1e8/</loc>
     
     <lastmod>2021-03-31</lastmod>
@@ -402,6 +430,27 @@
     <priority>0.6</priority>
   </url>
   
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/celery/</loc>
+    <lastmod>2021-03-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/json/</loc>
+    <lastmod>2021-03-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/flask/</loc>
+    <lastmod>2021-03-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
 
   
   <url>
@@ -469,6 +518,13 @@
   
   <url>
     <loc>https://blog.smart-lifestyle.cn/categories/%E9%83%A8%E7%BD%B2/</loc>
+    <lastmod>2021-03-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/categories/flask/</loc>
     <lastmod>2021-03-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
