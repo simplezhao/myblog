@@ -59,4 +59,3 @@ True
 [1] [mkdir-p-functionality-in-python]([mkdir -p functionality in Python - Stack Overflow](https://stackoverflow.com/questions/600268/mkdir-p-functionality-in-python))
 
 [2] [Path.mkdir]([pathlib — Object-oriented filesystem paths — Python 3.9.5 documentation](https://docs.python.org/3/library/pathlib.html#pathlib.Path.mkdir))
-
