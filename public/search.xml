@@ -1118,18 +1118,6 @@ Variables shall be initialized from the environment <em>[…]</em> If a variable
       </tags>
   </entry>
   <entry>
-    <title>测试</title>
-    <url>/posts/938d/</url>
-    <content><![CDATA[<p>用于测试SEO</p>
-]]></content>
-      <categories>
-        <category>test</category>
-      </categories>
-      <tags>
-        <tag>SEO</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>组件化实战</title>
     <url>/posts/9b54/</url>
     <content><![CDATA[<p>目前前端三大框架（Vue.js, Angular.js, React.js）都在引领着前端的组件化开发方向，组件化的前端开发方式的确为业务实现带来了前所未有的方便，但如何封装一个优秀的组件，可能并不是每位前端开发者都能够做好的。</p>
@@ -1387,6 +1375,98 @@ CL更简短，有如下优点：</p>
       <tags>
         <tag>python</tag>
         <tag>excel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript深度拷贝</title>
+    <url>/posts/b60b/</url>
+    <content><![CDATA[]]></content>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nvm用法</title>
+    <url>/posts/688d/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>mongo</title>
+    <url>/posts/1cbb/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>python thread result</title>
+    <url>/posts/5f19/</url>
+    <content><![CDATA[]]></content>
+      <tags>
+        <tag>python</tag>
+        <tag>thread</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sentry初试牛刀</title>
+    <url>/posts/a9f1/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>运维</category>
+      </categories>
+      <tags>
+        <tag>sentry</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python多线程</title>
+    <url>/posts/76d7/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>rancherandgithub</title>
+    <url>/posts/a8ad/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>python进阶--魔法函数</title>
+    <url>/posts/4e20/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>traefik</title>
+    <url>/posts/7112/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>rancher部署</title>
+    <url>/posts/ee95/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>python递归创建目录(mkdir -p)</title>
+    <url>/posts/7376/</url>
+    <content><![CDATA[<p>在为日志文件设置存放位置时，需要在程序里判断文件夹（位置）是否存在，通常使用<code>os.mkdir</code>来创建目录，但是如果目录为多层次目录，而且某一层目录存在，在使用<code>os.mkdir</code>时会报错：FileNotFoundError*</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.mkdir(<span class="string">'/tmp/logpath/path'</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">FileNotFoundError: [Errno <span class="number">2</span>] No such file <span class="keyword">or</span> directory: <span class="string">'/tmp/logpath/path'</span></span><br></pre></td></tr></table></figure>
+<p>这是因为os.mkdir不支持多层目录递归创建。</p>
+<p>在linux mkdir命令中，它支持如下操作，使用-p 可以实现递归创建目录</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tldr mkdir</span><br><span class="line">Cache is out of date. You should run <span class="string">"tldr --update"</span></span><br><span class="line"></span><br><span class="line">  mkdir</span><br><span class="line"></span><br><span class="line">  Creates a directory.</span><br><span class="line">  More information: https://www.gnu.org/software/coreutils/mkdir.</span><br><span class="line"></span><br><span class="line">  - Create a directory <span class="keyword">in</span> current directory or given path:</span><br><span class="line">    mkdir directory</span><br><span class="line"></span><br><span class="line">  - Create directories recursively (useful <span class="keyword">for</span> creating nested <span class="built_in">dirs</span>):</span><br><span class="line">    mkdir -p path/to/directory</span><br></pre></td></tr></table></figure>
+<p>而在python中我们可以使用pathlib.Path.mkdir来实现，需要让<code>exist_ok=True</code> 以及<code>parents=True</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Path.mkdir(mode=<span class="number">0o777</span>, parents=<span class="literal">False</span>, exist_ok=<span class="literal">False</span>)</span><br><span class="line">If exist_ok <span class="keyword">is</span> true, FileExistsError exceptions will be ignored (same behavior <span class="keyword">as</span> the POSIX mkdir -p command), but only <span class="keyword">if</span> the last path component <span class="keyword">is</span> <span class="keyword">not</span> an existing non-directory file.</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>Path(<span class="string">'/tmp/logtmp/XMKDRL'</span>).mkdir(exist_ok=<span class="literal">True</span>, parents=<span class="literal">True</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.path.exists(<span class="string">'/tmp/logtmp/XMKDRL'</span>)</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<h2 id="参考">参考</h2>
+<p>[1] [mkdir-p-functionality-in-python](<a href="https://stackoverflow.com/questions/600268/mkdir-p-functionality-in-python" target="_blank" rel="noopener">mkdir -p functionality in Python - Stack Overflow</a>)</p>
+<p>[2] [Path.mkdir](<a href="https://docs.python.org/3/library/pathlib.html#pathlib.Path.mkdir" target="_blank" rel="noopener">pathlib — Object-oriented filesystem paths — Python 3.9.5 documentation</a>)</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>python小技巧</tag>
       </tags>
   </entry>
 </search>

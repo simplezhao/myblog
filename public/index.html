@@ -142,12 +142,12 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">30</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">40</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">30</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">33</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -217,7 +217,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/f5f9/">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/7376/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
@@ -231,7 +231,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/posts/f5f9/" class="post-title-link" itemprop="url">git仓库用户权限问题</a>
+            <a href="/posts/7376/" class="post-title-link" itemprop="url">python递归创建目录(mkdir -p)</a>
         </h2>
 
         <div class="post-meta">
@@ -242,503 +242,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-04-15 20:44:59 / 修改时间：21:12:50" itemprop="dateCreated datePublished" datetime="2021-04-15T20:44:59+08:00">2021-04-15</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>330</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-            <div class="post-description">在仓库地址上加上用户名，来更改对该仓库的授权认证</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>通常我们使用一个github账号进行代码的拉去和推送，但假如现在有一个私有仓库，而且需要使用另外一个github账号，可能会出现authentication error</p>
-</blockquote>
-<p>如果我们使用<code>git config user.email</code>是没有办法更改这个仓库的认证信息的</p>
-<p>这是因为，我们通过https操作仓库时，会使用缓存在本机的授权认证信息，也就是会使用之前账户的信息。</p>
-<p>更改方法比较简单，给仓库地址上加上你所要使用的用户名(username2)即可</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> repo</span><br><span class="line">git remote <span class="built_in">set</span>-url origin https://username2@github.com/&lt;username&gt;/repo</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/f5f9/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/de34/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
-      <meta itemprop="name" content="simple">
-      <meta itemprop="description" content="IoT Architect">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="simple's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/de34/" class="post-title-link" itemprop="url">git abc tutorial</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-31 22:19:56" itemprop="dateCreated datePublished" datetime="2021-03-31T22:19:56+08:00">2021-03-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-01 00:27:40" itemprop="dateModified" datetime="2021-04-01T00:27:40+08:00">2021-04-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-            <div class="post-description">最常用且最基本的git用法</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1>git-abc</h1>
-<p>下面介绍经常用到且最基本的git 命令</p>
-<h2 id="仓库管理">仓库管理</h2>
-<h3 id="创建本地仓库">创建本地仓库</h3>
-<ul>
-<li><code>git init</code></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/de34/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/9b/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
-      <meta itemprop="name" content="simple">
-      <meta itemprop="description" content="IoT Architect">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="simple's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/9b/" class="post-title-link" itemprop="url">python web--flask jsonify unicode</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-31 16:10:09" itemprop="dateCreated datePublished" datetime="2021-03-31T16:10:09+08:00">2021-03-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-01 00:27:40" itemprop="dateModified" datetime="2021-04-01T00:27:40+08:00">2021-04-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/flask/" itemprop="url" rel="index">
-                    <span itemprop="name">flask</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>596</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>类似于json.dumps中ensure_ascii的配置，在flask中也有类似配置，来避免jsonify时，返回unicode编码字符</p>
-</blockquote>
-<p>在flask config中加入<code>app.config['JSON_AS_ASCII'] = False</code>来避免jsonify对非ascii字符进行unicode编码</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">app = Flask(__name__)</span><br><span class="line">app.config.from_object(app_config)</span><br><span class="line">app.config.from_mapping(</span><br><span class="line">    SQLALCHEMY_DATABASE_URI=<span class="string">f"postgresql+psycopg2://<span class="subst">&#123;app_config.DB_USER&#125;</span>:<span class="subst">&#123;app_config.DB_PASSWORD&#125;</span>"</span></span><br><span class="line">                            <span class="string">f"@<span class="subst">&#123;app_config.DB_HOST&#125;</span>:<span class="subst">&#123;app_config.DB_PORT&#125;</span>/<span class="subst">&#123;app_config.DB_NAME&#125;</span>"</span>,</span><br><span class="line">    SQLALCHEMY_TRACK_MODIFICATIONS=<span class="literal">False</span>,</span><br><span class="line">    <span class="comment"># SQLALCHEMY_ECHO=True</span></span><br><span class="line">)</span><br><span class="line">app.config[<span class="string">'JSON_AS_ASCII'</span>] = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
-<h2 id="参考">参考</h2>
-<p>[1] [<a href="https://stackoverflow.com/questions/37531067/how-to-prevent-unicode-representation-for-latin1-characters" target="_blank" rel="noopener">How to prevent Unicode representation for Latin1 characters?</a>]</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/9b/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/b1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
-      <meta itemprop="name" content="simple">
-      <meta itemprop="description" content="IoT Architect">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="simple's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/b1/" class="post-title-link" itemprop="url">python json.dumps unicode</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-31 15:54:04" itemprop="dateCreated datePublished" datetime="2021-03-31T15:54:04+08:00">2021-03-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-01 00:27:40" itemprop="dateModified" datetime="2021-04-01T00:27:40+08:00">2021-04-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>246</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-            <div class="post-description">处理json dumps时中文显示unicode编码</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>在dumps/dump中使用ensure_ascii=False，来手动编码为UTF8格式</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="comment"># 输出为Unicode编码，不便于可视化</span></span><br><span class="line">&gt; json.dumps(<span class="string">"我爱China🇨🇳"</span>)</span><br><span class="line"><span class="string">'"\\u6211\\u7231China\\ud83c\\udde8\\ud83c\\uddf3"'</span></span><br><span class="line"></span><br><span class="line">&gt; json.dumps(<span class="string">"我爱China🇨🇳"</span>, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"><span class="string">'"我爱China🇨🇳"'</span></span><br></pre></td></tr></table></figure>
-<h2 id="参考">参考</h2>
-<p>[1] <a href="https://stackoverflow.com/questions/18337407/saving-utf-8-texts-with-json-dumps-as-utf8-not-as-u-escape-sequence" target="_blank" rel="noopener">json dumps unicode</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/3277/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
-      <meta itemprop="name" content="simple">
-      <meta itemprop="description" content="IoT Architect">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="simple's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/3277/" class="post-title-link" itemprop="url">kombu.exceptions.EncodeError XXXX is not JSON serializable</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-03-31 14:02:05 / 修改时间：14:51:44" itemprop="dateCreated datePublished" datetime="2021-03-31T14:02:05+08:00">2021-03-31</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-            <div class="post-description">celery序列化问题</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本文记录在使用celery时，任务函数参数序列化问题</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@celery_app.task(name="create_subscription")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_subscription_file</span><span class="params">(req: SubscriptionRequest)</span>:</span></span><br><span class="line"></span><br><span class="line">    req = SubscriptionRequest(**kwargs)</span><br><span class="line">    subscription_count = req.count</span><br><span class="line">    run_times = math.ceil(subscription_count / <span class="number">200</span>)</span><br><span class="line">    results = &#123;</span><br><span class="line">        <span class="string">"count"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">"validDateTime"</span>: <span class="literal">None</span></span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubscriptionRequest</span><span class="params">(BaseModel)</span>:</span></span><br><span class="line">    bearer_token: str = <span class="literal">None</span></span><br><span class="line">    validDateTime: datetime = <span class="literal">None</span></span><br><span class="line">    validPeriodTime: int = <span class="number">12</span></span><br><span class="line">    count: int = <span class="number">200</span></span><br><span class="line">    deviceTypeId: int = <span class="number">2</span></span><br><span class="line">    subscriptionLevelId: int = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">data_json</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.json(exclude=&#123;<span class="string">'bearer_token'</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @validator('validDateTime')</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create_default_date</span><span class="params">(cls, v)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> v <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            v = get_default_valid_datetime()</span><br><span class="line">        <span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">default</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.json()</span><br></pre></td></tr></table></figure>
-<p>在实际项目中，准备使用pydantic作为参数校验，因此在传递给celery task时，传递了一个class Instance；接着在任务调度时报错：</p>
-<p><code>kombu.exceptions.EncodeError: SubscriptionRequest is not JSON serializable</code></p>
-<p>默认情况下，celery 使用JSON进行序列化数据，因此根本原因在于默认情况下class实例无法被json序列化</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/3277/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/df7e/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
-      <meta itemprop="name" content="simple">
-      <meta itemprop="description" content="IoT Architect">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="simple's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/df7e/" class="post-title-link" itemprop="url">python基础 -- python与excel-1</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-30 22:33:16" itemprop="dateCreated datePublished" datetime="2021-03-30T22:33:16+08:00">2021-03-30</time>
+              <time title="创建时间：2021-05-22 16:15:50 / 修改时间：16:51:20" itemprop="dateCreated datePublished" datetime="2021-05-22T16:15:50+08:00">2021-05-22</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -767,7 +271,7 @@
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               <span>2 分钟</span>
             </span>
-            <div class="post-description">使用openpyxl对excel读写操作</div>
+            <div class="post-description">使用python递归创建目录（类似于mkdir -p)</div>
 
         </div>
       </header>
@@ -778,46 +282,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>使用openpyxl对excel文件进行读写</p>
-<p><a href="https://openpyxl.readthedocs.io/en/stable/tutorial.html" target="_blank" rel="noopener">官方指导文档</a></p>
-</blockquote>
-<h2 id="准备">准备</h2>
-<h3 id="excel基本术语">excel基本术语</h3>
-<table>
-<thead>
-<tr>
-<th>术语</th>
-<th>解释</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Spreadsheet or Workbook</td>
-<td>excel文件</td>
-</tr>
-<tr>
-<td>Worksheet or Sheet</td>
-<td>表，一个workbook/spreadsheet可以有多个sheet</td>
-</tr>
-<tr>
-<td>Column</td>
-<td>表格列A…Z…</td>
-</tr>
-<tr>
-<td>Row</td>
-<td>表格行1…10…</td>
-</tr>
-<tr>
-<td>Cell</td>
-<td>单元格A1…A2…</td>
-</tr>
-</tbody>
-</table>
-<h3 id="安装openpyxl">安装openpyxl</h3>
+          <p>在为日志文件设置存放位置时，需要在程序里判断文件夹（位置）是否存在，通常使用<code>os.mkdir</code>来创建目录，但是如果目录为多层次目录，而且某一层目录存在，在使用<code>os.mkdir</code>时会报错：FileNotFoundError*</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.mkdir(<span class="string">'/tmp/logpath/path'</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">FileNotFoundError: [Errno <span class="number">2</span>] No such file <span class="keyword">or</span> directory: <span class="string">'/tmp/logpath/path'</span></span><br></pre></td></tr></table></figure>
+<p>这是因为os.mkdir不支持多层目录递归创建。</p>
+<p>在linux mkdir命令中，它支持如下操作，使用-p 可以实现递归创建目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">tldr mkdir</span><br><span class="line">Cache is out of date. You should run <span class="string">"tldr --update"</span></span><br><span class="line"></span><br><span class="line">  mkdir</span><br><span class="line"></span><br><span class="line">  Creates a directory.</span><br><span class="line">  More information: https://www.gnu.org/software/coreutils/mkdir.</span><br><span class="line"></span><br><span class="line">  - Create a directory <span class="keyword">in</span> current directory or given path:</span><br><span class="line">    mkdir directory</span><br><span class="line"></span><br><span class="line">  - Create directories recursively (useful <span class="keyword">for</span> creating nested <span class="built_in">dirs</span>):</span><br><span class="line">    mkdir -p path/to/directory</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/posts/df7e/#more" rel="contents">
+              <a class="btn" href="/posts/7376/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -841,7 +313,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/e075/">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/a8ad/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
@@ -855,7 +327,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/posts/e075/" class="post-title-link" itemprop="url">python web -- pydantic基础用法-1</a>
+            <a href="/posts/a8ad/" class="post-title-link" itemprop="url">rancherandgithub</a>
         </h2>
 
         <div class="post-meta">
@@ -865,18 +337,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-03-29 23:37:08" itemprop="dateCreated datePublished" datetime="2021-03-29T23:37:08+08:00">2021-03-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
+              <time title="创建时间：2021-05-12 23:55:56" itemprop="dateCreated datePublished" datetime="2021-05-12T23:55:56+08:00">2021-05-12</time>
             </span>
 
           <br>
@@ -885,16 +346,15 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.1k</span>
+              <span>0</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>6 分钟</span>
+              <span>1 分钟</span>
             </span>
-            <div class="post-description">使用pydantic对入参校验</div>
 
         </div>
       </header>
@@ -905,22 +365,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>使用pydantic校验输入参数，可以省去后续函数体内的校验，并可以作为一个通用的校验器方便其他方法调用，做的入参校验与入参调用的解耦</p>
-<p>著名的FastAPI框架，也是使用的pydantic作为http请求中参数的校验</p>
-</blockquote>
-<h3 id="安装">安装</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># need python3.6+</span></span><br><span class="line">pip install pydantic -i https://pypi.douban.com/simple/</span><br></pre></td></tr></table></figure>
-<h3 id="基本模型用法">基本模型用法</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># model.py</span></span><br><span class="line"><span class="keyword">from</span> pydantic <span class="keyword">import</span> BaseModel, validator</span><br><span class="line"><span class="comment"># 创建一个模型</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubscriptionRequest</span><span class="params">(BaseModel)</span>:</span></span><br><span class="line">    bearer_token: str = <span class="literal">None</span></span><br><span class="line">    validDateTime: str = <span class="literal">None</span></span><br><span class="line">    validPeriodTime: int = <span class="number">12</span></span><br><span class="line">    count: int = <span class="number">200</span></span><br><span class="line">    deviceTypeId: int = <span class="number">2</span></span><br><span class="line">    subscriptionLevelId: int = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获得json格式内容，不返还bearer_token</span></span><br><span class="line">    <span class="comment"># def data_json(self):</span></span><br><span class="line">    <span class="comment">#    return self.json(exclude=&#123;'bearer_token'&#125;)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 校验参数</span></span><br><span class="line">    <span class="comment"># @validator('validDateTime')</span></span><br><span class="line">    <span class="comment"># def create_default_date(cls, v):</span></span><br><span class="line">    <span class="comment">#    if v is None:</span></span><br><span class="line">    <span class="comment">#        v = get_default_valid_datetime().strftime("%Y-%m-%dT23:59:59.000Z")</span></span><br><span class="line">    <span class="comment">#    return v</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/e075/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          
       
     </div>
 
@@ -939,7 +384,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/2f69/">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/ee95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
@@ -953,7 +398,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/posts/2f69/" class="post-title-link" itemprop="url">python基础篇--function</a>
+            <a href="/posts/ee95/" class="post-title-link" itemprop="url">rancher部署</a>
         </h2>
 
         <div class="post-meta">
@@ -963,23 +408,159 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-03-29 23:30:20" itemprop="dateCreated datePublished" datetime="2021-03-29T23:30:20+08:00">2021-03-29</time>
+              <time title="创建时间：2021-05-11 23:17:39" itemprop="dateCreated datePublished" datetime="2021-05-11T23:17:39+08:00">2021-05-11</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-30 22:33:18" itemprop="dateModified" datetime="2021-03-30T22:33:18+08:00">2021-03-30</time>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
               </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/7112/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="IoT Architect">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simple's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/posts/7112/" class="post-title-link" itemprop="url">traefik</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-10 23:36:49" itemprop="dateCreated datePublished" datetime="2021-05-10T23:36:49+08:00">2021-05-10</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/a9f1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="IoT Architect">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simple's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/posts/a9f1/" class="post-title-link" itemprop="url">sentry初试牛刀</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-05-08 23:50:12 / 修改时间：23:51:47" itemprop="dateCreated datePublished" datetime="2021-05-08T23:50:12+08:00">2021-05-08</time>
+            </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
+                  <a href="/categories/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index">
+                    <span itemprop="name">运维</span>
                   </a>
                 </span>
             </span>
@@ -1028,7 +609,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/f1e8/">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/76d7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
@@ -1042,7 +623,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/posts/f1e8/" class="post-title-link" itemprop="url">python基础篇--Exception</a>
+            <a href="/posts/76d7/" class="post-title-link" itemprop="url">python多线程</a>
         </h2>
 
         <div class="post-meta">
@@ -1052,25 +633,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-03-29 23:30:00" itemprop="dateCreated datePublished" datetime="2021-03-29T23:30:00+08:00">2021-03-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-31 10:58:04" itemprop="dateModified" datetime="2021-03-31T10:58:04+08:00">2021-03-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
+              <time title="创建时间：2021-04-26 23:58:09" itemprop="dateCreated datePublished" datetime="2021-04-26T23:58:09+08:00">2021-04-26</time>
             </span>
 
           <br>
@@ -1079,16 +642,15 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.7k</span>
+              <span>0</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>10 分钟</span>
+              <span>1 分钟</span>
             </span>
-            <div class="post-description">如何使用python的异常处理</div>
 
         </div>
       </header>
@@ -1099,21 +661,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>以下总结一下python的异常处理</p>
-<h2 id="基类">基类</h2>
-<h3 id="BaseException">BaseException</h3>
-<blockquote>
-<p>所有内置异常的基类。 它不应该被用户自定义类直接继承 (这种情况请使用 <a href="https://docs.python.org/zh-cn/3/library/exceptions.html#Exception" target="_blank" rel="noopener"><code>Exception</code></a>)。 如果在此类的实例上调用 <a href="https://docs.python.org/zh-cn/3/library/stdtypes.html#str" target="_blank" rel="noopener"><code>str()</code></a>，则会返回实例的参数表示，或者当没有参数时返回空字符串</p>
-</blockquote>
-<h3 id="Exception">Exception</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/f1e8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          
       
     </div>
 
@@ -1132,7 +680,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/3a95/">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/1cbb/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
@@ -1146,7 +694,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/posts/3a95/" class="post-title-link" itemprop="url">python基础 -- time与datetime常见用法</a>
+            <a href="/posts/1cbb/" class="post-title-link" itemprop="url">mongo</a>
         </h2>
 
         <div class="post-meta">
@@ -1156,18 +704,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-03-29 16:45:32" itemprop="dateCreated datePublished" datetime="2021-03-29T16:45:32+08:00">2021-03-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
+              <time title="创建时间：2021-04-23 22:53:55" itemprop="dateCreated datePublished" datetime="2021-04-23T22:53:55+08:00">2021-04-23</time>
             </span>
 
           <br>
@@ -1176,16 +713,15 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>6.5k</span>
+              <span>0</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>12 分钟</span>
+              <span>1 分钟</span>
             </span>
-            <div class="post-description">str、time、datetime之间的转换</div>
 
         </div>
       </header>
@@ -1196,19 +732,228 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>在HTTP API接口，以及跟数据库交互时经常用到时间戳（时间），这里整理python中常见的time、datetime用法，以及之间的相互转化方法</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> timedelta</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> timezone</span><br></pre></td></tr></table></figure>
-<h2 id="time基本用法">time基本用法</h2>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取当前unix时间戳，返回值为float</span></span><br><span class="line">&gt; time.time()</span><br><span class="line"><span class="number">1615178606.6729627</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取本地时间（struct time）</span></span><br><span class="line">&gt; time.localtime()</span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">8</span>, tm_hour=<span class="number">12</span>, tm_min=<span class="number">47</span>, tm_sec=<span class="number">12</span>, tm_wday=<span class="number">0</span>, tm_yday=<span class="number">67</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取UTC时间（struct time）</span></span><br><span class="line">&gt; time.gmtime()</span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">8</span>, tm_hour=<span class="number">4</span>, tm_min=<span class="number">47</span>, tm_sec=<span class="number">25</span>, tm_wday=<span class="number">0</span>, tm_yday=<span class="number">67</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取毫秒级Unix 时间戳 int</span></span><br><span class="line">&gt; int(time.time()*<span class="number">1000</span>)</span><br><span class="line"><span class="number">1615178896227</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取秒级Unix 时间戳 int</span></span><br><span class="line">&gt; int(time.time())</span><br><span class="line"><span class="number">1615178924</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Unix 时间戳（int/float）转化为 struct time</span></span><br><span class="line">&gt; time.localtime(time.time())</span><br><span class="line">time.struct_time(tm_year=<span class="number">2021</span>, tm_mon=<span class="number">3</span>, tm_mday=<span class="number">25</span>, tm_hour=<span class="number">21</span>, tm_min=<span class="number">44</span>, tm_sec=<span class="number">6</span>, tm_wday=<span class="number">3</span>, tm_yday=<span class="number">84</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># strcut time 转化为 Unix时间戳（float）</span></span><br><span class="line"><span class="comment"># 主要mktime的参数应该是localtime，不能是UTCtime</span></span><br><span class="line">&gt; time.mktime(time.localtime())</span><br><span class="line"><span class="number">1616680137.0</span></span><br></pre></td></tr></table></figure>
-<h2 id="datetime基本用法">datetime基本用法</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/3a95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/b60b/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="IoT Architect">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simple's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/posts/b60b/" class="post-title-link" itemprop="url">JavaScript深度拷贝</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-04-21 21:26:53 / 修改时间：21:28:22" itemprop="dateCreated datePublished" datetime="2021-04-21T21:26:53+08:00">2021-04-21</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/5f19/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="IoT Architect">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simple's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/posts/5f19/" class="post-title-link" itemprop="url">python thread result</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-19 23:26:02" itemprop="dateCreated datePublished" datetime="2021-04-19T23:26:02+08:00">2021-04-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-21 21:29:11" itemprop="dateModified" datetime="2021-04-21T21:29:11+08:00">2021-04-21</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/688d/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="IoT Architect">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simple's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/posts/688d/" class="post-title-link" itemprop="url">nvm用法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-18 21:32:22" itemprop="dateCreated datePublished" datetime="2021-04-18T21:32:22+08:00">2021-04-18</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
       
     </div>
 
@@ -1227,7 +972,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1295,7 +1040,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1308,7 +1053,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">33</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1353,12 +1098,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">45k</span>
+    <span title="站点总字数">46k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:22</span>
+    <span title="站点阅读时长">1:24</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
   </div>
