@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.smart-lifestyle.cn/"/>
-  <updated>2021-05-23T08:00:42.829Z</updated>
+  <updated>2021-05-23T08:02:25.762Z</updated>
   <id>https://blog.smart-lifestyle.cn/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://blog.smart-lifestyle.cn/posts/f29/"/>
     <id>https://blog.smart-lifestyle.cn/posts/f29/</id>
     <published>2021-05-23T07:39:12.000Z</published>
-    <updated>2021-05-23T08:00:42.829Z</updated>
+    <updated>2021-05-23T08:02:25.762Z</updated>
     
     <content type="html"><![CDATA[<p>一次在docker中运行centos，为了省事，将数据卷挂载了整个用户工作目录下，执行<code>docker run -it -v /Users/simple/workspace/tmp/data:/root python36:centos7 bash</code></p><p><img src="https://oss.smart-lifestyle.cn/file/k5nrn.png" alt="image-20210523154159576"></p><p>理论上应该按如下显示：</p><p><img src="https://oss.smart-lifestyle.cn/file/0vks3.png" alt="image-20210523155114587"></p><p>发现此时终端显示的bash-4.2，而不是显示用户名@主机，另外终端文件夹文件的颜色也没有显示，最开始以为没有设置term颜色，但经过尝试不是这个问题（<code>TERM=xterm-256color</code>）。</p><p>看到自己运行的docker命令，-v将data目录挂载了用户目录下，这时候想起里啊，docker volume第一次挂载是单项的，即及时容器内目录有内容，第一次挂载时，也会被主机目录覆盖掉，也就是现在主机data目录是空的，会把docker内用户目录内文件全部清空</p><p>​进行挂载后：</p><p><img src="https://oss.smart-lifestyle.cn/file/io22a.png" alt="image-20210523154824106"></p><p>​挂载前：</p><p><img src="https://oss.smart-lifestyle.cn/file/gq6l8.png" alt="image-20210523155224464"></p><p>在用户目录下，存放着bash以及用户的各种配置文件，而进行挂载后，将所有配置文件全部清除了。</p><p>正确做法，不要直接挂载到用户目录下，而应该挂载用户目录下的二级目录</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">volume="/Users/simple/workspace/function_graph/data"</span><br><span class="line">docker run -it --rm --init  --name centos -v $volume:/root/data -w /root python36:centos7 bash</span><br></pre></td></tr></table></figure><h2 id="参考">参考</h2><p>[1] (<a href="https://blog.csdn.net/liulihui1988/article/details/52796395" target="_blank" rel="noopener">linux 命令终端提示符显示-bash-4.2#解决方法__kairui的博客-CSDN博客_-bash-4.2#</a>)</p>]]></content>
     
