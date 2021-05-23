@@ -76,7 +76,7 @@ PWD=/root
 
 最前面5段用于设置周期时间
 
-![image-20210521150550791](/Users/simple/Library/Application Support/typora-user-images/image-20210521150550791.png)
+![image-20210521150550791](https://oss.smart-lifestyle.cn/file/rdivm.png)
 
 这里举一些常用的例子，可以使用这个[网站](https://crontab.guru/)进行测试
 
@@ -84,31 +84,31 @@ PWD=/root
 
   `* * * * *`
 
-  ![image-20210521145726370](/Users/simple/Library/Application Support/typora-user-images/image-20210521145726370.png)
+  ![image-20210521145726370](https://oss.smart-lifestyle.cn/file/sgflk.png)
 
 * 每隔十分钟运行一次(📢这里的每个10分钟，不是从现在或者任务开始算起，而是每小时的第十分钟，10，20， 30....)
 
   `*/10 * * * *`
 
-  ![image-20210521145941538](/Users/simple/Library/Application Support/typora-user-images/image-20210521145941538.png)
+  ![image-20210521145941538](https://oss.smart-lifestyle.cn/file/qpet2.png)
 
 * 每天晚上23：55执行一次
 
   `55 23 * * *`
 
-  ![image-20210521150051826](/Users/simple/Library/Application Support/typora-user-images/image-20210521150051826.png)
+  ![image-20210521150051826](https://oss.smart-lifestyle.cn/file/udg1l.png)
 
 * 每隔两个月的第一天晚上23：55执行一次（比如用于ssl证书的更新）
 
   `55 23 1 */2 *`
 
-  ![image-20210521150255631](/Users/simple/Library/Application Support/typora-user-images/image-20210521150255631.png)
+  ![image-20210521150255631](https://oss.smart-lifestyle.cn/file/w278h.png)
 
 * 每周五晚上23：55发送报表
 
   `55 23 * * 5`
 
-  ![image-20210521150430138](/Users/simple/Library/Application Support/typora-user-images/image-20210521150430138.png)
+  ![image-20210521150430138](https://oss.smart-lifestyle.cn/file/xlh36.png)
 
 
 
