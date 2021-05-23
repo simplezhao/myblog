@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.loli.net/css?family=Noto Sans SC:300,300italic,400,400italic,700,700italic|JetBrains Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://blog.smart-lifestyle.cn').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="使用crontab定期同步NTP时间">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用crontab定期同步NTP时间">
+<meta property="og:url" content="https://blog.smart-lifestyle.cn/posts/c57a/index.html">
+<meta property="og:site_name" content="simple&#39;s blog">
+<meta property="og:description" content="使用crontab定期同步NTP时间">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/rdivm.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/sgflk.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/qpet2.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/udg1l.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/w278h.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/xlh36.png">
+<meta property="article:published_time" content="2021-05-21T06:33:40.000Z">
+<meta property="article:modified_time" content="2021-05-23T07:11:37.510Z">
+<meta property="article:author" content="simple">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="crontab">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oss.smart-lifestyle.cn/file/rdivm.png">
+
+<link rel="canonical" href="https://blog.smart-lifestyle.cn/posts/c57a/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>使用crontab定期同步NTP时间 | simple's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="simple's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">simple's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">42</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">34</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">11</span></a>
+
+  </li>
+        <li class="menu-item menu-item-读书">
+
+    <a href="/categories/book" rel="section"><i class="fa fa-fw fa-coffee"></i>读书</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/c57a/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="IoT Architect">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simple's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          使用crontab定期同步NTP时间
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-21 14:33:40" itemprop="dateCreated datePublished" datetime="2021-05-21T14:33:40+08:00">2021-05-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-23 15:11:37" itemprop="dateModified" datetime="2021-05-23T15:11:37+08:00">2021-05-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+            <div class="post-description">使用crontab定期同步NTP时间</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>购买的阿里云香港虚机，不知道怎么回事，过一段时间，它的时间就跟实际时间偏离越来越远，导致HTTPS无法正常工作，</p>
+<p>最开始是手动的登录的服务器，使用<code>rdate -s time.nist.gov</code>进行手动更新时间，但后来发现自己越来越懒，而且最近这个命令一直出错: <code>rdate: Could not read data: Cannot assign requested address</code>, 可能是后面的时间同步服务器挂了。</p>
+<p>因此改为使用<code>ntpdate</code>来同步时间，<a href="http://xn--ntpntp-9g8in7dm0mk7jex1c6m9akydt74je7n.cloud.aliyuncs.com" target="_blank" rel="noopener">使用阿里云的ntp服务器ntp.cloud.aliyuncs.com</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ntpdate ntp.cloud.aliyuncs.com</span><br><span class="line">23 May 14:43:07 ntpdate[9801]: step time server 100.100.61.88 offset 3.848040 sec</span><br></pre></td></tr></table></figure>
+<p>然后将改名了加入crontab任务中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br><span class="line"><span class="comment"># 将下面命令添加到最后</span></span><br><span class="line">* * * * * ntpdate ntp.cloud.aliyuncs.com</span><br></pre></td></tr></table></figure>
+<p>保存退出，但是实际运行一段时间，发现服务的实际还是距离真实时间越来越远，感觉是ntpdate命令没有工作，于是将定时任务改为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* * * * * ntpdate ntp.cloud.aliyuncs.com &gt;&gt; /var/<span class="built_in">log</span>/myntp.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<p>保存运行退出后，查看ntpdate运行日志，果然存在问题<code>/bin/sh: 1: ntpdate: not found</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tail -f myntp.log</span><br><span class="line">&#x2F;bin&#x2F;sh: 1: ntpdate: not found</span><br><span class="line">&#x2F;bin&#x2F;sh: 1: ntpdate: not found</span><br><span class="line">&#x2F;bin&#x2F;sh: 1: ntpdate: not found</span><br></pre></td></tr></table></figure>
+<p>cron在运行时，找不到ntpdate命令，继续排查</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># which ntpdate</span></span><br><span class="line">/usr/sbin/ntpdate</span><br></pre></td></tr></table></figure>
+<p>在crontab任务中增加一行<code>* * * * * env &gt;&gt; /var/log/env.log 2&gt;&amp;1</code></p>
+<p>并查看日志</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># tail -f env.log</span></span><br><span class="line">PATH=/usr/bin:/bin</span><br><span class="line">LANG=en_US.UTF-8</span><br><span class="line">SHELL=/bin/sh</span><br><span class="line">PWD=/root</span><br></pre></td></tr></table></figure>
+<p>终于发现问题了，crontab运行时查找命令的路径为<code>/usr/bin</code> 和<code>/bin</code>目录，而不包含<code>/usr/sbin/</code></p>
+<p>我们可以在crontab中增加<code>PATH=$PATH:/usr/sbin/</code>,也可以使用ntpdate的绝对路径，将之前ntpdate任务改为如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* * * * * &#x2F;usr&#x2F;sbin&#x2F;ntpdate ntp.cloud.aliyuncs.com</span><br></pre></td></tr></table></figure>
+<p>保存退出后，观察服务器时间，发现已经变为正常时间了。</p>
+<h2 id="crontab设置">crontab设置</h2>
+<p>最前面5段用于设置周期时间</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/rdivm.png" alt="image-20210521150550791"></p>
+<p>这里举一些常用的例子，可以使用这个<a href="https://crontab.guru/" target="_blank" rel="noopener">网站</a>进行测试</p>
+<ul>
+<li>
+<p>每一分钟执行一次</p>
+<p><code>* * * * *</code></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/sgflk.png" alt="image-20210521145726370"></p>
+</li>
+<li>
+<p>每隔十分钟运行一次(📢这里的每个10分钟，不是从现在或者任务开始算起，而是每小时的第十分钟，10，20， 30…)</p>
+<p><code>*/10 * * * *</code></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/qpet2.png" alt="image-20210521145941538"></p>
+</li>
+<li>
+<p>每天晚上23：55执行一次</p>
+<p><code>55 23 * * *</code></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/udg1l.png" alt="image-20210521150051826"></p>
+</li>
+<li>
+<p>每隔两个月的第一天晚上23：55执行一次（比如用于ssl证书的更新）</p>
+<p><code>55 23 1 */2 *</code></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/w278h.png" alt="image-20210521150255631"></p>
+</li>
+<li>
+<p>每周五晚上23：55发送报表</p>
+<p><code>55 23 * * 5</code></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/xlh36.png" alt="image-20210521150430138"></p>
+</li>
+</ul>
+<h2 id="参考">参考</h2>
+<p>[1] <a href="https://crontab.guru/#*_*_*_*_*" target="_blank" rel="noopener">crontab tool</a></p>
+<p>[2] <a href="https://stackoverflow.com/questions/4811738/how-to-log-cron-jobs" target="_blank" rel="noopener">log cron jobs</a></p>
+<p>[3] <a href="https://www.cnblogs.com/centos2017/p/12963610.html" target="_blank" rel="noopener">ntpdate: command not found</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+              <a href="/tags/crontab/" rel="tag"><i class="fa fa-tag"></i> crontab</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/a8ad/" rel="prev" title="rancherandgithub">
+      <i class="fa fa-chevron-left"></i> rancherandgithub
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/7376/" rel="next" title="python递归创建目录(mkdir -p)">
+      python递归创建目录(mkdir -p) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#crontab设置"><span class="nav-number">1.</span> <span class="nav-text">crontab设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="simple"
+      src="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
+  <p class="site-author-name" itemprop="name">simple</p>
+  <div class="site-description" itemprop="description">IoT Architect</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/simplezhao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;simplezhao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhaogang@smart-lifestyle.cn" title="E-Mail → mailto:zhaogang@smart-lifestyle.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">simple</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">48k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:28</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

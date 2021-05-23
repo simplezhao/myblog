@@ -1,12 +1,13 @@
 ---
-title: docker运行linux终端显示bash-4.2#
+title: 'docker运行linux终端显示bash-4.2#'
 tags:
   - linux
   - docker
+description: 'docker运行linux终端显示bash-4.2#'
+abbrlink: f29
 date: 2021-05-23 15:39:12
 categories:
 keywords:
-description: docker运行linux终端显示bash-4.2#
 ---
 
 一次在docker中运行centos，为了省事，将数据卷挂载了整个用户工作目录下，执行`docker run -it -v /Users/simple/workspace/tmp/data:/root python36:centos7 bash`

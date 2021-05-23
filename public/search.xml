@@ -1469,4 +1469,94 @@ CL更简短，有如下优点：</p>
         <tag>python小技巧</tag>
       </tags>
   </entry>
+  <entry>
+    <title>使用crontab定期同步NTP时间</title>
+    <url>/posts/c57a/</url>
+    <content><![CDATA[<p>购买的阿里云香港虚机，不知道怎么回事，过一段时间，它的时间就跟实际时间偏离越来越远，导致HTTPS无法正常工作，</p>
+<p>最开始是手动的登录的服务器，使用<code>rdate -s time.nist.gov</code>进行手动更新时间，但后来发现自己越来越懒，而且最近这个命令一直出错: <code>rdate: Could not read data: Cannot assign requested address</code>, 可能是后面的时间同步服务器挂了。</p>
+<p>因此改为使用<code>ntpdate</code>来同步时间，<a href="http://xn--ntpntp-9g8in7dm0mk7jex1c6m9akydt74je7n.cloud.aliyuncs.com" target="_blank" rel="noopener">使用阿里云的ntp服务器ntp.cloud.aliyuncs.com</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ntpdate ntp.cloud.aliyuncs.com</span><br><span class="line">23 May 14:43:07 ntpdate[9801]: step time server 100.100.61.88 offset 3.848040 sec</span><br></pre></td></tr></table></figure>
+<p>然后将改名了加入crontab任务中</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crontab -e</span><br><span class="line"><span class="comment"># 将下面命令添加到最后</span></span><br><span class="line">* * * * * ntpdate ntp.cloud.aliyuncs.com</span><br></pre></td></tr></table></figure>
+<p>保存退出，但是实际运行一段时间，发现服务的实际还是距离真实时间越来越远，感觉是ntpdate命令没有工作，于是将定时任务改为：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">* * * * * ntpdate ntp.cloud.aliyuncs.com &gt;&gt; /var/<span class="built_in">log</span>/myntp.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<p>保存运行退出后，查看ntpdate运行日志，果然存在问题<code>/bin/sh: 1: ntpdate: not found</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tail -f myntp.log</span><br><span class="line">&#x2F;bin&#x2F;sh: 1: ntpdate: not found</span><br><span class="line">&#x2F;bin&#x2F;sh: 1: ntpdate: not found</span><br><span class="line">&#x2F;bin&#x2F;sh: 1: ntpdate: not found</span><br></pre></td></tr></table></figure>
+<p>cron在运行时，找不到ntpdate命令，继续排查</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># which ntpdate</span></span><br><span class="line">/usr/sbin/ntpdate</span><br></pre></td></tr></table></figure>
+<p>在crontab任务中增加一行<code>* * * * * env &gt;&gt; /var/log/env.log 2&gt;&amp;1</code></p>
+<p>并查看日志</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># tail -f env.log</span></span><br><span class="line">PATH=/usr/bin:/bin</span><br><span class="line">LANG=en_US.UTF-8</span><br><span class="line">SHELL=/bin/sh</span><br><span class="line">PWD=/root</span><br></pre></td></tr></table></figure>
+<p>终于发现问题了，crontab运行时查找命令的路径为<code>/usr/bin</code> 和<code>/bin</code>目录，而不包含<code>/usr/sbin/</code></p>
+<p>我们可以在crontab中增加<code>PATH=$PATH:/usr/sbin/</code>,也可以使用ntpdate的绝对路径，将之前ntpdate任务改为如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">* * * * * &#x2F;usr&#x2F;sbin&#x2F;ntpdate ntp.cloud.aliyuncs.com</span><br></pre></td></tr></table></figure>
+<p>保存退出后，观察服务器时间，发现已经变为正常时间了。</p>
+<h2 id="crontab设置">crontab设置</h2>
+<p>最前面5段用于设置周期时间</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/rdivm.png" alt="image-20210521150550791"></p>
+<p>这里举一些常用的例子，可以使用这个<a href="https://crontab.guru/" target="_blank" rel="noopener">网站</a>进行测试</p>
+<ul>
+<li>
+<p>每一分钟执行一次</p>
+<p><code>* * * * *</code></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/sgflk.png" alt="image-20210521145726370"></p>
+</li>
+<li>
+<p>每隔十分钟运行一次(📢这里的每个10分钟，不是从现在或者任务开始算起，而是每小时的第十分钟，10，20， 30…)</p>
+<p><code>*/10 * * * *</code></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/qpet2.png" alt="image-20210521145941538"></p>
+</li>
+<li>
+<p>每天晚上23：55执行一次</p>
+<p><code>55 23 * * *</code></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/udg1l.png" alt="image-20210521150051826"></p>
+</li>
+<li>
+<p>每隔两个月的第一天晚上23：55执行一次（比如用于ssl证书的更新）</p>
+<p><code>55 23 1 */2 *</code></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/w278h.png" alt="image-20210521150255631"></p>
+</li>
+<li>
+<p>每周五晚上23：55发送报表</p>
+<p><code>55 23 * * 5</code></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/xlh36.png" alt="image-20210521150430138"></p>
+</li>
+</ul>
+<h2 id="参考">参考</h2>
+<p>[1] <a href="https://crontab.guru/#*_*_*_*_*" target="_blank" rel="noopener">crontab tool</a></p>
+<p>[2] <a href="https://stackoverflow.com/questions/4811738/how-to-log-cron-jobs" target="_blank" rel="noopener">log cron jobs</a></p>
+<p>[3] <a href="https://www.cnblogs.com/centos2017/p/12963610.html" target="_blank" rel="noopener">ntpdate: command not found</a></p>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>crontab</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker运行linux终端显示bash-4.2#</title>
+    <url>/posts/f29/</url>
+    <content><![CDATA[<p>一次在docker中运行centos，为了省事，将数据卷挂载了整个用户工作目录下，执行<code>docker run -it -v /Users/simple/workspace/tmp/data:/root python36:centos7 bash</code></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/k5nrn.png" alt="image-20210523154159576"></p>
+<p>理论上应该按如下显示：</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/0vks3.png" alt="image-20210523155114587"></p>
+<p>发现此时终端显示的bash-4.2，而不是显示用户名@主机，另外终端文件夹文件的颜色也没有显示，最开始以为没有设置term颜色，但经过尝试不是这个问题（<code>TERM=xterm-256color</code>）。</p>
+<p>看到自己运行的docker命令，-v将data目录挂载了用户目录下，这时候想起里啊，docker volume第一次挂载是单项的，即及时容器内目录有内容，第一次挂载时，也会被主机目录覆盖掉，也就是现在主机data目录是空的，会把docker内用户目录内文件全部清空</p>
+<p>​	进行挂载后：</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/io22a.png" alt="image-20210523154824106"></p>
+<p>​	挂载前：</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/gq6l8.png" alt="image-20210523155224464"></p>
+<p>在用户目录下，存放着bash以及用户的各种配置文件，而进行挂载后，将所有配置文件全部清除了。</p>
+<p>正确做法，不要直接挂载到用户目录下，而应该挂载用户目录下的二级目录</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">volume="/Users/simple/workspace/function_graph/data"</span><br><span class="line">docker run -it --rm --init  --name centos -v $volume:/root/data -w /root python36:centos7 bash</span><br></pre></td></tr></table></figure>
+<h2 id="参考">参考</h2>
+<p>[1] (<a href="https://blog.csdn.net/liulihui1988/article/details/52796395" target="_blank" rel="noopener">linux 命令终端提示符显示-bash-4.2#解决方法__kairui的博客-CSDN博客_-bash-4.2#</a>)</p>
+]]></content>
+      <tags>
+        <tag>docker</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
 </search>

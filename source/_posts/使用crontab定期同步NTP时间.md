@@ -3,10 +3,11 @@ title: 使用crontab定期同步NTP时间
 tags:
   - crontab
   - linux
-date: 2021-05-21 14:33:40
 categories: linux
-keywords:
 description: 使用crontab定期同步NTP时间
+abbrlink: c57a
+date: 2021-05-21 14:33:40
+keywords:
 ---
 
 购买的阿里云香港虚机，不知道怎么回事，过一段时间，它的时间就跟实际时间偏离越来越远，导致HTTPS无法正常工作，
