@@ -44,3 +44,5 @@ description: 在使用paw中，如何使用文件请求和下载文件
 ## 参考
 
 [1] [paw app - How do download response binary? - Stack Overflow](https://stackoverflow.com/questions/40680954/how-do-download-response-binary)
+
+[2] [Documentation | Paw](https://paw.cloud/docs/getting-started/set-request-body#Set_Multipart_body)
