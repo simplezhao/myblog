@@ -2,10 +2,11 @@
 title: docker commit -- 基于容器创建镜像
 tags:
   - docker
-date: 2021-06-30 09:33:50
 categories: docker
-keywords:
 description: 使用docker commit创建一个新的镜像
+abbrlink: d17f
+date: 2021-06-30 09:33:50
+keywords:
 ---
 
 * docker commit 命令

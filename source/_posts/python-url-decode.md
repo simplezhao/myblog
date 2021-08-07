@@ -3,10 +3,11 @@ title: python url decode
 tags:
   - python
   - urlenocde
-date: 2021-06-29 22:42:02
 categories: python
-keywords:
 description: 解码url编码格式的参数
+abbrlink: '6645'
+date: 2021-06-29 22:42:02
+keywords:
 ---
 
 在http请求中，如果url query中是Unicode，将会议url encode方式发送到服务端，可能需要我们去解析，这里用到python的库`urllib.parse.unquote`

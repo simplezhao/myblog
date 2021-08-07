@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
@@ -48,12 +48,12 @@
   };
 </script>
 
-  <meta name="description" content="匹配模式前使用 &#x2F; 表示根目录 &#x2F;filename 表示匹配根目录下的文件filename 匹配模式后使用 &#x2F; 代表是目录（不是文件） dirname&#x2F; 表示匹配的是dirname文件夹 匹配模式前加 ！ 表示取反 * 代表任意个字符 db*.json 表示匹配以db开头的json文件 ? 匹配任意一个字符 db?.json 表示以db开头并且文件名为三个字符的json文件 ** 匹配任意级目录">
+  <meta name="description" content="匹配模式前使用 &#x2F; 表示根目录  &#x2F;filename 表示匹配根目录下的文件filename   匹配模式后使用 &#x2F; 代表是目录（不是文件）  dirname&#x2F; 表示匹配的是dirname文件夹   匹配模式前加 ！ 表示取反 * 代表任意个字符  db*.json 表示匹配以db开头的json文件   ? 匹配任意一个字符  db?.json 表示以db开头并且文件名为三个字符的json文件">
 <meta property="og:type" content="article">
 <meta property="og:title" content=".gitignore模式匹配">
 <meta property="og:url" content="https://blog.smart-lifestyle.cn/posts/4da0/index.html">
 <meta property="og:site_name" content="simple&#39;s blog">
-<meta property="og:description" content="匹配模式前使用 &#x2F; 表示根目录 &#x2F;filename 表示匹配根目录下的文件filename 匹配模式后使用 &#x2F; 代表是目录（不是文件） dirname&#x2F; 表示匹配的是dirname文件夹 匹配模式前加 ！ 表示取反 * 代表任意个字符 db*.json 表示匹配以db开头的json文件 ? 匹配任意一个字符 db?.json 表示以db开头并且文件名为三个字符的json文件 ** 匹配任意级目录">
+<meta property="og:description" content="匹配模式前使用 &#x2F; 表示根目录  &#x2F;filename 表示匹配根目录下的文件filename   匹配模式后使用 &#x2F; 代表是目录（不是文件）  dirname&#x2F; 表示匹配的是dirname文件夹   匹配模式前加 ！ 表示取反 * 代表任意个字符  db*.json 表示匹配以db开头的json文件   ? 匹配任意一个字符  db?.json 表示以db开头并且文件名为三个字符的json文件">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-11-20T05:26:10.000Z">
 <meta property="article:modified_time" content="2020-11-20T05:26:10.000Z">
@@ -145,17 +145,17 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">42</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">62</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">34</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">57</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">11</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">22</span></a>
 
   </li>
         <li class="menu-item menu-item-读书">
@@ -290,16 +290,20 @@
 
       
         <ul>
-<li>匹配模式前使用 <code>/</code> 表示根目录<br>
-/filename 表示匹配根目录下的文件filename</li>
-<li>匹配模式后使用 <code>/</code> 代表是目录（不是文件）<br>
-dirname/ 表示匹配的是dirname文件夹</li>
+<li>匹配模式前使用 <code>/</code> 表示根目录<pre><code>  /filename 表示匹配根目录下的文件filename
+</code></pre>
+</li>
+<li>匹配模式后使用 <code>/</code> 代表是目录（不是文件）<pre><code>  dirname/ 表示匹配的是dirname文件夹
+</code></pre>
+</li>
 <li>匹配模式前加 <code>！</code> 表示取反</li>
-<li><code>*</code> 代表任意个字符<br>
-db*.json 表示匹配以db开头的json文件</li>
-<li><code>?</code> 匹配任意一个字符<br>
-db?.json 表示以db开头并且文件名为三个字符的json文件</li>
-<li><code>**</code> 匹配任意级目录</li>
+<li><code>*</code> 代表任意个字符<pre><code>  db*.json 表示匹配以db开头的json文件
+</code></pre>
+</li>
+<li><code>?</code> 匹配任意一个字符<pre><code>  db?.json 表示以db开头并且文件名为三个字符的json文件
+</code></pre>
+</li>
+<li> <code>**</code> 匹配任意级目录</li>
 </ul>
 
     </div>
@@ -402,20 +406,20 @@ db?.json 表示以db开头并且文件名为三个字符的json文件</li>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">62</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">57</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -460,14 +464,14 @@ db?.json 表示以db开头并且文件名为三个字符的json文件</li>
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">48k</span>
+    <span title="站点总字数">63k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:28</span>
+    <span title="站点阅读时长">1:55</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0

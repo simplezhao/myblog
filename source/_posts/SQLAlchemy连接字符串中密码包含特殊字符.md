@@ -3,10 +3,11 @@ title: SQL连接字符串中密码包含特殊字符
 tags:
   - SQL
   - SQLAlchemy
-date: 2021-07-01 16:59:35
 categories: SQLAlchemy
-keywords:
 description: SQLAlchemy连接字符串中密码包含特殊字符，可以进行url编码
+abbrlink: '1538'
+date: 2021-07-01 16:59:35
+keywords:
 ---
 
 生产环境中，数据库的密码会包含特殊字符，如果包含了`@`等符号，会被create_engine识别错误。

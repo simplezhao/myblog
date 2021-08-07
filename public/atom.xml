@@ -3,10 +3,10 @@
   <title>simple&#39;s blog</title>
   
   
-  <link href="/atom.xml" rel="self"/>
+  <link href="https://blog.smart-lifestyle.cn/atom.xml" rel="self"/>
   
   <link href="https://blog.smart-lifestyle.cn/"/>
-  <updated>2021-05-23T08:02:25.762Z</updated>
+  <updated>2021-07-01T14:25:48.000Z</updated>
   <id>https://blog.smart-lifestyle.cn/</id>
   
   <author>
@@ -17,418 +17,434 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>docker运行linux终端显示bash-4.2#</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/f29/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/f29/</id>
-    <published>2021-05-23T07:39:12.000Z</published>
-    <updated>2021-05-23T08:02:25.762Z</updated>
+    <title>ubuntu更改主机名</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/62e8/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/62e8/</id>
+    <published>2021-07-01T14:17:51.000Z</published>
+    <updated>2021-07-01T14:25:48.000Z</updated>
     
-    <content type="html"><![CDATA[<p>一次在docker中运行centos，为了省事，将数据卷挂载了整个用户工作目录下，执行<code>docker run -it -v /Users/simple/workspace/tmp/data:/root python36:centos7 bash</code></p><p><img src="https://oss.smart-lifestyle.cn/file/k5nrn.png" alt="image-20210523154159576"></p><p>理论上应该按如下显示：</p><p><img src="https://oss.smart-lifestyle.cn/file/0vks3.png" alt="image-20210523155114587"></p><p>发现此时终端显示的bash-4.2，而不是显示用户名@主机，另外终端文件夹文件的颜色也没有显示，最开始以为没有设置term颜色，但经过尝试不是这个问题（<code>TERM=xterm-256color</code>）。</p><p>看到自己运行的docker命令，-v将data目录挂载了用户目录下，这时候想起里啊，docker volume第一次挂载是单项的，即及时容器内目录有内容，第一次挂载时，也会被主机目录覆盖掉，也就是现在主机data目录是空的，会把docker内用户目录内文件全部清空</p><p>​进行挂载后：</p><p><img src="https://oss.smart-lifestyle.cn/file/io22a.png" alt="image-20210523154824106"></p><p>​挂载前：</p><p><img src="https://oss.smart-lifestyle.cn/file/gq6l8.png" alt="image-20210523155224464"></p><p>在用户目录下，存放着bash以及用户的各种配置文件，而进行挂载后，将所有配置文件全部清除了。</p><p>正确做法，不要直接挂载到用户目录下，而应该挂载用户目录下的二级目录</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">volume="/Users/simple/workspace/function_graph/data"</span><br><span class="line">docker run -it --rm --init  --name centos -v $volume:/root/data -w /root python36:centos7 bash</span><br></pre></td></tr></table></figure><h2 id="参考">参考</h2><p>[1] (<a href="https://blog.csdn.net/liulihui1988/article/details/52796395" target="_blank" rel="noopener">linux 命令终端提示符显示-bash-4.2#解决方法__kairui的博客-CSDN博客_-bash-4.2#</a>)</p>]]></content>
+    <content type="html"><![CDATA[<ul><li>增加或者修改<code>/etc/hostname</code>，添加新的主机名</li><li>修改<code>/etc/hosts</code>，在127.0.0.1中添加新的主机名</li><li>如果是在云上运行vm实例，需要修改上面的<code>/etc/cloud/cloud.cfg</code>，否则重启机器后，hostname会变为默认值😭；找到<code>preserve_hostname</code>，将其值改为<code>true</code></li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://www.myfreax.com/how-to-change-hostname-on-ubuntu-20-04/">如何在Ubuntu 20.04上更改主机名 (myfreax.com)</a></p>]]></content>
     
-    <summary type="html">
     
-      docker运行linux终端显示bash-4.2#
-    
-    </summary>
+    <summary type="html">修改公有云上linux VM主机名</summary>
     
     
     
-      <category term="docker" scheme="https://blog.smart-lifestyle.cn/tags/docker/"/>
-    
-      <category term="linux" scheme="https://blog.smart-lifestyle.cn/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python递归创建目录(mkdir -p)</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/7376/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/7376/</id>
-    <published>2021-05-22T08:15:50.000Z</published>
-    <updated>2021-05-22T11:22:58.536Z</updated>
-    
-    <content type="html"><![CDATA[<p>在为日志文件设置存放位置时，需要在程序里判断文件夹（位置）是否存在，通常使用<code>os.mkdir</code>来创建目录，但是如果目录为多层次目录，而且某一层目录存在，在使用<code>os.mkdir</code>时会报错：FileNotFoundError*</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.mkdir(<span class="string">'/tmp/logpath/path'</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">FileNotFoundError: [Errno <span class="number">2</span>] No such file <span class="keyword">or</span> directory: <span class="string">'/tmp/logpath/path'</span></span><br></pre></td></tr></table></figure><p>这是因为os.mkdir不支持多层目录递归创建。</p><p>在linux mkdir命令中，它支持如下操作，使用-p 可以实现递归创建目录</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">tldr mkdir</span><br><span class="line">Cache is out of date. You should run <span class="string">"tldr --update"</span></span><br><span class="line"></span><br><span class="line">  mkdir</span><br><span class="line"></span><br><span class="line">  Creates a directory.</span><br><span class="line">  More information: https://www.gnu.org/software/coreutils/mkdir.</span><br><span class="line"></span><br><span class="line">  - Create a directory <span class="keyword">in</span> current directory or given path:</span><br><span class="line">    mkdir directory</span><br><span class="line"></span><br><span class="line">  - Create directories recursively (useful <span class="keyword">for</span> creating nested <span class="built_in">dirs</span>):</span><br><span class="line">    mkdir -p path/to/directory</span><br></pre></td></tr></table></figure><p>而在python中我们可以使用pathlib.Path.mkdir来实现，需要让<code>exist_ok=True</code> 以及<code>parents=True</code></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Path.mkdir(mode=<span class="number">0o777</span>, parents=<span class="literal">False</span>, exist_ok=<span class="literal">False</span>)</span><br><span class="line">If exist_ok <span class="keyword">is</span> true, FileExistsError exceptions will be ignored (same behavior <span class="keyword">as</span> the POSIX mkdir -p command), but only <span class="keyword">if</span> the last path component <span class="keyword">is</span> <span class="keyword">not</span> an existing non-directory file.</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>Path(<span class="string">'/tmp/logtmp/XMKDRL'</span>).mkdir(exist_ok=<span class="literal">True</span>, parents=<span class="literal">True</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.path.exists(<span class="string">'/tmp/logtmp/XMKDRL'</span>)</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure><h2 id="参考">参考</h2><p>[1] [mkdir-p-functionality-in-python](<a href="https://stackoverflow.com/questions/600268/mkdir-p-functionality-in-python" target="_blank" rel="noopener">mkdir -p functionality in Python - Stack Overflow</a>)</p><p>[2] [Path.mkdir](<a href="https://docs.python.org/3/library/pathlib.html#pathlib.Path.mkdir" target="_blank" rel="noopener">pathlib — Object-oriented filesystem paths — Python 3.9.5 documentation</a>)</p>]]></content>
-    
-    <summary type="html">
-    
-      使用python递归创建目录（类似于mkdir -p)
-    
-    </summary>
+    <category term="运维" scheme="https://blog.smart-lifestyle.cn/categories/%E8%BF%90%E7%BB%B4/"/>
     
     
-      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
+    <category term="ubuntu" scheme="https://blog.smart-lifestyle.cn/tags/ubuntu/"/>
     
-    
-      <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
-    
-      <category term="python小技巧" scheme="https://blog.smart-lifestyle.cn/tags/python%E5%B0%8F%E6%8A%80%E5%B7%A7/"/>
+    <category term="运维" scheme="https://blog.smart-lifestyle.cn/tags/%E8%BF%90%E7%BB%B4/"/>
     
   </entry>
   
   <entry>
-    <title>使用crontab定期同步NTP时间</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/c57a/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/c57a/</id>
-    <published>2021-05-21T06:33:40.000Z</published>
-    <updated>2021-05-23T07:11:37.510Z</updated>
+    <title>linux shell参数传递</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/fab/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/fab/</id>
+    <published>2021-07-01T13:10:52.000Z</published>
+    <updated>2021-07-01T14:06:49.000Z</updated>
     
-    <content type="html"><![CDATA[<p>购买的阿里云香港虚机，不知道怎么回事，过一段时间，它的时间就跟实际时间偏离越来越远，导致HTTPS无法正常工作，</p><p>最开始是手动的登录的服务器，使用<code>rdate -s time.nist.gov</code>进行手动更新时间，但后来发现自己越来越懒，而且最近这个命令一直出错: <code>rdate: Could not read data: Cannot assign requested address</code>, 可能是后面的时间同步服务器挂了。</p><p>因此改为使用<code>ntpdate</code>来同步时间，<a href="http://xn--ntpntp-9g8in7dm0mk7jex1c6m9akydt74je7n.cloud.aliyuncs.com" target="_blank" rel="noopener">使用阿里云的ntp服务器ntp.cloud.aliyuncs.com</a></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ntpdate ntp.cloud.aliyuncs.com</span><br><span class="line">23 May 14:43:07 ntpdate[9801]: step time server 100.100.61.88 offset 3.848040 sec</span><br></pre></td></tr></table></figure><p>然后将改名了加入crontab任务中</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br><span class="line"><span class="comment"># 将下面命令添加到最后</span></span><br><span class="line">* * * * * ntpdate ntp.cloud.aliyuncs.com</span><br></pre></td></tr></table></figure><p>保存退出，但是实际运行一段时间，发现服务的实际还是距离真实时间越来越远，感觉是ntpdate命令没有工作，于是将定时任务改为：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* * * * * ntpdate ntp.cloud.aliyuncs.com &gt;&gt; /var/<span class="built_in">log</span>/myntp.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure><p>保存运行退出后，查看ntpdate运行日志，果然存在问题<code>/bin/sh: 1: ntpdate: not found</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tail -f myntp.log</span><br><span class="line">&#x2F;bin&#x2F;sh: 1: ntpdate: not found</span><br><span class="line">&#x2F;bin&#x2F;sh: 1: ntpdate: not found</span><br><span class="line">&#x2F;bin&#x2F;sh: 1: ntpdate: not found</span><br></pre></td></tr></table></figure><p>cron在运行时，找不到ntpdate命令，继续排查</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># which ntpdate</span></span><br><span class="line">/usr/sbin/ntpdate</span><br></pre></td></tr></table></figure><p>在crontab任务中增加一行<code>* * * * * env &gt;&gt; /var/log/env.log 2&gt;&amp;1</code></p><p>并查看日志</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># tail -f env.log</span></span><br><span class="line">PATH=/usr/bin:/bin</span><br><span class="line">LANG=en_US.UTF-8</span><br><span class="line">SHELL=/bin/sh</span><br><span class="line">PWD=/root</span><br></pre></td></tr></table></figure><p>终于发现问题了，crontab运行时查找命令的路径为<code>/usr/bin</code> 和<code>/bin</code>目录，而不包含<code>/usr/sbin/</code></p><p>我们可以在crontab中增加<code>PATH=$PATH:/usr/sbin/</code>,也可以使用ntpdate的绝对路径，将之前ntpdate任务改为如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* * * * * &#x2F;usr&#x2F;sbin&#x2F;ntpdate ntp.cloud.aliyuncs.com</span><br></pre></td></tr></table></figure><p>保存退出后，观察服务器时间，发现已经变为正常时间了。</p><h2 id="crontab设置">crontab设置</h2><p>最前面5段用于设置周期时间</p><p><img src="https://oss.smart-lifestyle.cn/file/rdivm.png" alt="image-20210521150550791"></p><p>这里举一些常用的例子，可以使用这个<a href="https://crontab.guru/" target="_blank" rel="noopener">网站</a>进行测试</p><ul><li><p>每一分钟执行一次</p><p><code>* * * * *</code></p><p><img src="https://oss.smart-lifestyle.cn/file/sgflk.png" alt="image-20210521145726370"></p></li><li><p>每隔十分钟运行一次(📢这里的每个10分钟，不是从现在或者任务开始算起，而是每小时的第十分钟，10，20， 30…)</p><p><code>*/10 * * * *</code></p><p><img src="https://oss.smart-lifestyle.cn/file/qpet2.png" alt="image-20210521145941538"></p></li><li><p>每天晚上23：55执行一次</p><p><code>55 23 * * *</code></p><p><img src="https://oss.smart-lifestyle.cn/file/udg1l.png" alt="image-20210521150051826"></p></li><li><p>每隔两个月的第一天晚上23：55执行一次（比如用于ssl证书的更新）</p><p><code>55 23 1 */2 *</code></p><p><img src="https://oss.smart-lifestyle.cn/file/w278h.png" alt="image-20210521150255631"></p></li><li><p>每周五晚上23：55发送报表</p><p><code>55 23 * * 5</code></p><p><img src="https://oss.smart-lifestyle.cn/file/xlh36.png" alt="image-20210521150430138"></p></li></ul><h2 id="参考">参考</h2><p>[1] <a href="https://crontab.guru/#*_*_*_*_*" target="_blank" rel="noopener">crontab tool</a></p><p>[2] <a href="https://stackoverflow.com/questions/4811738/how-to-log-cron-jobs" target="_blank" rel="noopener">log cron jobs</a></p><p>[3] <a href="https://www.cnblogs.com/centos2017/p/12963610.html" target="_blank" rel="noopener">ntpdate: command not found</a></p>]]></content>
-    
-    <summary type="html">
-    
-      使用crontab定期同步NTP时间
-    
-    </summary>
+    <content type="html"><![CDATA[<table><thead><tr><th>$#</th><th>参数数量</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td>$n</td><td>表示第n个参数，n为0时表示运行的脚本名</td></tr><tr><td>$@</td><td>“$1” “$2” “$3”…. 传递的多个参数</td></tr></tbody></table><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">echo &quot;total params: $#&quot;</span><br><span class="line">echo &quot;filename: $0&quot;</span><br><span class="line">echo &quot;param1: $1&quot;</span><br><span class="line">echo &quot;param2: $2&quot;</span><br><span class="line">echo &quot;param3: $3&quot;</span><br><span class="line">echo &quot;==============&quot;</span><br><span class="line">for i in &quot;$@&quot;; do</span><br><span class="line">    echo &quot;param: $i&quot;</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">total params: 2</span><br><span class="line">filename: ./test.sh</span><br><span class="line">param1: x1</span><br><span class="line">param2: x2</span><br><span class="line">param3:</span><br><span class="line">==============</span><br><span class="line">param: x1</span><br><span class="line">param: x2</span><br></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://www.runoob.com/linux/linux-shell-passing-arguments.html">Shell 传递参数 | 菜鸟教程 (runoob.com)</a></p>]]></content>
     
     
-      <category term="linux" scheme="https://blog.smart-lifestyle.cn/categories/linux/"/>
+    <summary type="html">在shell脚本中获取执行时，传递的参数</summary>
     
     
-      <category term="linux" scheme="https://blog.smart-lifestyle.cn/tags/linux/"/>
     
-      <category term="crontab" scheme="https://blog.smart-lifestyle.cn/tags/crontab/"/>
+    <category term="linux" scheme="https://blog.smart-lifestyle.cn/categories/linux/"/>
+    
+    
+    <category term="linux" scheme="https://blog.smart-lifestyle.cn/tags/linux/"/>
+    
+    <category term="shell" scheme="https://blog.smart-lifestyle.cn/tags/shell/"/>
     
   </entry>
   
   <entry>
-    <title>rancherandgithub</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/a8ad/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/a8ad/</id>
-    <published>2021-05-12T15:55:56.000Z</published>
-    <updated>2021-05-22T11:19:02.817Z</updated>
+    <title>SQL连接字符串中密码包含特殊字符</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/1538/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/1538/</id>
+    <published>2021-07-01T08:59:35.000Z</published>
+    <updated>2021-07-01T09:11:56.000Z</updated>
     
-    <summary type="html">
+    <content type="html"><![CDATA[<p>生产环境中，数据库的密码会包含特殊字符，如果包含了<code>@</code>等符号，会被create_engine识别错误。</p><p>可以对密码进行url编码，使用<code>urllib.parse.quote_plus</code></p><blockquote><p>As the URL is like any other URL, <strong>special characters such as those that may be used in the password need to be URL encoded to be parsed correctly.</strong>. Below is an example of a URL that includes the password <code>&quot;kx%jj5/g&quot;</code>, where the percent sign and slash characters are represented as <code>%25</code> and <code>%2F</code>, respectively:</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line">username = <span class="string">&#x27;scoot&#x27;</span></span><br><span class="line">password = <span class="string">&#x27;@#@%/g&#x27;</span></span><br><span class="line"></span><br><span class="line">engine = create_engine(<span class="string">f&#x27;postgresql://<span class="subst">&#123;username&#125;</span>:<span class="subst">&#123;urllib.parse.quote_plus(password)&#125;</span>@localhost:5432/mydatabase&#x27;</span>)</span><br></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://docs.sqlalchemy.org/en/14/core/engines.html">Engine Configuration — SQLAlchemy 1.4 Documentation</a></p>]]></content>
     
-    </summary>
+    
+    <summary type="html">SQLAlchemy连接字符串中密码包含特殊字符，可以进行url编码</summary>
+    
+    
+    
+    <category term="SQLAlchemy" scheme="https://blog.smart-lifestyle.cn/categories/SQLAlchemy/"/>
+    
+    
+    <category term="SQL" scheme="https://blog.smart-lifestyle.cn/tags/SQL/"/>
+    
+    <category term="SQLAlchemy" scheme="https://blog.smart-lifestyle.cn/tags/SQLAlchemy/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python文件名操作</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/bea3/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/bea3/</id>
+    <published>2021-06-30T05:41:58.000Z</published>
+    <updated>2021-06-30T08:04:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>在进行文件上传或者文件转换时，需要进行文件上传（读取完整的本地文件路径），文件保存（仅文件名），格式转换（不包含后缀的文件名以及后缀名）</p><p>使用到python库有：</p><ul><li><p>os.path.splitext()</p><p>分离文件名和文件后缀，以最后一个’.’来获取文件后缀</p></li><li><p>os.path.split()</p><p>分离文件路径和文件名</p></li></ul><ol><li>os.path.splitext()</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> os.path <span class="keyword">import</span> splitext</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>splitext(<span class="string">&#x27;/Users/simple/workspace/tmp/traefik/docker-compose.yml&#x27;</span>)</span><br><span class="line">(<span class="string">&#x27;/Users/simple/workspace/tmp/traefik/docker-compose&#x27;</span>, <span class="string">&#x27;.yml&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果输入是一个不包含路径的隐藏文件格式，后缀返回为空</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>splitext(<span class="string">&#x27;.bashrc&#x27;</span>)</span><br><span class="line">(<span class="string">&#x27;.bashrc&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure><ol start="2"><li>os.path.split()</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> os.path <span class="keyword">import</span> split</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>split(<span class="string">&#x27;/Users/simple/workspace/tmp/traefik/docker-compose.yml&#x27;</span>)</span><br><span class="line">(<span class="string">&#x27;/Users/simple/workspace/tmp/traefik&#x27;</span>, <span class="string">&#x27;docker-compose.yml&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果输入为一个不含路径的以.开头的文件，路径返回为空</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>split(<span class="string">&#x27;.bascrc&#x27;</span>)</span><br><span class="line">(<span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;.bascrc&#x27;</span>)</span><br></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://docs.python.org/3/library/os.path.html">os.path — Common pathname manipulations — Python 3.9.6 documentation</a></p><p>[2] <a href="https://blog.csdn.net/lilongsy/article/details/99853925">Python获取文件路径、文件名和扩展名_小龙在线-CSDN博客_python 获取路径文件名</a></p>]]></content>
+    
+    
+    <summary type="html">获取文件路径、文件名、文件后缀</summary>
+    
+    
+    
+    <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
+    
+    
+    <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
+    
+    <category term="file" scheme="https://blog.smart-lifestyle.cn/tags/file/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>修改SQL Server连接字符串</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/3178/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/3178/</id>
+    <published>2021-06-30T03:13:50.000Z</published>
+    <updated>2021-06-30T03:19:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>com.microsoft.sql server.jdbc.sqlserverException:驱动程序无法使用安全套接字层（SSL）加密建立到SQL Server的安全连接</p></blockquote><p>在高级设置中trustServerCertificate改为true即可</p><p><img src="https://oss.smart-lifestyle.cn/file/cs6v8.png" alt="image-20210630111813541"></p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://www.baooytra.com/knowledge/questions/56246/modifying-sql-server-connection-string.html?smartspace=fme-desktop-getting-started_2">修改SQL Server连接字符串-FME社区 - 亚搏在线 (baooytra.com)</a></p>]]></content>
+    
+    
+    <summary type="html">在DataGrip中解决SQL Server连接报“驱动程序无法使用安全套接字层（SSL）加密建立到SQL Server的安全连接”</summary>
+    
+    
+    
+    <category term="SQL" scheme="https://blog.smart-lifestyle.cn/categories/SQL/"/>
+    
+    
+    <category term="SQL" scheme="https://blog.smart-lifestyle.cn/tags/SQL/"/>
+    
+    <category term="sqlserverException" scheme="https://blog.smart-lifestyle.cn/tags/sqlserverException/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>函数计算中python依赖包打包</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/990c/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/990c/</id>
+    <published>2021-06-30T02:09:58.000Z</published>
+    <updated>2021-06-30T02:26:02.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>以下操作使用于华为云的<a href="https://support.huaweicloud.com/functiongraph/">functiongraph</a>和腾讯云的<a href="https://cloud.tencent.com/document/product/583/9199">serverless</a></p><p><em>！有些包需要编译，因此建议在centos7中进行操作</em></p><h3 id="准备内容"><a href="#准备内容" class="headerlink" title="准备内容"></a>准备内容</h3><ol><li>Centos7 + python3.6环境 + zip</li><li>requirements.txt</li></ol><h3 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h3><ul><li><p>安装依赖到本地文件夹</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 新建文件夹</span></span><br><span class="line">mkdir new_dir</span><br><span class="line"><span class="comment"># python依赖包安装到指定目录, -t将所有依赖安装到new_dir目录</span></span><br><span class="line">pip install -r requirements-prod.txt -t  new_dir/</span><br><span class="line"></span><br></pre></td></tr></table></figure></li><li><p>打包成zip包</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入到安装目录文件夹里</span></span><br><span class="line"><span class="built_in">cd</span> new_dir</span><br><span class="line"><span class="comment"># 压缩为zip包(打包的为里面的文件，不是new_dir这个目录)</span></span><br><span class="line">zip -rq package_name.1.1.zip *</span><br></pre></td></tr></table></figure></li><li><p>上传</p><p>根据各个云的要求，将zip包上传，如果zip包太大，一般都要求先上传到对象存储中</p></li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://cloud.tencent.com/document/product/583/9702">云函数 部署函数 - 操作指南 - 文档中心 - 腾讯云 (tencent.com)</a></p><p>[2] <a href="https://support.huaweicloud.com/functiongraph_faq/functiongraph_03_0343.html">如何制作函数依赖包？_函数工作流 FunctionGraph_常见问题_通用问题_华为云 (huaweicloud.com)</a></p>]]></content>
+    
+    
+    <summary type="html">如何在函数计算中为python打包依赖包</summary>
+    
+    
+    
+    <category term="serverless" scheme="https://blog.smart-lifestyle.cn/categories/serverless/"/>
+    
+    
+    <category term="function" scheme="https://blog.smart-lifestyle.cn/tags/function/"/>
+    
+    <category term="serverless" scheme="https://blog.smart-lifestyle.cn/tags/serverless/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>docker run -- 使用环境变量</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/50db/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/50db/</id>
+    <published>2021-06-30T01:42:48.000Z</published>
+    <updated>2021-06-30T01:51:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p>docker run</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 -e, --env</span></span><br><span class="line">docker run -e ENV=prod --env IP=1.2.3.4 .....</span><br><span class="line"><span class="comment"># 如果只声明变量，没有值，表示从系统环境变量中获取改值</span></span><br><span class="line"><span class="built_in">export</span> secret=%$<span class="comment">#$FG</span></span><br><span class="line">docker run -e secret --env IP=1.2.3.4 .....</span><br><span class="line"><span class="comment"># 从文件中获取</span></span><br><span class="line">cat .env</span><br><span class="line"><span class="comment"># ENV=prod</span></span><br><span class="line"><span class="comment"># IP=1.2.3.4</span></span><br><span class="line"></span><br><span class="line">docker run --env-file .env .....</span><br><span class="line"></span><br></pre></td></tr></table></figure></li></ul>]]></content>
+    
+    
+    <summary type="html">运行docker时，通过多种方式使用环境变量</summary>
+    
+    
+    
+    <category term="docker" scheme="https://blog.smart-lifestyle.cn/categories/docker/"/>
+    
+    
+    <category term="docker" scheme="https://blog.smart-lifestyle.cn/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>docker commit -- 基于容器创建镜像</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/d17f/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/d17f/</id>
+    <published>2021-06-30T01:33:50.000Z</published>
+    <updated>2021-06-30T01:42:09.000Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li>docker commit 命令<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基本用法</span></span><br><span class="line">docker commit container_id image_name:tag</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果想修改某些内容，可以使用--change</span></span><br><span class="line">docker commit --change <span class="string">&quot;ENV DEBUG=true&quot;</span> container_id image_name:tag</span><br><span class="line">docker commit --change=<span class="string">&#x27;CMD [&quot;python&quot;, &quot;app.py&quot;]&#x27;</span> container_id image_name:tag</span><br><span class="line">docker commit --change <span class="string">&quot;EXPOSE 80&quot;</span> container_id image_name:tag</span><br></pre></td></tr></table></figure></li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://docs.docker.com/engine/reference/commandline/commit/">docker commit | Docker Documentation</a></p>]]></content>
+    
+    
+    <summary type="html">使用docker commit创建一个新的镜像</summary>
+    
+    
+    
+    <category term="docker" scheme="https://blog.smart-lifestyle.cn/categories/docker/"/>
+    
+    
+    <category term="docker" scheme="https://blog.smart-lifestyle.cn/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Alpha、Beta、RC、GA版本的区别</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/a038/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/a038/</id>
+    <published>2021-06-29T15:57:37.000Z</published>
+    <updated>2021-06-29T15:59:27.000Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p>Alpha：是内部测试版,一般不向外部发布,会有很多Bug.一般只有测试人员使用。</p></li><li><p>Beta：也是测试版，这个阶段的版本会一直加入新的功能。在Alpha版之后推出。</p></li><li><p>RC：(Release　Candidate) 顾名思义么 ! 用在软件上就是候选版本。系统平台上就是发行候选版本。RC版不会再加入新的功能了，主要着重于除错。</p></li><li><p>GA:General Availability,正式发布的版本，在国外都是用GA来说明release版本的。</p></li><li><p>RTM：(Release to Manufacture)是给工厂大量压片的版本，内容跟正式版是一样的，不过RTM版也有出限制、评估版的。但是和正式版本的主要程序代码都是一样的。</p></li><li><p>OEM：是给计算机厂商随着计算机贩卖的，也就是随机版。只能随机器出货，不能零售。只能全新安装，不能从旧有操作系统升级。包装不像零售版精美，通常只有一面CD和说明书(授权书)。</p></li><li><p>RVL：号称是正式版，其实RVL根本不是版本的名称。它是中文版/英文版文档破解出来的。</p></li><li><p>EVAL：而流通在网络上的EVAL版，与“评估版”类似，功能上和零售版没有区别。</p></li><li><p>RTL：Retail(零售版)是真正的正式版，正式上架零售版。在安装盘的i386文件夹里有一个eula.txt，最后有一行EULAID，就是你的版本。比如简体中文正式版是EULAID:WX.4_PRO_RTL_CN，繁体中文正式版是WX.4_PRO_RTL_TW。其中：如果是WX.开头是正式版，WB.开头是测试版。_PRE，代表家庭版；_PRO，代表专业版。</p></li></ul><p>α、β、λ常用来表示软件测试过程中的三个阶段，α是第一阶段，一般只供内部测试使用；β是第二个阶段，已经消除了软件中大部分的不完善之处，但仍有可能还存在缺陷和漏洞，一般只提供给特定的用户群来测试使用；λ是第三个阶段，此时产品已经相当成熟，只需在个别地方再做进一步的优化处理即可上市发行。</p>]]></content>
+    
+    
+    <summary type="html">Alpha、Beta、RC、GA版本的区别</summary>
+    
+    
+    
+    <category term="软件工程" scheme="https://blog.smart-lifestyle.cn/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    
+    
+    <category term="软件版本" scheme="https://blog.smart-lifestyle.cn/tags/%E8%BD%AF%E4%BB%B6%E7%89%88%E6%9C%AC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python poetry requirements.txt</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/143a/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/143a/</id>
+    <published>2021-06-29T15:33:21.000Z</published>
+    <updated>2021-06-29T15:54:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Poetry 是一个python虚拟环境和依赖管理工具，也可以用来构建打包python包，只需要一个标准化<a href="https://www.python.org/dev/peps/pep-0518/">pyproject.toml</a>文件，其他依赖管理工具如：virtualenv、pipenv等</p><p>requirements.txt是用来描述用了哪些python包，以及版本是什么</p><p>这里记录一下这两者之间如何转换</p><ul><li><p>poetry export requirements.txt</p><p>导出requirements.txt用于容器等环境构建</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poetry export -f requirements.txt --output requirements-prod.txt --without-hashes</span><br></pre></td></tr></table></figure></li><li><p>poerty add from requirements.txt </p><p>如果现在有requirements.txt，而后续想通过poetry管理包</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat requirements.txt|xargs poetry add</span><br></pre></td></tr></table></figure><h3 id="已知的问题"><a href="#已知的问题" class="headerlink" title="已知的问题"></a>已知的问题</h3></li></ul><p>poetry 导出的requirements.txt里包含了依赖的python最低版本，如果poetry使用的python版本高于requirements.txt使用的python版本，执行安装时将会忽略版本不满足的包</p><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">markupsafe</span>==<span class="number">2</span>.<span class="number">0</span>.<span class="number">1</span>; python_version &gt;= <span class="string">&quot;3.6&quot;</span></span><br><span class="line"><span class="attribute">numpy</span>==<span class="number">1</span>.<span class="number">20</span>.<span class="number">3</span>; python_version &gt;= <span class="string">&quot;3.7&quot;</span> and python_full_version &gt;= <span class="string">&quot;3.7.1&quot;</span></span><br></pre></td></tr></table></figure><p>比如上面两个包，如果你的python版本≤3.6，numpy将不会安装，因为它要求python版本大于3.7，但是也不会报错，这个地方很容易忽视。</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://stackoverflow.com/questions/62764148/how-to-import-requirements-txt-from-an-existing-project-using-poetry">python - How to import requirements.txt from an existing project using Poetry - Stack Overflow</a></p><p>[2] <a href="https://github.com/python-poetry/poetry/blob/master/docs/cli.md">poetry/cli.md at master · python-poetry/poetry (github.com)</a></p>]]></content>
+    
+    
+    <summary type="html">使用poetry来管理python包，并介绍如何导出和导入requirements.txt</summary>
+    
+    
+    
+    <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
+    
+    
+    <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
+    
+    <category term="poetry" scheme="https://blog.smart-lifestyle.cn/tags/poetry/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python url decode</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/6645/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/6645/</id>
+    <published>2021-06-29T14:42:02.000Z</published>
+    <updated>2021-06-29T15:07:13.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>在http请求中，如果url query中是Unicode，将会议url encode方式发送到服务端，可能需要我们去解析，这里用到python的库<code>urllib.parse.unquote</code></p><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/?w=%E6%B1%89%E5%AD%97%EC%A4%91%EA%B5%AD</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/x-www-form-urlencoded; charset=utf-8</span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>echo.paw.cloud</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>Paw/3.2.2 (Macintosh; OS X/11.4.0) GCDHTTPRequest</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; <span class="keyword">from</span> urllib.parse <span class="keyword">import</span> unquote</span><br><span class="line">&gt;&gt; unquote(<span class="string">&#x27;/?w=%E6%B1%89%E5%AD%97%EC%A4%91%EA%B5%AD&#x27;</span>)</span><br><span class="line"><span class="string">&#x27;/?w=汉字중국&#x27;</span></span><br></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://docs.python.org/3/library/urllib.parse.html#urllib.parse.unquote">urllib.parse — Parse URLs into components — Python 3.9.6 documentation</a></p><p>[2] <a href="https://stackoverflow.com/questions/16566069/url-decode-utf-8-in-python">encoding - Url decode UTF-8 in Python - Stack Overflow</a></p>]]></content>
+    
+    
+    <summary type="html">解码url编码格式的参数</summary>
+    
+    
+    
+    <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
+    
+    
+    <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
+    
+    <category term="urlenocde" scheme="https://blog.smart-lifestyle.cn/tags/urlenocde/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Paw文件操作</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/d5b5/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/d5b5/</id>
+    <published>2021-06-29T09:02:28.000Z</published>
+    <updated>2021-06-30T02:31:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>整理paw中文件的请求和下载</p></blockquote><blockquote><p>Paw is a full-featured HTTP client that lets you test and describe the APIs you build or consume. It has a beautiful native macOS interface to compose requests, inspect server responses, generate client code and export API definitions.</p></blockquote><h2 id="上传文件请求"><a href="#上传文件请求" class="headerlink" title="上传文件请求"></a>上传文件请求</h2><h3 id="通过表单上传"><a href="#通过表单上传" class="headerlink" title="通过表单上传"></a>通过表单上传</h3><ul><li><p>body类型选择Multipart</p></li><li><p>Content-Type: multipart/form-data或者application/x-www-form-urlencoded</p></li><li><p>value选择 file content</p></li></ul><p><img src="https://oss.smart-lifestyle.cn/file/mshyx.png" alt="image-20210629170831026"></p><p>然后上传文件</p><p><img src="https://oss.smart-lifestyle.cn/file/vj768.png" alt="image-20210629170927905"></p><h3 id="通过body"><a href="#通过body" class="headerlink" title="通过body"></a>通过body</h3><h2 id="下载响应返回文件"><a href="#下载响应返回文件" class="headerlink" title="下载响应返回文件"></a>下载响应返回文件</h2><p>在file – 导出响应—响应body即可</p><p><img src="https://oss.smart-lifestyle.cn/file/8majz.png" alt="image-20210629170706183"></p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://stackoverflow.com/questions/40680954/how-do-download-response-binary">paw app - How do download response binary? - Stack Overflow</a></p><p>[2] <a href="https://paw.cloud/docs/getting-started/set-request-body#Set_Multipart_body">Documentation | Paw</a></p>]]></content>
+    
+    
+    <summary type="html">在使用paw中，如何使用文件请求和下载文件</summary>
+    
+    
+    
+    <category term="工具" scheme="https://blog.smart-lifestyle.cn/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+    <category term="paw" scheme="https://blog.smart-lifestyle.cn/tags/paw/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>QPS和TPS</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/3f2f/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/3f2f/</id>
+    <published>2021-06-29T08:38:03.000Z</published>
+    <updated>2021-06-29T08:59:04.000Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p>QPS</p><p>英文全称：Queries Per Second，即每秒的响应的请求数，也代表最大吞吐能力，QPS的<strong>一次请求</strong>代表一个接口的一次请求到服务器返回结果</p></li><li><p>TPS</p><p>英文全称：Transactions Per Second，即每秒处理的事务数目，一个事务指的是<strong>一个客户端</strong>向服务器发送请求并返回结果的过程。</p><p>TPS包括如下过程：用户请求服务器，服务器处理数据，服务器返回数据</p><p>例如，某次客户访问一个页面会请求4次服务器，其中1次html，1次css，1次js，1次API，那么访问这个页面会产生一个“T”，而会产生四个“Q”。</p></li><li><p>PV</p><p>英文全称 Page View，即页面浏览量，用户每一次对网站中每个页面访问，就会被记录一次，多次刷新一个页面会累计PV</p></li><li><p>UV</p><p>英文全称：Unique Visitor，即独立访客访问数，统计1天内访问某站点的用户数（以cookie为依据）</p></li><li><p>IP</p><p>即独立IP数，指的是一天内多少个独立IP浏览页面，如果多个用户在同一个路由器内上网，可能会被记录为1个独立IP访问者</p></li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://juejin.cn/post/6844903959379853325">QPS和TPS的区别 (juejin.cn)</a></p>]]></content>
+    
+    
+    <summary type="html">理解QPS和TPS的区别</summary>
+    
+    
+    
+    <category term="测试" scheme="https://blog.smart-lifestyle.cn/categories/%E6%B5%8B%E8%AF%95/"/>
+    
+    
+    <category term="测试" scheme="https://blog.smart-lifestyle.cn/tags/%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="性能指标" scheme="https://blog.smart-lifestyle.cn/tags/%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>快速搭建PGSQL for Serverless</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/6bab/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/6bab/</id>
+    <published>2021-06-29T07:12:13.000Z</published>
+    <updated>2021-06-29T07:48:45.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p> 想使用一个独立的数据库服务，使用量和规模不用太大</p></blockquote><p>单独购买数据库实例，太贵了</p><p><img src="https://oss.smart-lifestyle.cn/file/tmasb.png" alt="image-20210629151750968"></p><p>发现在数据库服务列表里有一个Serverless版本，看了介绍，需要通过API或者serverless组件方式创建，目前还处于免费的公测阶段，嘿嘿😋，搞起</p><p><img src="https://oss.smart-lifestyle.cn/file/2sg3e.png" alt="image-20210629152124434"></p><h2 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h2><p>操作步骤按照<a href="https://cloud.tencent.com/document/product/1154/43004">官网说明</a>，很快就能完成</p><h3 id="安装-serverless-cli"><a href="#安装-serverless-cli" class="headerlink" title="安装 serverless cli"></a>安装 serverless cli</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g serverless</span><br></pre></td></tr></table></figure><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>创建目录，并新建一个serverless.yml文件</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># serverless.yml</span></span><br><span class="line"><span class="attr">component:</span> <span class="string">postgresql</span> <span class="comment">#(必填) 引用 component 的名称，当前用到的是 postgresql 组件</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">serverlessDB</span> <span class="comment"># (必填) 该 postgresql 组件创建的实例名称</span></span><br><span class="line"><span class="attr">org:</span> <span class="string">smart-lifestyle</span> <span class="comment"># (可选) 用于记录组织信息，默认值为您的腾讯云账户 appid</span></span><br><span class="line"><span class="attr">app:</span> <span class="string">serverlessDB</span> <span class="comment"># (可选) 该 sql 应用名称</span></span><br><span class="line"><span class="attr">stage:</span> <span class="string">prod</span> <span class="comment"># (可选) 用于区分环境信息，默认值是 dev</span></span><br><span class="line"><span class="attr">inputs:</span></span><br><span class="line">  <span class="attr">region:</span> <span class="string">ap-beijing</span>  <span class="comment"># 可选 ap-guangzhou, ap-shanghai, ap-beijing</span></span><br><span class="line">  <span class="attr">zone:</span> <span class="string">ap-beijing-3</span>  <span class="comment"># 可选 ap-guangzhou-2, ap-shanghai-2, ap-beijing-3</span></span><br><span class="line">  <span class="attr">dBInstanceName:</span> <span class="string">serverlessdb</span></span><br><span class="line">  <span class="attr">vpcConfig:</span></span><br><span class="line">    <span class="attr">vpcId:</span> <span class="string">根据实际填写</span></span><br><span class="line">    <span class="attr">subnetId:</span> <span class="string">根据实际填写</span></span><br><span class="line">  <span class="attr">extranetAccess:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure><h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>执行 <code>sls deploy</code>自动完成部署（会显示二维码进行授权），成功之后，会打印显示数据库的连接信息</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">private:</span></span><br><span class="line">  <span class="attr">connectionString:</span> <span class="string">postgresql://xxxx:xxxx@10.0.0.9:5432/tencentdb_hy7vs5lu</span></span><br><span class="line">  <span class="attr">host:</span>             <span class="number">10.0</span><span class="number">.0</span><span class="number">.9</span></span><br><span class="line">  <span class="attr">port:</span>             <span class="number">5432</span></span><br><span class="line">  <span class="attr">user:</span>             <span class="string">xxxx</span></span><br><span class="line">  <span class="attr">password:</span>         <span class="string">xxxx</span></span><br><span class="line">  <span class="attr">dbname:</span>           <span class="string">tencentdb_hy7vs5lu</span></span><br></pre></td></tr></table></figure><p>且在数据库实例serverless版中可以查看到数据库</p><p><img src="https://oss.smart-lifestyle.cn/file/jenl2.png" alt="image-20210629151932596"></p><h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p>创建的数据库没有开启外网连接，而且在实际生产中，也禁止改操作，因此如果想在其他VPC中使用，需要使用到对等连接</p><p><img src="https://oss.smart-lifestyle.cn/file/7lno9.png" alt="img"></p><p>具体操作步骤参考<a href="https://cloud.tencent.com/document/product/553/18836">官网说明</a></p><ol><li>新建有个对等连接</li></ol><p><img src="https://oss.smart-lifestyle.cn/file/9tase.png" alt="image-20210629154210941"></p><ol start="2"><li>在两端路由表中增加策略，选择对等连接</li></ol><p><img src="https://oss.smart-lifestyle.cn/file/tzmch.png" alt="image-20210629154322540"></p><p>完成以上步骤之后可以进行测试</p><p>无法ping通，但是可以通过telnet 连接到数据库服务，完成。</p><p><img src="https://oss.smart-lifestyle.cn/file/92fpw.png" alt="image-20210629154533240"></p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://cloud.tencent.com/document/product/1154/43004">Serverless 应用中心 数据库 PostgreSQL 组件 - Serverless 组件 - 文档中心 - 腾讯云 (tencent.com)</a></p><p>[2] <a href="https://cloud.tencent.com/document/product/553/18836">对等连接 同账号创建对等连接通信 - 快速入门 - 文档中心 - 腾讯云 (tencent.com)</a></p>]]></content>
+    
+    
+    <summary type="html">使用腾讯云serverless快速搭建postgresql数据库</summary>
+    
+    
+    
+    <category term="serverless" scheme="https://blog.smart-lifestyle.cn/categories/serverless/"/>
+    
+    
+    <category term="serverless" scheme="https://blog.smart-lifestyle.cn/tags/serverless/"/>
+    
+    <category term="scf" scheme="https://blog.smart-lifestyle.cn/tags/scf/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>rancher初步使用</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/363a/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/363a/</id>
+    <published>2021-06-23T06:14:14.000Z</published>
+    <updated>2021-06-23T06:14:14.000Z</updated>
+    
+    
     
     
     
   </entry>
   
   <entry>
-    <title>rancher部署</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/ee95/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/ee95/</id>
-    <published>2021-05-11T15:17:39.000Z</published>
-    <updated>2021-05-22T11:19:02.819Z</updated>
+    <title>micropython之禅</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/58bd/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/58bd/</id>
+    <published>2021-06-22T08:41:00.000Z</published>
+    <updated>2021-06-22T08:52:29.000Z</updated>
     
-    <summary type="html">
-    
-    </summary>
+    <content type="html"><![CDATA[<blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Code,</span><br><span class="line">Hack it,</span><br><span class="line">Less <span class="keyword">is</span> more,</span><br><span class="line">Keep it simple,</span><br><span class="line">Small <span class="keyword">is</span> beautiful,</span><br><span class="line"></span><br><span class="line">Be brave! Break things! Learn <span class="keyword">and</span> have fun!</span><br><span class="line">Express yourself <span class="keyword">with</span> MicroPython.</span><br><span class="line"></span><br><span class="line">Happy hacking! :-)</span><br></pre></td></tr></table></figure></blockquote><p><img src="https://oss.smart-lifestyle.cn/file/bmwmh.png" alt="ESP8266 and MicroPython - Part 1 - Hackster.io" style="zoom:50%;" />       <img src="https://oss.smart-lifestyle.cn/file/u74xj.png" alt="Micro Bit - 维基百科，自由的百科全书" style="zoom:50%;" /></p>]]></content>
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>traefik</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/7112/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/7112/</id>
-    <published>2021-05-10T15:36:49.000Z</published>
-    <updated>2021-05-22T11:19:02.819Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
+    <summary type="html">zen of micropython</summary>
     
     
+    
+    <category term="micropython" scheme="https://blog.smart-lifestyle.cn/categories/micropython/"/>
+    
+    
+    <category term="micropython" scheme="https://blog.smart-lifestyle.cn/tags/micropython/"/>
+    
+    <category term="microbit" scheme="https://blog.smart-lifestyle.cn/tags/microbit/"/>
     
   </entry>
   
   <entry>
-    <title>sentry初试牛刀</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/a9f1/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/a9f1/</id>
-    <published>2021-05-08T15:50:12.000Z</published>
-    <updated>2021-05-22T11:19:02.816Z</updated>
+    <title>jupyter notebook使用环境变量</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/9e2a/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/9e2a/</id>
+    <published>2021-06-18T07:44:57.000Z</published>
+    <updated>2021-06-18T07:50:00.000Z</updated>
     
-    <summary type="html">
-    
-    </summary>
+    <content type="html"><![CDATA[<blockquote><p>使用python-dotenv库，在jupyter notebook中加载环境变量</p></blockquote><ul><li>安装python-dotenv</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install python-dotenv</span><br></pre></td></tr></table></figure><ul><li>使用</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> dotenv <span class="keyword">import</span> load_dotenv</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">load_dotenv(dotenv_path=<span class="string">&#x27;.env&#x27;</span>)</span><br><span class="line"></span><br><span class="line">db_user = os.getenv(<span class="string">&#x27;DB_USER&#x27;</span>)</span><br><span class="line">db_password = os.getenv(<span class="string">&#x27;DB_PASSWORD&#x27;</span>)</span><br><span class="line">db_host = os.getenv(<span class="string">&#x27;DB_HOST&#x27;</span>)</span><br><span class="line">db_name = os.getenv(<span class="string">&#x27;DB_NAME&#x27;</span>)</span><br></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://nono.ma/environment-variable-python-notebook-os-environ-get">Read Environment Variables in a Python Notebook · Nono Martínez Alonso</a></p>]]></content>
     
     
-      <category term="运维" scheme="https://blog.smart-lifestyle.cn/categories/%E8%BF%90%E7%BB%B4/"/>
+    <summary type="html">在jupyter notebook中使用环境变量</summary>
     
     
-      <category term="sentry" scheme="https://blog.smart-lifestyle.cn/tags/sentry/"/>
     
-  </entry>
-  
-  <entry>
-    <title>python多线程</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/76d7/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/76d7/</id>
-    <published>2021-04-26T15:58:09.000Z</published>
-    <updated>2021-05-22T11:19:02.816Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
+    <category term="jupyter" scheme="https://blog.smart-lifestyle.cn/categories/jupyter/"/>
     
     
+    <category term="jupyter" scheme="https://blog.smart-lifestyle.cn/tags/jupyter/"/>
+    
+    <category term="env" scheme="https://blog.smart-lifestyle.cn/tags/env/"/>
     
   </entry>
   
   <entry>
-    <title>mongo</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/1cbb/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/1cbb/</id>
-    <published>2021-04-23T14:53:55.000Z</published>
-    <updated>2021-05-22T11:19:02.814Z</updated>
+    <title>postgresql split_part coalesce</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/89ab/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/89ab/</id>
+    <published>2021-06-18T06:35:43.000Z</published>
+    <updated>2021-06-18T07:41:13.000Z</updated>
     
-    <summary type="html">
-    
-    </summary>
+    <content type="html"><![CDATA[<blockquote><p>split_part 在没有命中时返回的是空字符串，而不是null，COALESCE返回第一个不为null的元素</p></blockquote><p>在COALESCE结合split_part的使用中，想通过split_part分割字符串，然后通过COALESCE取出最后一个字符串，例如</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">COALESCE</span>(split_part(<span class="string">&#x27;First-Second&#x27;</span>, <span class="string">&#x27;-&#x27;</span>, <span class="number">2</span>), split_part(<span class="string">&#x27;First-Second&#x27;</span>, <span class="string">&#x27;-&#x27;</span>, <span class="number">1</span>));</span><br></pre></td></tr></table></figure><p>返回<code>Second</code></p><p>而当分隔符不存在时，缺返回了空，目标是返回<code>First</code></p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">COALESCE</span>(split_part(<span class="string">&#x27;First&#x27;</span>, <span class="string">&#x27;-&#x27;</span>, <span class="number">2</span>), split_part(<span class="string">&#x27;First&#x27;</span>, <span class="string">&#x27;-&#x27;</span>, <span class="number">1</span>));</span><br></pre></td></tr></table></figure><p>按照官方对COALESCE的说明：</p><blockquote><p>The <code>COALESCE</code> function returns the first of its arguments that is not null. Null is returned only if all arguments are null. It is often used to substitute a default value for null values when data is retrieved for display, for example:</p><p><code>SELECT COALESCE(description, short_description, &#39;(none)&#39;) ...</code></p></blockquote><p>返回第一个不为null的参数，如果都是null，则返回null</p><p>split_part的说明</p><table><thead><tr><th><code>split_part(string text, delimiter text, field int)</code></th><th><code>text</code></th><th>Split <code>string</code> on <code>delimiter</code> and return the given field (counting from one)</th><th><code>split_part(&#39;abc~@~def~@~ghi&#39;, &#39;~@~&#39;, 2)</code></th><th><code>def</code></th></tr></thead></table><p><em>split_part在没有命中时，返回的为空字符串，而部署null</em></p><p>因此要结合NULLIF使用</p><blockquote><p><code>NULLIF(value1, value2)</code></p><p>The <code>NULLIF</code> function returns a null value if <code>value1</code> equals <code>value2</code>; otherwise it returns <code>value1</code>. This can be used to perform the inverse operation of the <code>COALESCE</code> example given above:</p></blockquote><p>如果元素相等，则返回null，否则返回第一个元素，因此可以用了判断值是否为’’</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NULLIF</span>(value1, <span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure><p>最终实现的SQL语句如下，并成功返回<code>First</code></p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">COALESCE</span>(<span class="built_in">NULLIF</span>(split_part(<span class="string">&#x27;First&#x27;</span>, <span class="string">&#x27;-&#x27;</span>, <span class="number">2</span>), <span class="string">&#x27;&#x27;</span>), split_part(<span class="string">&#x27;First&#x27;</span>, <span class="string">&#x27;-&#x27;</span>, <span class="number">1</span>));</span><br></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://www.postgresql.org/docs/9.1/functions-conditional.html">PostgreSQL: Documentation: 9.1: Conditional Expressions</a></p><p>[2] <a href="https://www.postgresql.org/docs/13/functions-string.html">PostgreSQL: Documentation: 13: 9.4. String Functions and Operators</a></p><p>[3] <a href="https://stackoverflow.com/questions/14035883/how-to-convert-empty-to-null-in-postgresql/14035890#14035890">php - How to convert empty to null in PostgreSQL? - Stack Overflow</a></p><p>[4] <a href="https://stackoverflow.com/questions/45766644/substituting-value-in-empty-field-after-using-split-part">sql - Substituting value in empty field after using split_part - Stack Overflow</a></p><p>[5] <a href="https://stackoverflow.com/questions/60381782/snowflake-split-part-function-not-returning-null-values">Snowflake SPLIT_PART Function not returning Null values - Stack Overflow</a></p>]]></content>
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>JavaScript深度拷贝</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/b60b/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/b60b/</id>
-    <published>2021-04-21T13:26:53.000Z</published>
-    <updated>2021-05-22T11:19:02.812Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
+    <summary type="html">split_part没有命中时返回为空字符串，而不是null，COALESCE返回第一个不为null的元素</summary>
     
     
     
-      <category term="JavaScript" scheme="https://blog.smart-lifestyle.cn/tags/JavaScript/"/>
+    <category term="postgresql" scheme="https://blog.smart-lifestyle.cn/categories/postgresql/"/>
+    
+    
+    <category term="split_part" scheme="https://blog.smart-lifestyle.cn/tags/split-part/"/>
+    
+    <category term="coalesce" scheme="https://blog.smart-lifestyle.cn/tags/coalesce/"/>
     
   </entry>
   
   <entry>
-    <title>python thread result</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/5f19/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/5f19/</id>
-    <published>2021-04-19T15:26:02.000Z</published>
-    <updated>2021-05-22T11:19:02.815Z</updated>
+    <title>pandas与SQL整理-1</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/eac6/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/eac6/</id>
+    <published>2021-06-18T06:08:16.000Z</published>
+    <updated>2021-06-18T06:21:53.000Z</updated>
     
-    <summary type="html">
-    
-    </summary>
+    <content type="html"><![CDATA[<h2 id="读取数据库内容"><a href="#读取数据库内容" class="headerlink" title="读取数据库内容"></a>读取数据库内容</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># excel header无格式</span></span><br><span class="line">pd.io.formats.excel.ExcelFormatter.header_style = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">db_user = os.getenv(<span class="string">&#x27;DB_USER&#x27;</span>)</span><br><span class="line">db_password = os.getenv(<span class="string">&#x27;DB_PASSWORD&#x27;</span>)</span><br><span class="line">db_host = os.getenv(<span class="string">&#x27;DB_HOST&#x27;</span>)</span><br><span class="line">db_name = os.getenv(<span class="string">&#x27;DB_NAME&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">engine = create_engine(<span class="string">f&#x27;postgresql://<span class="subst">&#123;db_user&#125;</span>:<span class="subst">&#123;db_password&#125;</span>@<span class="subst">&#123;db_host&#125;</span>:5432/<span class="subst">&#123;db_name&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取表</span></span><br><span class="line">df = pd.read_sql_table(<span class="string">&#x27;AssetWeeklyReportView&#x27;</span>, engine)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存到excel中</span></span><br><span class="line">df.to_excel(<span class="string">&#x27;asset_table.xlsx&#x27;</span>, index=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过是否为空进行过滤</span></span><br><span class="line">df1 = df[df[<span class="string">&#x27;Type&#x27;</span>].notnull()]</span><br><span class="line">df2 = df[df[<span class="string">&#x27;Type&#x27;</span>].isnull()]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取行数</span></span><br><span class="line">size = <span class="built_in">len</span>(df1)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 遍历每一行</span></span><br><span class="line"><span class="keyword">for</span> index, row <span class="keyword">in</span> df1.iterrows():</span><br><span class="line">  <span class="built_in">print</span>(row[<span class="string">&#x27;Type&#x27;</span>].....)</span><br></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://blog.csdn.net/weixin_45616551/article/details/103469386">pandas dataframe len() 和 count() 的区别_weixin_45616551的博客-CSDN博客</a></p><p>[2] <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/io.html#sql-queries">IO tools (text, CSV, HDF5, …) — pandas 1.2.4 documentation (pydata.org)</a></p>]]></content>
     
     
-    
-      <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
-    
-      <category term="thread" scheme="https://blog.smart-lifestyle.cn/tags/thread/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>nvm用法</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/688d/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/688d/</id>
-    <published>2021-04-18T13:32:22.000Z</published>
-    <updated>2021-05-22T11:19:02.814Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
+    <summary type="html">使用pandas读取数据表，并导出excel</summary>
     
     
+    
+    <category term="pandas" scheme="https://blog.smart-lifestyle.cn/categories/pandas/"/>
+    
+    
+    <category term="pandas" scheme="https://blog.smart-lifestyle.cn/tags/pandas/"/>
+    
+    <category term="sqlalchemy" scheme="https://blog.smart-lifestyle.cn/tags/sqlalchemy/"/>
     
   </entry>
   
   <entry>
-    <title>python进阶--魔法函数</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/4e20/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/4e20/</id>
-    <published>2021-04-18T13:28:29.000Z</published>
-    <updated>2021-05-22T11:19:02.818Z</updated>
+    <title>空格</title>
+    <link href="https://blog.smart-lifestyle.cn/posts/91f6/"/>
+    <id>https://blog.smart-lifestyle.cn/posts/91f6/</id>
+    <published>2021-05-31T02:10:05.000Z</published>
+    <updated>2021-05-31T02:10:05.000Z</updated>
     
-    <summary type="html">
     
-      python魔法函数的用法
     
-    </summary>
     
-    
-      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
-    
-    
-      <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>git仓库用户权限问题</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/f5f9/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/f5f9/</id>
-    <published>2021-04-15T12:44:59.000Z</published>
-    <updated>2021-04-15T13:12:50.868Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>通常我们使用一个github账号进行代码的拉去和推送，但假如现在有一个私有仓库，而且需要使用另外一个github账号，可能会出现authentication error</p></blockquote><p>如果我们使用<code>git config user.email</code>是没有办法更改这个仓库的认证信息的</p><p>这是因为，我们通过https操作仓库时，会使用缓存在本机的授权认证信息，也就是会使用之前账户的信息。</p><p>更改方法比较简单，给仓库地址上加上你所要使用的用户名(username2)即可</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> repo</span><br><span class="line">git remote <span class="built_in">set</span>-url origin https://username2@github.com/&lt;username&gt;/repo</span><br></pre></td></tr></table></figure><h2 id="参考">参考</h2><p>[1] <a href="https://stackoverflow.com/questions/65932601/how-to-change-user-for-git-repository" target="_blank" rel="noopener">How to change user for git repository</a></p>]]></content>
-    
-    <summary type="html">
-    
-      在仓库地址上加上用户名，来更改对该仓库的授权认证
-    
-    </summary>
-    
-    
-      <category term="git" scheme="https://blog.smart-lifestyle.cn/categories/git/"/>
-    
-    
-      <category term="git" scheme="https://blog.smart-lifestyle.cn/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>git abc tutorial</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/de34/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/de34/</id>
-    <published>2021-03-31T14:19:56.000Z</published>
-    <updated>2021-03-31T16:27:40.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1>git-abc</h1><p>下面介绍经常用到且最基本的git 命令</p><h2 id="仓库管理">仓库管理</h2><h3 id="创建本地仓库">创建本地仓库</h3><ul><li><code>git init</code></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir git-abc</span><br><span class="line"><span class="built_in">cd</span> git-abc</span><br><span class="line">git init</span><br></pre></td></tr></table></figure><p><img src="https://oss.smart-lifestyle.cn/file/qm2vb.png" alt="image-20210331222402099"></p><h3 id="添加远程分支">添加远程分支</h3><ul><li><code>git remote add &lt;shortname&gt; &lt;url&gt;</code></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin https://github.com/simplezhao/git-abc.git</span><br></pre></td></tr></table></figure><h3 id="抓取远程代码">抓取远程代码</h3><ul><li><code>git fetch &lt;remote&gt;</code></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin</span><br></pre></td></tr></table></figure><p><img src="https://oss.smart-lifestyle.cn/file/48gpy.png" alt="image-20210331223237496"></p><h3 id="查看某个远程仓库">查看某个远程仓库</h3><ul><li><code>git remote show &lt;remote&gt;</code></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote show origin</span><br></pre></td></tr></table></figure><p><img src="https://oss.smart-lifestyle.cn/file/50dkt.png" alt="image-20210331223628444"></p><h3 id="同步远程分支">同步远程分支</h3><ul><li><code>git checkout -b &lt;branch&gt; &lt;remote&gt;</code></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b main origin/main</span><br></pre></td></tr></table></figure><p><img src="https://oss.smart-lifestyle.cn/file/vkntn.png" alt="image-20210331224921389"></p><h2 id="代码管理">代码管理</h2><h3 id="查看当前分支状态">查看当前分支状态</h3><ul><li><code>git status</code></li></ul><ol><li>修改readme.md文件</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure><p>提示文件被修改</p><p><img src="https://oss.smart-lifestyle.cn/file/jjthz.png" alt="image-20210331225856222"></p><ol start="2"><li>新增一个readme_en.md文件</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure><p>提示有未跟踪的文件</p><p><img src="https://oss.smart-lifestyle.cn/file/ttydm.png" alt="image-20210331230055526"></p><h3 id="添加文件">添加文件</h3><ul><li><p><code>git add .</code> 添加所有文件</p></li><li><p><code>git add &lt;file&gt;</code>添加指定文件</p></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加所有文件</span></span><br><span class="line">git add .</span><br></pre></td></tr></table></figure><p>添加成功后，显示准备提交的文件</p><p><img src="https://oss.smart-lifestyle.cn/file/2m0ge.png" alt="image-20210331230400289"></p><h3 id="提交文件">提交文件</h3><ul><li><code>git commit -a</code> 在默认编辑器内增加本次提交内容</li><li><code>git commit -m &lt;message&gt;</code>简短提交</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m <span class="string">"update readme file and add new readme for english version"</span></span><br></pre></td></tr></table></figure><p><img src="https://oss.smart-lifestyle.cn/file/xkx4s.png" alt="image-20210331230900239"></p><h3 id="推送到远程分支">推送到远程分支</h3><ul><li><code>git push &lt;shortname&gt; &lt;branch&gt;</code></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin main</span><br></pre></td></tr></table></figure><p><img src="https://oss.smart-lifestyle.cn/file/136q4.png" alt="image-20210331231029318"></p><h3 id="查看提交记录">查看提交记录</h3><ul><li><code>git log</code></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">log</span></span><br></pre></td></tr></table></figure><p><img src="https://oss.smart-lifestyle.cn/file/wvarp.png" alt="image-20210331231130554"></p><h2 id="代码合并">代码合并</h2><p>多人开发同一个项目，需要共同维护同一个代码库，假如每个人负责独立的模块，不会涉及到代码冲突</p><p>某次提交时，提示如下问题</p><p><img src="https://oss.smart-lifestyle.cn/file/d62zw.png" alt="image-20210331232246543"></p><p>这是因为远程分支要优先本地的分支，需要先执行git pull，然后在执行git push命令</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git pull origin main</span><br><span class="line">git push origin main</span><br></pre></td></tr></table></figure><p>执行pull时会提示Merge信息</p><p><img src="https://oss.smart-lifestyle.cn/file/xq0ww.png" alt="image-20210331232418971"></p><p>完成并退出编辑后，提示pull信息</p><p><img src="https://oss.smart-lifestyle.cn/file/ct9wp.png" alt="image-20210331232514825"></p><p>再次执行git push origin main，显示提交成功</p><p><img src="https://oss.smart-lifestyle.cn/file/lwto3.png" alt="image-20210331232632195"></p><h2 id="分支管理">分支管理</h2><h3 id="创建新的分支">创建新的分支</h3><ul><li><code>git branch &lt;branch&gt;</code></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git branch hotfix</span><br><span class="line">git checkout hotfix</span><br></pre></td></tr></table></figure><h3 id="分支合并">分支合并</h3><p>在上一步操作，因为系统出现bug，紧急创建一个分支，然后在这个分支上进行修复，修改测试验证完毕后，从hotfix分支合并到main分支</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git merge hotfix</span><br></pre></td></tr></table></figure><p><img src="https://oss.smart-lifestyle.cn/file/8q60h.png" alt="image-20210331235235214"></p><h3 id="分支删除">分支删除</h3><ul><li><code>git branch -d &lt;branch&gt;</code></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d hotfix</span><br></pre></td></tr></table></figure><h3 id="打标签">打标签</h3><ul><li><p><code>git tag</code></p></li><li><p><code>git tag -a &lt;version&gt; -m &lt;message&gt;</code></p></li></ul><p>通过<code>git tag</code>查看仓库内已经存在的标签列表</p><h4 id="创建标签">创建标签</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -a <span class="string">'1.0'</span> -m <span class="string">"first version"</span></span><br></pre></td></tr></table></figure><p>也可以使用轻量级标签</p><p><code>git tag 1.0-a</code></p><h4 id="共享标签">共享标签</h4><p>默认情况下 git push命令不会把标签传送到远程仓库，必须显式地推送标签到服务器，类似于推送代码</p><p><code>git push &lt;shortname&gt; &lt;tagname&gt;</code></p><p>如果想一次推送多个标签，可以使用如下命令</p><p><code>git push &lt;shortname&gt; --tags</code></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push origin 1.0</span><br><span class="line">git push origin --tags</span><br></pre></td></tr></table></figure><p>推送指定标签</p><p><img src="https://oss.smart-lifestyle.cn/file/o6cju.png" alt="image-20210401001342160"></p><p>推送所有标签</p><p><img src="https://oss.smart-lifestyle.cn/file/fyqxl.png" alt="image-20210401001405265"></p><h2 id="git-配置">git 配置</h2><p>使用<code>git config -l </code>查看当前仓库配置</p><h3 id="配置全局信息">配置全局信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">"yourname"</span></span><br><span class="line">git config --global user.email <span class="string">"youremail"</span></span><br></pre></td></tr></table></figure><h3 id="配置当前仓库信息">配置当前仓库信息</h3><p>和全局区别在于去掉–global标记</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config user.name <span class="string">"yourname"</span></span><br><span class="line">git config user.email <span class="string">"youremail"</span></span><br></pre></td></tr></table></figure><h2 id="参考">参考</h2><p>[1] <a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener">Book: Pro Git</a></p>]]></content>
-    
-    <summary type="html">
-    
-      最常用且最基本的git用法
-    
-    </summary>
-    
-    
-      <category term="git" scheme="https://blog.smart-lifestyle.cn/categories/git/"/>
-    
-    
-      <category term="git" scheme="https://blog.smart-lifestyle.cn/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python web--flask jsonify unicode</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/9b/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/9b/</id>
-    <published>2021-03-31T08:10:09.000Z</published>
-    <updated>2021-03-31T16:27:40.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>类似于json.dumps中ensure_ascii的配置，在flask中也有类似配置，来避免jsonify时，返回unicode编码字符</p></blockquote><p>在flask config中加入<code>app.config['JSON_AS_ASCII'] = False</code>来避免jsonify对非ascii字符进行unicode编码</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">app = Flask(__name__)</span><br><span class="line">app.config.from_object(app_config)</span><br><span class="line">app.config.from_mapping(</span><br><span class="line">    SQLALCHEMY_DATABASE_URI=<span class="string">f"postgresql+psycopg2://<span class="subst">&#123;app_config.DB_USER&#125;</span>:<span class="subst">&#123;app_config.DB_PASSWORD&#125;</span>"</span></span><br><span class="line">                            <span class="string">f"@<span class="subst">&#123;app_config.DB_HOST&#125;</span>:<span class="subst">&#123;app_config.DB_PORT&#125;</span>/<span class="subst">&#123;app_config.DB_NAME&#125;</span>"</span>,</span><br><span class="line">    SQLALCHEMY_TRACK_MODIFICATIONS=<span class="literal">False</span>,</span><br><span class="line">    <span class="comment"># SQLALCHEMY_ECHO=True</span></span><br><span class="line">)</span><br><span class="line">app.config[<span class="string">'JSON_AS_ASCII'</span>] = <span class="literal">False</span></span><br></pre></td></tr></table></figure><h2 id="参考">参考</h2><p>[1] [<a href="https://stackoverflow.com/questions/37531067/how-to-prevent-unicode-representation-for-latin1-characters" target="_blank" rel="noopener">How to prevent Unicode representation for Latin1 characters?</a>]</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;类似于json.dumps中ensure_ascii的配置，在flask中也有类似配置，来避免jsonify时，返回unicode编码字符&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;在flask config中加入&lt;code&gt;app.config[&#39;JSON_AS_ASCII&#39;] = False&lt;/code&gt;来避免jsonify对非ascii字符进行unicode编码&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;app = Flask(__name__)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;app.config.from_object(app_config)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;app.config.from_mapping(&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    SQLALCHEMY_DATABASE_URI=&lt;span class=&quot;string&quot;&gt;f&quot;postgresql+psycopg2://&lt;span class=&quot;subst&quot;&gt;&amp;#123;app_config.DB_USER&amp;#125;&lt;/span&gt;:&lt;span class=&quot;subst&quot;&gt;&amp;#123;app_config.DB_PASSWORD&amp;#125;&lt;/span&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                            &lt;span class=&quot;string&quot;&gt;f&quot;@&lt;span class=&quot;subst&quot;&gt;&amp;#123;app_config.DB_HOST&amp;#125;&lt;/span&gt;:&lt;span class=&quot;subst&quot;&gt;&amp;#123;app_config.DB_PORT&amp;#125;&lt;/span&gt;/&lt;span class=&quot;subst&quot;&gt;&amp;#123;app_config.DB_NAME&amp;#125;&lt;/span&gt;&quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    SQLALCHEMY_TRACK_MODIFICATIONS=&lt;span class=&quot;literal&quot;&gt;False&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;# SQLALCHEMY_ECHO=True&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;app.config[&lt;span class=&quot;string&quot;&gt;&#39;JSON_AS_ASCII&#39;&lt;/span&gt;] = &lt;span class=&quot;literal&quot;&gt;False&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h2 id=&quot;参考&quot;&gt;参考&lt;/h2&gt;
-&lt;p&gt;[1] [&lt;a href=&quot;https://stackoverflow.com/questions/37531067/how-to-prevent-unicode-representation-for-latin1-characters&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;How to prevent Unicode representation for Latin1 characters?&lt;/a&gt;]&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="flask" scheme="https://blog.smart-lifestyle.cn/categories/flask/"/>
-    
-    
-      <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
-    
-      <category term="flask" scheme="https://blog.smart-lifestyle.cn/tags/flask/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python json.dumps unicode</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/b1/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/b1/</id>
-    <published>2021-03-31T07:54:04.000Z</published>
-    <updated>2021-03-31T16:27:40.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>在dumps/dump中使用ensure_ascii=False，来手动编码为UTF8格式</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="comment"># 输出为Unicode编码，不便于可视化</span></span><br><span class="line">&gt; json.dumps(<span class="string">"我爱China🇨🇳"</span>)</span><br><span class="line"><span class="string">'"\\u6211\\u7231China\\ud83c\\udde8\\ud83c\\uddf3"'</span></span><br><span class="line"></span><br><span class="line">&gt; json.dumps(<span class="string">"我爱China🇨🇳"</span>, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"><span class="string">'"我爱China🇨🇳"'</span></span><br></pre></td></tr></table></figure><h2 id="参考">参考</h2><p>[1] <a href="https://stackoverflow.com/questions/18337407/saving-utf-8-texts-with-json-dumps-as-utf8-not-as-u-escape-sequence" target="_blank" rel="noopener">json dumps unicode</a></p>]]></content>
-    
-    <summary type="html">
-    
-      处理json dumps时中文显示unicode编码
-    
-    </summary>
-    
-    
-      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
-    
-    
-      <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
-    
-      <category term="json" scheme="https://blog.smart-lifestyle.cn/tags/json/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>kombu.exceptions.EncodeError XXXX is not JSON serializable</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/3277/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/3277/</id>
-    <published>2021-03-31T06:02:05.000Z</published>
-    <updated>2021-03-31T06:51:44.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>本文记录在使用celery时，任务函数参数序列化问题</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@celery_app.task(name="create_subscription")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_subscription_file</span><span class="params">(req: SubscriptionRequest)</span>:</span></span><br><span class="line"></span><br><span class="line">    req = SubscriptionRequest(**kwargs)</span><br><span class="line">    subscription_count = req.count</span><br><span class="line">    run_times = math.ceil(subscription_count / <span class="number">200</span>)</span><br><span class="line">    results = &#123;</span><br><span class="line">        <span class="string">"count"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">"validDateTime"</span>: <span class="literal">None</span></span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubscriptionRequest</span><span class="params">(BaseModel)</span>:</span></span><br><span class="line">    bearer_token: str = <span class="literal">None</span></span><br><span class="line">    validDateTime: datetime = <span class="literal">None</span></span><br><span class="line">    validPeriodTime: int = <span class="number">12</span></span><br><span class="line">    count: int = <span class="number">200</span></span><br><span class="line">    deviceTypeId: int = <span class="number">2</span></span><br><span class="line">    subscriptionLevelId: int = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">data_json</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.json(exclude=&#123;<span class="string">'bearer_token'</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @validator('validDateTime')</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create_default_date</span><span class="params">(cls, v)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> v <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            v = get_default_valid_datetime()</span><br><span class="line">        <span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">default</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.json()</span><br></pre></td></tr></table></figure><p>在实际项目中，准备使用pydantic作为参数校验，因此在传递给celery task时，传递了一个class Instance；接着在任务调度时报错：</p><p><code>kombu.exceptions.EncodeError: SubscriptionRequest is not JSON serializable</code></p><p>默认情况下，celery 使用JSON进行序列化数据，因此根本原因在于默认情况下class实例无法被json序列化</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; json.dumps(SubscriptionRequest)</span><br><span class="line">TypeError: Object of type SubscriptionRequest <span class="keyword">is</span> <span class="keyword">not</span> JSON serializable</span><br></pre></td></tr></table></figure><p>json.dumps有一个参数default，在python docs文档中描述如下</p><blockquote><p>当 <em>default</em> 被指定时，其应该是一个函数，每当某个对象无法被序列化时它会被调用。它应该返回该对象的一个可以被 JSON 编码的版本或者引发一个 <a href="https://docs.python.org/zh-cn/3/library/exceptions.html#TypeError" target="_blank" rel="noopener"><code>TypeError</code></a>。如果没有被指定，则会直接引发 <a href="https://docs.python.org/zh-cn/3/library/exceptions.html#TypeError" target="_blank" rel="noopener"><code>TypeError</code></a>。</p></blockquote><p>我们可以借助default函数来为class实例创建一个方法实现对其json序列化。</p><p>这里没有对类进行改造，而是优化函数的入参</p><p>最后改成，先传递参数到task，然后在task内对所有参数进行pydantic 校验</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@celery_app.task(name="create_subscription")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_subscription_file</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line"><span class="comment"># 对kv参数使用pydantic校验</span></span><br><span class="line">    req = SubscriptionRequest(**kwargs)</span><br><span class="line">    subscription_count = req.count</span><br><span class="line">    run_times = math.ceil(subscription_count / <span class="number">200</span>)</span><br><span class="line">    results = &#123;</span><br><span class="line">        <span class="string">"count"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">"validDateTime"</span>: <span class="literal">None</span></span><br><span class="line">    &#125;</span><br><span class="line">    result_queue = Queue()</span><br><span class="line">...</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure><h2 id="参考">参考</h2><p>[1] <a href="https://stackoverflow.com/questions/10252010/serializing-class-instance-to-json" target="_blank" rel="noopener">class serialize</a></p><p>[2] <a href="https://github.com/celery/celery/issues/5922" target="_blank" rel="noopener">github issue</a></p>]]></content>
-    
-    <summary type="html">
-    
-      celery序列化问题
-    
-    </summary>
-    
-    
-      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
-    
-    
-      <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
-    
-      <category term="celery" scheme="https://blog.smart-lifestyle.cn/tags/celery/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python基础 -- python与excel-1</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/df7e/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/df7e/</id>
-    <published>2021-03-30T14:33:16.000Z</published>
-    <updated>2021-03-30T14:33:16.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>使用openpyxl对excel文件进行读写</p><p><a href="https://openpyxl.readthedocs.io/en/stable/tutorial.html" target="_blank" rel="noopener">官方指导文档</a></p></blockquote><h2 id="准备">准备</h2><h3 id="excel基本术语">excel基本术语</h3><table><thead><tr><th>术语</th><th>解释</th></tr></thead><tbody><tr><td>Spreadsheet or Workbook</td><td>excel文件</td></tr><tr><td>Worksheet or Sheet</td><td>表，一个workbook/spreadsheet可以有多个sheet</td></tr><tr><td>Column</td><td>表格列A…Z…</td></tr><tr><td>Row</td><td>表格行1…10…</td></tr><tr><td>Cell</td><td>单元格A1…A2…</td></tr></tbody></table><h3 id="安装openpyxl">安装openpyxl</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install openpyxl -i https://pypi.douban.com/simple/</span><br></pre></td></tr></table></figure><h2 id="基本操作">基本操作</h2><h3 id="新建workbook">新建workbook</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openpyxl <span class="keyword">import</span> Workbook</span><br><span class="line">wb = Workbook()</span><br></pre></td></tr></table></figure><h3 id="加载已经存在的工作簿">加载已经存在的工作簿</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openpyxl <span class="keyword">import</span> load_workbook</span><br><span class="line">wb = load_workbook(<span class="string">'File Name'</span>)</span><br></pre></td></tr></table></figure><h3 id="选择sheet">选择sheet</h3><p>默认Workbook创建时，会有一个sheet，通过<code>ws = wb.active</code> 选择并使用它</p><p>存在多个sheet时，可以通过<code>ws = wb[Sheet Name]</code> 选择所有操作的sheet，也可以通过以下操作选择</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取当前所有sheetname</span></span><br><span class="line">sheetlist = wb.sheetnames</span><br><span class="line"><span class="comment"># &gt;&gt; ['1st Sheet', '标签内容信息- Basic', '标签内容信息 -Standard', 'Readme', 'Add your sheets and content...']</span></span><br><span class="line">ws = wb[sheetlist[<span class="number">2</span>]] <span class="comment"># 或者</span></span><br><span class="line">ws.active = <span class="number">2</span></span><br><span class="line">ws = wb.active</span><br><span class="line"><span class="comment"># 查看当前sheet名字</span></span><br><span class="line">ws.title</span><br><span class="line">&gt;&gt; 标签内容信息- Basic</span><br></pre></td></tr></table></figure><p><code>ws = wb[Sheet Name]</code> 方法没有改变当前活跃的表格名</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wb.active</span><br><span class="line">&gt;&gt; &lt;Worksheet <span class="string">"标签内容信息- Basic"</span>&gt;</span><br><span class="line">ws = wb[<span class="string">'标签内容信息 -Standard'</span>]</span><br><span class="line">wb.active <span class="comment"># 还是运来的单元格</span></span><br><span class="line">&gt;&gt; &lt;Worksheet <span class="string">"标签内容信息- Basic"</span>&gt;</span><br></pre></td></tr></table></figure><h3 id="新建sheet">新建sheet</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认插在最后位置</span></span><br><span class="line">ws = wb.create_sheet(<span class="string">'Sheet Name'</span>)</span><br><span class="line"><span class="comment"># 也可以在sheet name参数后增加一个参数，表示创建位置</span></span><br><span class="line">ws = wb.create_sheet(<span class="string">'Sheet Name'</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure><h3 id="修改sheet-tittle">修改sheet tittle</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ws.title = New Title</span><br></pre></td></tr></table></figure><h3 id="写入单元格">写入单元格</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ws[<span class="string">'A1'</span>] = <span class="string">'Name'</span></span><br><span class="line">ws[<span class="string">'B1'</span>] = <span class="string">'Age'</span></span><br><span class="line">ws[<span class="string">'C1'</span>] = <span class="string">'score'</span></span><br><span class="line">ws[<span class="string">'A2'</span>] = <span class="string">'张三'</span></span><br><span class="line">ws[<span class="string">'B2'</span>] = <span class="number">18</span></span><br><span class="line">ws[<span class="string">'C3'</span>] = <span class="number">95</span></span><br></pre></td></tr></table></figure><h3 id="查看单元格内容">查看单元格内容</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ws[<span class="string">'A2'</span>].value</span><br><span class="line">&gt;&gt; <span class="string">'张三'</span></span><br></pre></td></tr></table></figure><h3 id="保存文件-工作簿">保存文件/工作簿</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果filename已经存在，会没有确认的修改这个文件</span></span><br><span class="line">wb.save(filename)</span><br></pre></td></tr></table></figure><h3 id="关闭工作簿">关闭工作簿</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 可能没有用？</span></span><br><span class="line">wb.close()</span><br></pre></td></tr></table></figure><h2 id="参考">参考</h2><p>[1] <a href="https://openpyxl.readthedocs.io/en/stable/tutorial.html" target="_blank" rel="noopener">官方文档</a></p><p>[2] <a href="https://stackoverflow.com/questions/41556378/openpyxl-set-active-sheet/50117733" target="_blank" rel="noopener">选择sheet</a></p><p>[3] <a href="https://realpython.com/openpyxl-excel-spreadsheets-python/" target="_blank" rel="noopener">realpython openpyxl guide</a></p>]]></content>
-    
-    <summary type="html">
-    
-      使用openpyxl对excel读写操作
-    
-    </summary>
-    
-    
-      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
-    
-    
-      <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
-    
-      <category term="excel" scheme="https://blog.smart-lifestyle.cn/tags/excel/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python web -- pydantic基础用法-1</title>
-    <link href="https://blog.smart-lifestyle.cn/posts/e075/"/>
-    <id>https://blog.smart-lifestyle.cn/posts/e075/</id>
-    <published>2021-03-29T15:37:08.000Z</published>
-    <updated>2021-03-29T15:37:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>使用pydantic校验输入参数，可以省去后续函数体内的校验，并可以作为一个通用的校验器方便其他方法调用，做的入参校验与入参调用的解耦</p><p>著名的FastAPI框架，也是使用的pydantic作为http请求中参数的校验</p></blockquote><h3 id="安装">安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># need python3.6+</span></span><br><span class="line">pip install pydantic -i https://pypi.douban.com/simple/</span><br></pre></td></tr></table></figure><h3 id="基本模型用法">基本模型用法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># model.py</span></span><br><span class="line"><span class="keyword">from</span> pydantic <span class="keyword">import</span> BaseModel, validator</span><br><span class="line"><span class="comment"># 创建一个模型</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubscriptionRequest</span><span class="params">(BaseModel)</span>:</span></span><br><span class="line">    bearer_token: str = <span class="literal">None</span></span><br><span class="line">    validDateTime: str = <span class="literal">None</span></span><br><span class="line">    validPeriodTime: int = <span class="number">12</span></span><br><span class="line">    count: int = <span class="number">200</span></span><br><span class="line">    deviceTypeId: int = <span class="number">2</span></span><br><span class="line">    subscriptionLevelId: int = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获得json格式内容，不返还bearer_token</span></span><br><span class="line">    <span class="comment"># def data_json(self):</span></span><br><span class="line">    <span class="comment">#    return self.json(exclude=&#123;'bearer_token'&#125;)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 校验参数</span></span><br><span class="line">    <span class="comment"># @validator('validDateTime')</span></span><br><span class="line">    <span class="comment"># def create_default_date(cls, v):</span></span><br><span class="line">    <span class="comment">#    if v is None:</span></span><br><span class="line">    <span class="comment">#        v = get_default_valid_datetime().strftime("%Y-%m-%dT23:59:59.000Z")</span></span><br><span class="line">    <span class="comment">#    return v</span></span><br></pre></td></tr></table></figure><p>因为给模型中每个字段都设置了默认值，在没有传入参数时也不会报错</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; <span class="keyword">from</span> model <span class="keyword">import</span> SubscriptionRequest</span><br><span class="line">&gt;&gt; m = SubscriptionRequest()</span><br><span class="line">&gt;&gt; print(m)</span><br><span class="line">bearer_token=<span class="literal">None</span> validDateTime=<span class="literal">None</span> validPeriodTime=<span class="number">12</span> count=<span class="number">200</span> deviceTypeId=<span class="number">2</span> subscriptionLevelId=<span class="number">2</span></span><br></pre></td></tr></table></figure><p>现在将模型文件中一些参数默认值去掉</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># model.py</span></span><br><span class="line"><span class="keyword">from</span> pydantic <span class="keyword">import</span> BaseModel, validator</span><br><span class="line"><span class="comment"># 创建一个模型</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubscriptionRequest</span><span class="params">(BaseModel)</span>:</span></span><br><span class="line">    bearer_token: str</span><br><span class="line">    validDateTime: str</span><br><span class="line">    validPeriodTime: int = <span class="number">12</span></span><br><span class="line">    count: int = <span class="number">200</span></span><br><span class="line">    deviceTypeId: int = <span class="number">2</span></span><br><span class="line">    subscriptionLevelId: int = <span class="number">2</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure><p>继续执行，将会提示参数缺失</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; <span class="keyword">from</span> model <span class="keyword">import</span> SubscriptionRequest</span><br><span class="line">&gt;&gt; m = SubscriptionRequest()</span><br><span class="line">&gt;&gt; print(m)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/Users/simple/workspace/Columbus/admin_tools/serializer.py"</span>, line <span class="number">60</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    m = SubscriptionRequest()</span><br><span class="line">  File <span class="string">"pydantic/main.py"</span>, line <span class="number">391</span>, <span class="keyword">in</span> pydantic.main.BaseModel.__init__</span><br><span class="line">pydantic.error_wrappers.ValidationError: <span class="number">2</span> validation errors <span class="keyword">for</span> SubscriptionRequest</span><br><span class="line">bearer_token</span><br><span class="line">  field required (type=value_error.missing)</span><br><span class="line">validDateTime</span><br><span class="line">  field required (type=value_error.missing)</span><br></pre></td></tr></table></figure><p>正常用法</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; data= &#123;</span><br><span class="line"><span class="meta">... </span>       <span class="string">'bearer_token'</span>: <span class="string">'1234567=='</span>,</span><br><span class="line"><span class="meta">... </span>       <span class="string">'validDateTime'</span>: <span class="literal">None</span>,</span><br><span class="line"><span class="meta">... </span>       <span class="string">'validPeriodTime'</span>: <span class="number">12</span>,</span><br><span class="line"><span class="meta">... </span>       <span class="string">'count'</span>: <span class="number">12</span>,</span><br><span class="line"><span class="meta">... </span>       <span class="string">'deviceTypeId'</span>: <span class="number">2</span>,</span><br><span class="line"><span class="meta">... </span>       <span class="string">'subscriptionLevelId'</span>: <span class="number">2</span></span><br><span class="line"><span class="meta">... </span>   &#125;</span><br><span class="line">&gt;&gt; m = SubscriptionRequest(**data)</span><br><span class="line">&gt;&gt; print(m)</span><br><span class="line">bearer_token=<span class="string">'1234567=='</span> validDateTime=<span class="string">'2022-09-01T23:59:59.000Z'</span> validPeriodTime=<span class="number">12</span> count=<span class="number">12</span> deviceTypeId=<span class="number">2</span> subscriptionLevelId=<span class="number">2</span></span><br><span class="line"><span class="comment"># 输出json格式</span></span><br><span class="line">&gt;&gt; m.json()</span><br><span class="line">&#123;<span class="string">"bearer_token"</span>: <span class="string">"1234567=="</span>, <span class="string">"validDateTime"</span>: <span class="string">"2022-09-01T23:59:59.000Z"</span>, <span class="string">"validPeriodTime"</span>: <span class="number">12</span>, <span class="string">"count"</span>: <span class="number">12</span>, <span class="string">"deviceTypeId"</span>: <span class="number">2</span>, <span class="string">"subscriptionLevelId"</span>: <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure><p>在上面返回json结果中，除了bearer_token，其他都是要赋值给body json，因此想在json输出中去除</p><p><code>bearer_token</code></p><p>在模型类中增加如下方法</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">获得json格式内容，不返还bearer_token</span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">data_json</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.json(exclude=&#123;<span class="string">'bearer_token'</span>&#125;)</span><br></pre></td></tr></table></figure><p>同样如果想对输入的参数做具体校验，validDateTime如果为None，就为它赋值一个时间戳</p><p>在模型类中增加一个validator</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#校验参数</span></span><br><span class="line"><span class="meta">     @validator('validDateTime')</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">create_default_date</span><span class="params">(cls, v)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> v <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            v = get_default_valid_datetime().strftime(<span class="string">"%Y-%m-%dT23:59:59.000Z"</span>)</span><br><span class="line">        <span class="keyword">return</span> v</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_default_valid_datetime</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    默认有效期时间为当前时间+1年半</span></span><br><span class="line"><span class="string">    :return: 时间戳字符串</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    diff = <span class="number">365</span> + int(<span class="number">365</span>/<span class="number">2</span>)</span><br><span class="line">    valid_datetime = datetime.utcnow() + timedelta(days=diff)</span><br><span class="line">    <span class="comment"># return valid_datetime.strftime("%Y-%m-%dT23:59:59.000Z")</span></span><br><span class="line">    <span class="keyword">return</span> valid_datetime</span><br></pre></td></tr></table></figure><p>需要注意的是validator装饰的为类函数，函数的第一个参数为cls，不是self，另外这个函数还有其他参数</p><ul><li><p>v 为当前参数的值</p></li><li><p>values为当前传递到模型所有参数的字典集合，比如通过values[‘count’] 来获取count的值</p></li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@validator('validDateTime')</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">create_default_date</span><span class="params">(cls, v, values, **kwargs)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure><p><strong>另外如果校验的参数没有传递，而是有一个默认值，不会调用校验方法</strong></p><h3 id="参考">参考</h3><p>[1] <a href="https://pydantic-docs.helpmanual.io/usage/validators/" target="_blank" rel="noopener">pydantic validators</a></p><p>[2] <a href="https://pydantic-docs.helpmanual.io/usage/exporting_models/#json_encoders" target="_blank" rel="noopener">export json</a></p><p>[3] <a href="https://pydantic-docs.helpmanual.io/install/" target="_blank" rel="noopener">install</a></p><p>[4] <a href="https://pydantic-docs.helpmanual.io/usage/models/" target="_blank" rel="noopener">basic models</a></p>]]></content>
-    
-    <summary type="html">
-    
-      使用pydantic对入参校验
-    
-    </summary>
-    
-    
-      <category term="python" scheme="https://blog.smart-lifestyle.cn/categories/python/"/>
-    
-    
-      <category term="python" scheme="https://blog.smart-lifestyle.cn/tags/python/"/>
-    
-      <category term="pydantic" scheme="https://blog.smart-lifestyle.cn/tags/pydantic/"/>
     
   </entry>
   

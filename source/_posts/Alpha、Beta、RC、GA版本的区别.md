@@ -2,10 +2,11 @@
 title: Alpha、Beta、RC、GA版本的区别
 tags:
   - 软件版本
-date: 2021-06-29 23:57:37
 categories: 软件工程
-keywords: 
 description: Alpha、Beta、RC、GA版本的区别
+abbrlink: a038
+date: 2021-06-29 23:57:37
+keywords:
 ---
 
 * Alpha：是内部测试版,一般不向外部发布,会有很多Bug.一般只有测试人员使用。

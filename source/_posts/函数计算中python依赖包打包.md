@@ -3,10 +3,11 @@ title: 函数计算中python依赖包打包
 tags:
   - function
   - serverless
-date: 2021-06-30 10:09:58
 categories: serverless
-keywords:
 description: 如何在函数计算中为python打包依赖包
+abbrlink: 990c
+date: 2021-06-30 10:09:58
+keywords:
 ---
 
 

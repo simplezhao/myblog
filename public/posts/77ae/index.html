@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
@@ -145,17 +145,17 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">42</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">62</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">34</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">57</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">11</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">22</span></a>
 
   </li>
         <li class="menu-item menu-item-读书">
@@ -270,7 +270,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.9k</span>
+              <span>4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -295,58 +295,69 @@
 <p>使用set命令查看shell变量</p>
 <p>使用printenv命令查看环境变量</p>
 </blockquote>
-<a id="more"></a>
-<h2 id="背景">背景</h2>
-<p>在python工程中，想通过环境变量获取参数值，并赋值给python变量</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">print(<span class="string">f"PID: <span class="subst">&#123;os.getpid()&#125;</span>, PPID: <span class="subst">&#123;os.getppid()&#125;</span>"</span>)</span><br><span class="line">host = os.getenv(<span class="string">'REDIS_HOST'</span>)</span><br><span class="line">port = os.getenv(<span class="string">'REDIS_PORT'</span>)</span><br><span class="line">password = os.getenv(<span class="string">'REDIS_PASSWORD'</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">f"<span class="subst">&#123;password&#125;</span>@<span class="subst">&#123;host&#125;</span>:<span class="subst">&#123;port&#125;</span>"</span>)</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在python工程中，想通过环境变量获取参数值，并赋值给python变量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;PID: <span class="subst">&#123;os.getpid()&#125;</span>, PPID: <span class="subst">&#123;os.getppid()&#125;</span>&quot;</span>)</span><br><span class="line">host = os.getenv(<span class="string">&#x27;REDIS_HOST&#x27;</span>)</span><br><span class="line">port = os.getenv(<span class="string">&#x27;REDIS_PORT&#x27;</span>)</span><br><span class="line">password = os.getenv(<span class="string">&#x27;REDIS_PASSWORD&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;password&#125;</span>@<span class="subst">&#123;host&#125;</span>:<span class="subst">&#123;port&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
 <p>而参数值放在一个env文件里</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">REDIS_HOST=example.com</span><br><span class="line">REDIS_PORT=5432</span><br><span class="line">REDIS_PASSWORD=123456</span><br></pre></td></tr></table></figure>
+
 <p>通过执行<code>source .env</code> 后在终端查看</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$REDIS_HOST</span> <span class="variable">$REDIS_PORT</span> <span class="variable">$REDIS_PASSWORD</span></span><br><span class="line">&gt; example.com 5432 123456</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看当前shell pid</span></span><br><span class="line"><span class="built_in">echo</span> $$</span><br><span class="line">&gt; 22650</span><br><span class="line"><span class="comment"># 运行python 文件</span></span><br><span class="line">python variables.py</span><br><span class="line">&gt; PID: 23034, PPID: 22650</span><br><span class="line">&gt; None@None:None</span><br></pre></td></tr></table></figure>
+
 <p>发现python并未获取到存在shell环境变量中的值，python运行的父进程号为当前shell的进程号，而当时python运行是在子进程中运行</p>
 <p>以上的<code>souce .env</code>操作是将变量存入到shell变量中，但未在环境变量中</p>
-<h2 id="shell变量和环境变量">shell变量和环境变量</h2>
-<p>For <a href="http://www.ee.surrey.ac.uk/Teaching/Unix/unix8.html" target="_blank" rel="noopener">Standard UNIX variables</a> , says:</p>
+<h2 id="shell变量和环境变量"><a href="#shell变量和环境变量" class="headerlink" title="shell变量和环境变量"></a>shell变量和环境变量</h2><p>For <a target="_blank" rel="noopener" href="http://www.ee.surrey.ac.uk/Teaching/Unix/unix8.html">Standard UNIX variables</a> , says:</p>
 <blockquote>
 <p>Standard UNIX variables are split into two categories, environment variables and shell variables. In broad terms, shell variables apply only to the current instance of the shell and are used to set short-term working conditions; environment variables have a farther reaching significance, and those set at login are valid for the duration of the session. By convention, environment variables have UPPER CASE and shell variables have lower case names.</p>
 <p>标准UNIX变量分为两类：环境变量和shell变量，shell变量仅在当前shell（主进程）有效，环境变量可以在子进程有效，通常环境变量为大写，shell变量为小写</p>
 </blockquote>
-<p>For <a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_05_03" target="_blank" rel="noopener">POSIX-compatible shells</a> (including Bash), the standard says:</p>
+<p>For <a target="_blank" rel="noopener" href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_05_03">POSIX-compatible shells</a> (including Bash), the standard says:</p>
 <blockquote>
-<p><strong>2.5.3 Shell Variables</strong><br>
-Variables shall be initialized from the environment <em>[…]</em> If a variable is initialized from the environment, it shall be marked for export immediately; see the export special built-in. New variables can be defined and initialized with variable assignments, <em>[etc.]</em></p>
+<p><strong>2.5.3 Shell Variables</strong><br>Variables shall be initialized from the environment <em>[…]</em> If a variable is initialized from the environment, it shall be marked for export immediately; see the export special built-in. New variables can be defined and initialized with variable assignments, <em>[etc.]</em></p>
 <p>如果shell变量要转化为环境变量，执行export 命令</p>
 </blockquote>
-<h3 id="查看shell变量和环境变量">查看shell变量和环境变量</h3>
-<ul>
+<h3 id="查看shell变量和环境变量"><a href="#查看shell变量和环境变量" class="headerlink" title="查看shell变量和环境变量"></a>查看shell变量和环境变量</h3><ul>
 <li>查看shell变量使用<code>set</code>命令</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span></span><br><span class="line"><span class="comment"># 截取部分</span></span><br><span class="line">&gt; ...</span><br><span class="line">&gt; status=0</span><br><span class="line">&gt; termcap</span><br><span class="line">&gt; terminfo</span><br><span class="line">&gt; userdirs</span><br><span class="line">&gt; usergroups</span><br><span class="line">&gt; watch=(  )</span><br><span class="line">&gt; widgets</span><br><span class="line">&gt; zle_bracketed_paste=( $<span class="string">'\C-[[?2004h'</span> $<span class="string">'\C-[[?2004l'</span> )</span><br><span class="line">&gt; zsh_eval_context=( toplevel )</span><br><span class="line">&gt; zsh_scheduled_events</span><br><span class="line">&gt; ...</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span></span><br><span class="line"><span class="comment"># 截取部分</span></span><br><span class="line">&gt; ...</span><br><span class="line">&gt; status=0</span><br><span class="line">&gt; termcap</span><br><span class="line">&gt; terminfo</span><br><span class="line">&gt; userdirs</span><br><span class="line">&gt; usergroups</span><br><span class="line">&gt; watch=(  )</span><br><span class="line">&gt; widgets</span><br><span class="line">&gt; zle_bracketed_paste=( $<span class="string">&#x27;\C-[[?2004h&#x27;</span> $<span class="string">&#x27;\C-[[?2004l&#x27;</span> )</span><br><span class="line">&gt; zsh_eval_context=( toplevel )</span><br><span class="line">&gt; zsh_scheduled_events</span><br><span class="line">&gt; ...</span><br></pre></td></tr></table></figure>
+
 <p>另外可以通过set/unset 来设置/删除shell变量</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span></span><br><span class="line"></span><br><span class="line">  Display, <span class="built_in">set</span> or <span class="built_in">unset</span> values of shell attributes and positional parameters.</span><br><span class="line"></span><br><span class="line">  - Display the names and values of shell variables:</span><br><span class="line">    <span class="built_in">set</span></span><br><span class="line"></span><br><span class="line">  - Mark variables that are modified or created <span class="keyword">for</span> <span class="built_in">export</span>:</span><br><span class="line">    <span class="built_in">set</span> -a</span><br><span class="line"></span><br><span class="line">  - Notify of job termination immediately:</span><br><span class="line">    <span class="built_in">set</span> -b</span><br><span class="line"></span><br><span class="line">  - Set various options, e.g. <span class="built_in">enable</span> vi style line editing:</span><br><span class="line">    <span class="built_in">set</span> -o vi</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">unset</span></span><br><span class="line"></span><br><span class="line">  Remove shell variables or <span class="built_in">functions</span>.</span><br><span class="line"></span><br><span class="line">  - Remove the variable foo, or <span class="keyword">if</span> the variable doesn<span class="string">'t exist, remove the function foo:</span></span><br><span class="line"><span class="string">    unset foo</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  - Remove the variables foo and bar:</span></span><br><span class="line"><span class="string">    unset -v foo bar</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  - Remove the function my_func:</span></span><br><span class="line"><span class="string">    unset -f my_func</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">unset</span></span><br><span class="line"></span><br><span class="line">  Remove shell variables or <span class="built_in">functions</span>.</span><br><span class="line"></span><br><span class="line">  - Remove the variable foo, or <span class="keyword">if</span> the variable doesn<span class="string">&#x27;t exist, remove the function foo:</span></span><br><span class="line"><span class="string">    unset foo</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  - Remove the variables foo and bar:</span></span><br><span class="line"><span class="string">    unset -v foo bar</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  - Remove the function my_func:</span></span><br><span class="line"><span class="string">    unset -f my_func</span></span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>查看环境变量使用env或者printenv</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">printenv</span><br><span class="line">&gt; VIRTUALENVWRAPPER_WORKON_CD=1</span><br><span class="line">&gt; VIRTUALENVWRAPPER_SCRIPT=/opt/anaconda3/bin/virtualenvwrapper.sh</span><br><span class="line">&gt; WORKON_HOME=/Users/simple/.virtualenvs</span><br><span class="line">&gt; VIRTUALENVWRAPPER_HOOK_DIR=/Users/simple/.virtualenvs</span><br><span class="line">&gt; ANDROID_HOME=/Users/simple/Library/Android/sdk</span><br><span class="line">&gt; _=/usr/bin/printenv</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">env</span><br><span class="line"></span><br><span class="line">  Show the environment or run a program <span class="keyword">in</span> a modified environment.</span><br><span class="line"></span><br><span class="line">  - Show the environment:</span><br><span class="line">    env</span><br><span class="line"></span><br><span class="line">  - Run a program. Often used <span class="keyword">in</span> scripts after the shebang (<span class="comment">#!) for looking up the path to the program:</span></span><br><span class="line">    env program</span><br><span class="line"></span><br><span class="line">  - Clear the environment and run a program:</span><br><span class="line">    env -i program</span><br><span class="line"></span><br><span class="line">  - Remove variable from the environment and run a program:</span><br><span class="line">    env -u variable program</span><br><span class="line"></span><br><span class="line">  - Set a variable and run a program:</span><br><span class="line">    env variable=value program</span><br><span class="line"></span><br><span class="line">  - Set multiple variables and run a program:</span><br><span class="line">    env variable1=value variable2=value variable3=value program</span><br></pre></td></tr></table></figure>
-<h2 id="解决">解决</h2>
-<p>方法就比较明显了</p>
+
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>方法就比较明显了</p>
 <p>第一种，修改.env文件，加入export，然后执行<code>source .env</code>，最后运行python命令</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> REDIS_HOST=example.com</span><br><span class="line"><span class="built_in">export</span> REDIS_PORT=5432</span><br><span class="line"><span class="built_in">export</span> REDIS_PASSWORD=123456</span><br></pre></td></tr></table></figure>
+
 <p>第二种，在运行python 命令前面加上env操作</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">env REDIS_HOST=example.com REDIS_PORT=5432 REDIS_PASSWORD=123456 python variables.py</span><br><span class="line">&gt; PID: 23517, PPID: 22650</span><br><span class="line">&gt; 123456@example.com:5432</span><br></pre></td></tr></table></figure>
-<h2 id="Tips">Tips</h2>
-<p>在shell中获取当前进程ID，父进程ID以及UID</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"PID of this script: $$"</span></span><br><span class="line">&gt; 22650</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"PPID of this script: <span class="variable">$PPID</span>"</span></span><br><span class="line">&gt; 22649</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"UID of this script: <span class="variable">$UID</span>"</span></span><br><span class="line">&gt; 501</span><br></pre></td></tr></table></figure>
+
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><p>在shell中获取当前进程ID，父进程ID以及UID</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;PID of this script: $$&quot;</span></span><br><span class="line">&gt; 22650</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;PPID of this script: <span class="variable">$PPID</span>&quot;</span></span><br><span class="line">&gt; 22649</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;UID of this script: <span class="variable">$UID</span>&quot;</span></span><br><span class="line">&gt; 501</span><br></pre></td></tr></table></figure>
+
 <p>在python脚本中获取当前进程ID以及父进程ID</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">print(<span class="string">f"PID: <span class="subst">&#123;os.getpid()&#125;</span>, PPID: <span class="subst">&#123;os.getppid()&#125;</span>"</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="参考">参考</h2>
-<p>[1] <a href="http://www.ee.surrey.ac.uk/Teaching/Unix/unix8.html" target="_blank" rel="noopener">UNIX Tutorial Eight</a></p>
-<p>[2] <a href="https://stackoverflow.com/questions/3341372/difference-between-shell-and-environment-variables" target="_blank" rel="noopener">difference-between-shell-and-environment-variables</a></p>
-<p>[3] <a href="https://unix.stackexchange.com/questions/364655/shell-variable-vs-environment-variable-which-one-is-preferred-if-both-have-the" target="_blank" rel="noopener">shell-variable-vs-environment-variable-which-one-is-preferred-if-both-have-the-same-name</a></p>
-<p>[4] <a href="https://linuxize.com/post/how-to-set-and-list-environment-variables-in-linux/" target="_blank" rel="noopener">How to Set and List Environment Variables in Linux</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;PID: <span class="subst">&#123;os.getpid()&#125;</span>, PPID: <span class="subst">&#123;os.getppid()&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="http://www.ee.surrey.ac.uk/Teaching/Unix/unix8.html">UNIX Tutorial Eight</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3341372/difference-between-shell-and-environment-variables">difference-between-shell-and-environment-variables</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://unix.stackexchange.com/questions/364655/shell-variable-vs-environment-variable-which-one-is-preferred-if-both-have-the">shell-variable-vs-environment-variable-which-one-is-preferred-if-both-have-the-same-name</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://linuxize.com/post/how-to-set-and-list-environment-variables-in-linux/">How to Set and List Environment Variables in Linux</a></p>
 
     </div>
 
@@ -433,7 +444,7 @@ Variables shall be initialized from the environment <em>[…]</em> If a variable
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell变量和环境变量"><span class="nav-number">2.</span> <span class="nav-text">shell变量和环境变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看shell变量和环境变量"><span class="nav-number">2.1.</span> <span class="nav-text">查看shell变量和环境变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决"><span class="nav-number">3.</span> <span class="nav-text">解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tips"><span class="nav-number">4.</span> <span class="nav-text">Tips</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell%E5%8F%98%E9%87%8F%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">2.</span> <span class="nav-text">shell变量和环境变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8Bshell%E5%8F%98%E9%87%8F%E5%92%8C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">2.1.</span> <span class="nav-text">查看shell变量和环境变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3"><span class="nav-number">3.</span> <span class="nav-text">解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tips"><span class="nav-number">4.</span> <span class="nav-text">Tips</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -449,20 +460,20 @@ Variables shall be initialized from the environment <em>[…]</em> If a variable
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">62</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">57</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -507,14 +518,14 @@ Variables shall be initialized from the environment <em>[…]</em> If a variable
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">48k</span>
+    <span title="站点总字数">63k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:28</span>
+    <span title="站点阅读时长">1:55</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0

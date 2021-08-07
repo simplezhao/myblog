@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
@@ -48,18 +48,43 @@
   };
 </script>
 
-  <meta name="description" content="IoT Architect">
+  <meta name="description" content="使用rancher搭建k8s集群">
 <meta property="og:type" content="article">
-<meta property="og:title" content="rancher部署">
+<meta property="og:title" content="rancher多主机部署">
 <meta property="og:url" content="https://blog.smart-lifestyle.cn/posts/ee95/index.html">
 <meta property="og:site_name" content="simple&#39;s blog">
-<meta property="og:description" content="IoT Architect">
+<meta property="og:description" content="使用rancher搭建k8s集群">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/svwr6.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/pgg6q.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/orl7g.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/skrdl.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/uebzb.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/9aknb.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/9aknb.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/vt5r4.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/pr139.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/y9tpe.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/5akkx.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/hhjuh.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/sqw39.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/bpcop.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/dcl00.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/aqhg5.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/hp09i.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/4jo9q.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/gujzs.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/8iwlx.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/2wyug.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/s4f4n.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/p0hg5.png">
 <meta property="article:published_time" content="2021-05-11T15:17:39.000Z">
-<meta property="article:modified_time" content="2021-05-22T11:19:02.819Z">
+<meta property="article:modified_time" content="2021-06-24T06:37:18.000Z">
 <meta property="article:author" content="simple">
-<meta property="article:tag" content="DevOps、IoT、全栈开发">
+<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="rancher">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oss.smart-lifestyle.cn/file/svwr6.png">
 
 <link rel="canonical" href="https://blog.smart-lifestyle.cn/posts/ee95/">
 
@@ -73,7 +98,7 @@
   };
 </script>
 
-  <title>rancher部署 | simple's blog</title>
+  <title>rancher多主机部署 | simple's blog</title>
   
 
 
@@ -144,17 +169,17 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">42</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">62</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">34</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">57</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">11</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">22</span></a>
 
   </li>
         <li class="menu-item menu-item-读书">
@@ -232,7 +257,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          rancher部署
+          rancher多主机部署
         </h2>
 
         <div class="post-meta">
@@ -249,8 +274,19 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-22 19:19:02" itemprop="dateModified" datetime="2021-05-22T19:19:02+08:00">2021-05-22</time>
+                <time title="修改时间：2021-06-24 14:37:18" itemprop="dateModified" datetime="2021-06-24T14:37:18+08:00">2021-06-24</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" itemprop="url" rel="index">
+                    <span itemprop="name">微服务</span>
+                  </a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -265,15 +301,16 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
+            <div class="post-description">使用rancher搭建k8s集群</div>
 
         </div>
       </header>
@@ -284,7 +321,119 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <blockquote>
+<p>整理在腾讯云上如何使用rancher搭建k8s集群，以下操作不适用于生产环境，用于个人测试</p>
+</blockquote>
+<h2 id="配置说明"><a href="#配置说明" class="headerlink" title="配置说明"></a>配置说明</h2><p>使用到的服务：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/582/9127#null">CFS</a>，<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/213/16918#null">CVM</a> 等</p>
+<p>在部署中使用的CVM服务器配置如下：</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/svwr6.png" alt="image-20210623144304343"></p>
+<p>使用的文件存储配置如下：</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/pgg6q.png" alt="image-20210624143319616"></p>
+<h3 id="端口要求"><a href="#端口要求" class="headerlink" title="端口要求"></a>端口要求</h3><p>参考：<a target="_blank" rel="noopener" href="https://docs.rancher.cn/docs/rancher2/installation/requirements/ports/_index">端口要求 | Rancher文档</a>；需要在安全组内开放以上端口</p>
+<p>其中</p>
+<table>
+<thead>
+<tr>
+<th>master</th>
+<th>2核4G</th>
+<th>安装rancher server， 集群etcd、control角色</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>node</td>
+<td>4核8G</td>
+<td>安装k8s 节点，集群worker角色</td>
+</tr>
+</tbody></table>
+<h2 id="安装rancher-server"><a href="#安装rancher-server" class="headerlink" title="安装rancher server"></a>安装rancher server</h2><p>Ssh远程连接到master节点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull rancher/rancher</span><br><span class="line">sudo docker run -d --privileged --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher</span><br></pre></td></tr></table></figure>
+
+<p>以上执行时，使用自签名证书，如果使用CA签名证书，可以参考如下<a target="_blank" rel="noopener" href="https://docs.rancher.cn/docs/rancher2.5/installation/other-installation-methods/single-node-docker/_index/">命令</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d  --restart=unless-stopped \</span><br><span class="line">	-p 80:80 -p 443:443 \</span><br><span class="line">	-v &lt;rancher/data path&gt;:/var/lib/rancher \</span><br><span class="line">	-v &lt;full_chain.pem path&gt;:/etc/rancher/ssl/cert.pem \</span><br><span class="line">	-v &lt;private.pem path&gt;:/etc/rancher/ssl/key.pem \</span><br><span class="line">	-v /var/<span class="built_in">log</span>/rancher/auditlog:/var/<span class="built_in">log</span>/auditlog \</span><br><span class="line">	--privileged --name rancher-server  rancher/rancher --no-cacerts</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="添加集群"><a href="#添加集群" class="headerlink" title="添加集群"></a>添加集群</h2><p>登录到Rancher 管理页面</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/orl7g.png" alt="image-20210511144233895"></p>
+<p>点击添加集群，选择自定义</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/skrdl.png" alt="image-20210511144255559"></p>
+<h3 id="配置master节点"><a href="#配置master节点" class="headerlink" title="配置master节点"></a>配置master节点</h3><ol>
+<li>选择Etcd、Control角色</li>
+<li>填写内网地址</li>
+<li>填写节点名称</li>
+</ol>
+<p><img src="https://oss.smart-lifestyle.cn/file/uebzb.png" alt="image-20210511152659512"></p>
+<p>然后会生成命令，在Master节点主机上执行</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/9aknb.png" alt="image-20210624131205714"></p>
+<h3 id="配置worker节点"><a href="#配置worker节点" class="headerlink" title="配置worker节点"></a>配置worker节点</h3><ol>
+<li>选择Worker角色</li>
+<li>填写内网地址</li>
+<li>填写节点名称</li>
+</ol>
+<p>然后会生成命令，在Node节点主机上执行</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/9aknb.png" alt="image-20210624131205714"></p>
+<p>Rancher会监测角色是否齐全，如果不齐全，它会一直等待，只有我们创建的节点包含所有角色，才会去创建K8s服务</p>
+<h3 id="最后的结果"><a href="#最后的结果" class="headerlink" title="最后的结果"></a>最后的结果</h3><p><img src="https://oss.smart-lifestyle.cn/file/vt5r4.png" alt="image-20210624131709858"></p>
+<h2 id="部署应用测试"><a href="#部署应用测试" class="headerlink" title="部署应用测试"></a>部署应用测试</h2><p>选择已经安装的集群，选择命名空间Default</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/pr139.png" alt="image-20210624133826105"></p>
+<p>里面有工作负载、负载均衡等项</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/y9tpe.png" alt="image-20210624133946097"></p>
+<p>点击部署服务，填写名称、docker镜像、端口映射等，点击启动</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/5akkx.png" alt="image-20210624134301378"></p>
+<p>完成后，显示当前处于Active，对外暴露端口为31621</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/hhjuh.png" alt="image-20210624134430442"></p>
+<p>如果想通过公网访问，需要手动在安全组开放端口</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/sqw39.png" alt="image-20210624134713237"></p>
+<p>打开浏览器，输入IP/域名+端口号进行访问</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/bpcop.png" alt="image-20210624135020120"></p>
+<h3 id="通过Ingress访问"><a href="#通过Ingress访问" class="headerlink" title="通过Ingress访问"></a>通过Ingress访问</h3><p>在负载均衡页面添加转发规则，点击保存，等待生效</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/dcl00.png" alt="image-20210624140420462"></p>
+<p>这样就可以通过id/域名+path的方式访问</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/aqhg5.png" alt="image-20210624140608911"></p>
+<h2 id="增加持久卷"><a href="#增加持久卷" class="headerlink" title="增加持久卷"></a>增加持久卷</h2><p>以下使用腾讯云产品cfs NFS方式挂载PV；首先需要购买腾讯云的文件存储</p>
+<h3 id="购买文件存储"><a href="#购买文件存储" class="headerlink" title="购买文件存储"></a>购买文件存储</h3><ol>
+<li><p>新建文件系统</p>
+</li>
+<li><p>购买资源包(个人测试建议选择跟云主机同一区域的)</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/hp09i.png" alt="image-20210624141158272"></p>
+</li>
+<li><p>查看挂点信息中的IP</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/4jo9q.png" alt="image-20210624141316684"></p>
+</li>
+</ol>
+<h3 id="在Rancher中添加持久卷PV"><a href="#在Rancher中添加持久卷PV" class="headerlink" title="在Rancher中添加持久卷PV"></a>在Rancher中添加持久卷PV</h3><p>选择集群，然后选择存储–持久卷，点击添加PV</p>
+<ul>
+<li>卷插件选择NFS Share</li>
+<li>服务器填写上一步生成的地址</li>
+<li>路径填写/；新建的NFS系统中没有其他文件夹，<strong>如果想挂载二级目录，需要先手动创建目录</strong></li>
+<li>访问模式选择多主机读写</li>
+</ul>
+<p><img src="https://oss.smart-lifestyle.cn/file/gujzs.png" alt="image-20210624141553553"></p>
+<h3 id="添加PVC"><a href="#添加PVC" class="headerlink" title="添加PVC"></a>添加PVC</h3><p>点击添加PVC，选择上一步新建的持久卷（一个PV只能在一个PVC下面），删除PVC时，会将PV也“删除”😱</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/8iwlx.png" alt="image-20210624141855083"></p>
+<h3 id="挂载数据卷"><a href="#挂载数据卷" class="headerlink" title="挂载数据卷"></a>挂载数据卷</h3><p>新建工作负载或者升级已有负载</p>
+<p>选择数据卷–添加卷–使用现有PVC</p>
+<ul>
+<li>添加正确的容器路径</li>
+<li>子路径填写相对路径（相对于根路径），这里面写的路径，会自动在NFS文件系统中创建😄</li>
+</ul>
+<p><img src="https://oss.smart-lifestyle.cn/file/2wyug.png" alt="image-20210624142438484"></p>
+<p>通过df -h 能看到挂载成功</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/s4f4n.png" alt="image-20210624142958655"></p>
+<h2 id="证书申请"><a href="#证书申请" class="headerlink" title="证书申请"></a>证书申请</h2><p>免费证书可以在这个<a target="_blank" rel="noopener" href="https://freessl.cn/">网站</a>生成，使用比较简单，具体使用参考网上说明</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/p0hg5.png" alt="image-20210624143604995"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://docs.rancher.cn/docs/rancher2.5/installation/other-installation-methods/single-node-docker/_index/">安装指南 | Rancher文档</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://docs.rancher.cn/docs/rancher2/installation/requirements/_index/">具体要求 | Rancher文档</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://docs.rancher.cn/docs/rancher2/quick-start-guide/deployment/quickstart-manual-setup/_index">手动快速部署 | Rancher文档</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://docs.rancher.cn/docs/rancher2/best-practices/use-in-china/_index/">如何在国内使用 Rancher | Rancher文档</a></p>
+<p>[5] <a target="_blank" rel="noopener" href="https://docs.rancher.cn/docs/rancher2/installation/other-installation-methods/single-node-docker/troubleshooting/_index/">证书相关的问题排查 | Rancher文档</a></p>
+<p>[6] <a target="_blank" rel="noopener" href="https://docs.rancher.cn/docs/rancher2.5/installation/other-installation-methods/single-node-docker/advanced/_index/">单节点安装的高级选项 | Rancher文档</a></p>
+<p>[7] <a target="_blank" rel="noopener" href="https://docs.rancher.cn/docs/rancher2.5/admin-settings/replace-ip-domain/_index/">变更 Rancher Server IP 或域名 | Rancher文档</a></p>
+<p>[8] <a target="_blank" rel="noopener" href="https://github.com/theAkito/rancher-helpers/blob/master/scripts/cleanup_rancher.sh">rancher-helpers/cleanup_rancher.sh at master · theAkito/rancher-helpers (github.com)</a></p>
+<p>[9] <a target="_blank" rel="noopener" href="https://blog.csdn.net/aixiaoyang168/article/details/88664263">Rancher 2.x 负载均衡配置及使用_哎_小羊的博客-CSDN博客_rancher 负载均衡</a></p>
+<p>[10] <a target="_blank" rel="noopener" href="https://blog.csdn.net/aixiaoyang168/article/details/88600530#t12">Rancher 2.x 搭建及管理 Kubernetes 集群_哎_小羊的博客-CSDN博客_rancher</a></p>
+<p>[11] <a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/582/36929">文件存储 在容器上使用 CFS - 最佳实践 - 文档中心 - 腾讯云 (tencent.com)</a></p>
+
     </div>
 
     
@@ -292,6 +441,11 @@
     
 
       <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/k8s/" rel="tag"><i class="fa fa-tag"></i> k8s</a>
+              <a href="/tags/rancher/" rel="tag"><i class="fa fa-tag"></i> rancher</a>
+          </div>
 
         
 
@@ -365,6 +519,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">配置说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E8%A6%81%E6%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">端口要求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85rancher-server"><span class="nav-number">2.</span> <span class="nav-text">安装rancher server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E9%9B%86%E7%BE%A4"><span class="nav-number">3.</span> <span class="nav-text">添加集群</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEmaster%E8%8A%82%E7%82%B9"><span class="nav-number">3.1.</span> <span class="nav-text">配置master节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEworker%E8%8A%82%E7%82%B9"><span class="nav-number">3.2.</span> <span class="nav-text">配置worker节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E5%90%8E%E7%9A%84%E7%BB%93%E6%9E%9C"><span class="nav-number">3.3.</span> <span class="nav-text">最后的结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E5%BA%94%E7%94%A8%E6%B5%8B%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">部署应用测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87Ingress%E8%AE%BF%E9%97%AE"><span class="nav-number">4.1.</span> <span class="nav-text">通过Ingress访问</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0%E6%8C%81%E4%B9%85%E5%8D%B7"><span class="nav-number">5.</span> <span class="nav-text">增加持久卷</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%AD%E4%B9%B0%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8"><span class="nav-number">5.1.</span> <span class="nav-text">购买文件存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8Rancher%E4%B8%AD%E6%B7%BB%E5%8A%A0%E6%8C%81%E4%B9%85%E5%8D%B7PV"><span class="nav-number">5.2.</span> <span class="nav-text">在Rancher中添加持久卷PV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0PVC"><span class="nav-number">5.3.</span> <span class="nav-text">添加PVC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD%E6%95%B0%E6%8D%AE%E5%8D%B7"><span class="nav-number">5.4.</span> <span class="nav-text">挂载数据卷</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%81%E4%B9%A6%E7%94%B3%E8%AF%B7"><span class="nav-number">6.</span> <span class="nav-text">证书申请</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -380,20 +535,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">62</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">57</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -438,14 +593,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">48k</span>
+    <span title="站点总字数">63k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:28</span>
+    <span title="站点阅读时长">1:55</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0

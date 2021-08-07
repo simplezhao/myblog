@@ -3,10 +3,11 @@ title: python poetry requirements.txt
 tags:
   - python
   - poetry
-date: 2021-06-29 23:33:21
 categories: python
-keywords:
 description: 使用poetry来管理python包，并介绍如何导出和导入requirements.txt
+abbrlink: 143a
+date: 2021-06-29 23:33:21
+keywords:
 ---
 
 Poetry 是一个python虚拟环境和依赖管理工具，也可以用来构建打包python包，只需要一个标准化[pyproject.toml](https://www.python.org/dev/peps/pep-0518/)文件，其他依赖管理工具如：virtualenv、pipenv等

@@ -2,10 +2,11 @@
 title: Paw文件操作
 tags:
   - paw
-date: 2021-06-29 17:02:28
 categories: 工具
-keywords:
 description: 在使用paw中，如何使用文件请求和下载文件
+abbrlink: d5b5
+date: 2021-06-29 17:02:28
+keywords:
 ---
 
 > 整理paw中文件的请求和下载

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
@@ -58,8 +58,8 @@
 <meta property="article:published_time" content="2021-03-30T14:33:16.000Z">
 <meta property="article:modified_time" content="2021-03-30T14:33:16.000Z">
 <meta property="article:author" content="simple">
-<meta property="article:tag" content="openpyxl">
-<meta property="article:tag" content=" python">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="excel">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://blog.smart-lifestyle.cn/posts/df7e/">
@@ -145,17 +145,17 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">42</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">62</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">34</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">57</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">11</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">22</span></a>
 
   </li>
         <li class="menu-item menu-item-读书">
@@ -270,14 +270,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
             <div class="post-description">使用openpyxl对excel读写操作</div>
 
@@ -292,19 +292,16 @@
       
         <blockquote>
 <p>使用openpyxl对excel文件进行读写</p>
-<p><a href="https://openpyxl.readthedocs.io/en/stable/tutorial.html" target="_blank" rel="noopener">官方指导文档</a></p>
+<p><a target="_blank" rel="noopener" href="https://openpyxl.readthedocs.io/en/stable/tutorial.html">官方指导文档</a></p>
 </blockquote>
-<h2 id="准备">准备</h2>
-<h3 id="excel基本术语">excel基本术语</h3>
-<table>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><h3 id="excel基本术语"><a href="#excel基本术语" class="headerlink" title="excel基本术语"></a>excel基本术语</h3><table>
 <thead>
 <tr>
 <th>术语</th>
 <th>解释</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>Spreadsheet or Workbook</td>
 <td>excel文件</td>
 </tr>
@@ -314,47 +311,51 @@
 </tr>
 <tr>
 <td>Column</td>
-<td>表格列A…Z…</td>
+<td>表格列A….Z….</td>
 </tr>
 <tr>
 <td>Row</td>
-<td>表格行1…10…</td>
+<td>表格行1….10….</td>
 </tr>
 <tr>
 <td>Cell</td>
-<td>单元格A1…A2…</td>
+<td>单元格A1….A2….</td>
 </tr>
-</tbody>
-</table>
-<h3 id="安装openpyxl">安装openpyxl</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install openpyxl -i https://pypi.douban.com/simple/</span><br></pre></td></tr></table></figure>
-<h2 id="基本操作">基本操作</h2>
-<h3 id="新建workbook">新建workbook</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openpyxl <span class="keyword">import</span> Workbook</span><br><span class="line">wb = Workbook()</span><br></pre></td></tr></table></figure>
-<h3 id="加载已经存在的工作簿">加载已经存在的工作簿</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openpyxl <span class="keyword">import</span> load_workbook</span><br><span class="line">wb = load_workbook(<span class="string">'File Name'</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="选择sheet">选择sheet</h3>
-<p>默认Workbook创建时，会有一个sheet，通过<code>ws = wb.active</code> 选择并使用它</p>
+</tbody></table>
+<h3 id="安装openpyxl"><a href="#安装openpyxl" class="headerlink" title="安装openpyxl"></a>安装openpyxl</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install openpyxl -i https://pypi.douban.com/simple/</span><br></pre></td></tr></table></figure>
+
+<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><h3 id="新建workbook"><a href="#新建workbook" class="headerlink" title="新建workbook"></a>新建workbook</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openpyxl <span class="keyword">import</span> Workbook</span><br><span class="line">wb = Workbook()</span><br></pre></td></tr></table></figure>
+
+<h3 id="加载已经存在的工作簿"><a href="#加载已经存在的工作簿" class="headerlink" title="加载已经存在的工作簿"></a>加载已经存在的工作簿</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openpyxl <span class="keyword">import</span> load_workbook</span><br><span class="line">wb = load_workbook(<span class="string">&#x27;File Name&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="选择sheet"><a href="#选择sheet" class="headerlink" title="选择sheet"></a>选择sheet</h3><p>默认Workbook创建时，会有一个sheet，通过<code>ws = wb.active</code> 选择并使用它</p>
 <p>存在多个sheet时，可以通过<code>ws = wb[Sheet Name]</code> 选择所有操作的sheet，也可以通过以下操作选择</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取当前所有sheetname</span></span><br><span class="line">sheetlist = wb.sheetnames</span><br><span class="line"><span class="comment"># &gt;&gt; ['1st Sheet', '标签内容信息- Basic', '标签内容信息 -Standard', 'Readme', 'Add your sheets and content...']</span></span><br><span class="line">ws = wb[sheetlist[<span class="number">2</span>]] <span class="comment"># 或者</span></span><br><span class="line">ws.active = <span class="number">2</span></span><br><span class="line">ws = wb.active</span><br><span class="line"><span class="comment"># 查看当前sheet名字</span></span><br><span class="line">ws.title</span><br><span class="line">&gt;&gt; 标签内容信息- Basic</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取当前所有sheetname</span></span><br><span class="line">sheetlist = wb.sheetnames</span><br><span class="line"><span class="comment"># &gt;&gt; [&#x27;1st Sheet&#x27;, &#x27;标签内容信息- Basic&#x27;, &#x27;标签内容信息 -Standard&#x27;, &#x27;Readme&#x27;, &#x27;Add your sheets and content...&#x27;]</span></span><br><span class="line">ws = wb[sheetlist[<span class="number">2</span>]] <span class="comment"># 或者</span></span><br><span class="line">ws.active = <span class="number">2</span></span><br><span class="line">ws = wb.active</span><br><span class="line"><span class="comment"># 查看当前sheet名字</span></span><br><span class="line">ws.title</span><br><span class="line">&gt;&gt; 标签内容信息- Basic</span><br></pre></td></tr></table></figure>
+
 <p><code>ws = wb[Sheet Name]</code> 方法没有改变当前活跃的表格名</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wb.active</span><br><span class="line">&gt;&gt; &lt;Worksheet <span class="string">"标签内容信息- Basic"</span>&gt;</span><br><span class="line">ws = wb[<span class="string">'标签内容信息 -Standard'</span>]</span><br><span class="line">wb.active <span class="comment"># 还是运来的单元格</span></span><br><span class="line">&gt;&gt; &lt;Worksheet <span class="string">"标签内容信息- Basic"</span>&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="新建sheet">新建sheet</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认插在最后位置</span></span><br><span class="line">ws = wb.create_sheet(<span class="string">'Sheet Name'</span>)</span><br><span class="line"><span class="comment"># 也可以在sheet name参数后增加一个参数，表示创建位置</span></span><br><span class="line">ws = wb.create_sheet(<span class="string">'Sheet Name'</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="修改sheet-tittle">修改sheet tittle</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ws.title = New Title</span><br></pre></td></tr></table></figure>
-<h3 id="写入单元格">写入单元格</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ws[<span class="string">'A1'</span>] = <span class="string">'Name'</span></span><br><span class="line">ws[<span class="string">'B1'</span>] = <span class="string">'Age'</span></span><br><span class="line">ws[<span class="string">'C1'</span>] = <span class="string">'score'</span></span><br><span class="line">ws[<span class="string">'A2'</span>] = <span class="string">'张三'</span></span><br><span class="line">ws[<span class="string">'B2'</span>] = <span class="number">18</span></span><br><span class="line">ws[<span class="string">'C3'</span>] = <span class="number">95</span></span><br></pre></td></tr></table></figure>
-<h3 id="查看单元格内容">查看单元格内容</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ws[<span class="string">'A2'</span>].value</span><br><span class="line">&gt;&gt; <span class="string">'张三'</span></span><br></pre></td></tr></table></figure>
-<h3 id="保存文件-工作簿">保存文件/工作簿</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果filename已经存在，会没有确认的修改这个文件</span></span><br><span class="line">wb.save(filename)</span><br></pre></td></tr></table></figure>
-<h3 id="关闭工作簿">关闭工作簿</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 可能没有用？</span></span><br><span class="line">wb.close()</span><br></pre></td></tr></table></figure>
-<h2 id="参考">参考</h2>
-<p>[1] <a href="https://openpyxl.readthedocs.io/en/stable/tutorial.html" target="_blank" rel="noopener">官方文档</a></p>
-<p>[2] <a href="https://stackoverflow.com/questions/41556378/openpyxl-set-active-sheet/50117733" target="_blank" rel="noopener">选择sheet</a></p>
-<p>[3] <a href="https://realpython.com/openpyxl-excel-spreadsheets-python/" target="_blank" rel="noopener">realpython openpyxl guide</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wb.active</span><br><span class="line">&gt;&gt; &lt;Worksheet <span class="string">&quot;标签内容信息- Basic&quot;</span>&gt;</span><br><span class="line">ws = wb[<span class="string">&#x27;标签内容信息 -Standard&#x27;</span>]</span><br><span class="line">wb.active <span class="comment"># 还是运来的单元格</span></span><br><span class="line">&gt;&gt; &lt;Worksheet <span class="string">&quot;标签内容信息- Basic&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="新建sheet"><a href="#新建sheet" class="headerlink" title="新建sheet"></a>新建sheet</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认插在最后位置</span></span><br><span class="line">ws = wb.create_sheet(<span class="string">&#x27;Sheet Name&#x27;</span>)</span><br><span class="line"><span class="comment"># 也可以在sheet name参数后增加一个参数，表示创建位置</span></span><br><span class="line">ws = wb.create_sheet(<span class="string">&#x27;Sheet Name&#x27;</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改sheet-tittle"><a href="#修改sheet-tittle" class="headerlink" title="修改sheet tittle"></a>修改sheet tittle</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ws.title = New Title</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="写入单元格"><a href="#写入单元格" class="headerlink" title="写入单元格"></a>写入单元格</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ws[<span class="string">&#x27;A1&#x27;</span>] = <span class="string">&#x27;Name&#x27;</span></span><br><span class="line">ws[<span class="string">&#x27;B1&#x27;</span>] = <span class="string">&#x27;Age&#x27;</span></span><br><span class="line">ws[<span class="string">&#x27;C1&#x27;</span>] = <span class="string">&#x27;score&#x27;</span></span><br><span class="line">ws[<span class="string">&#x27;A2&#x27;</span>] = <span class="string">&#x27;张三&#x27;</span></span><br><span class="line">ws[<span class="string">&#x27;B2&#x27;</span>] = <span class="number">18</span></span><br><span class="line">ws[<span class="string">&#x27;C3&#x27;</span>] = <span class="number">95</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="查看单元格内容"><a href="#查看单元格内容" class="headerlink" title="查看单元格内容"></a>查看单元格内容</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ws[<span class="string">&#x27;A2&#x27;</span>].value</span><br><span class="line">&gt;&gt; <span class="string">&#x27;张三&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="保存文件-工作簿"><a href="#保存文件-工作簿" class="headerlink" title="保存文件/工作簿"></a>保存文件/工作簿</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果filename已经存在，会没有确认的修改这个文件</span></span><br><span class="line">wb.save(filename)</span><br></pre></td></tr></table></figure>
+
+<h3 id="关闭工作簿"><a href="#关闭工作簿" class="headerlink" title="关闭工作簿"></a>关闭工作簿</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 可能没有用？</span></span><br><span class="line">wb.close()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://openpyxl.readthedocs.io/en/stable/tutorial.html">官方文档</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/41556378/openpyxl-set-active-sheet/50117733">选择sheet</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://realpython.com/openpyxl-excel-spreadsheets-python/">realpython openpyxl guide</a></p>
 
     </div>
 
@@ -441,7 +442,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#excel基本术语"><span class="nav-number">1.1.</span> <span class="nav-text">excel基本术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装openpyxl"><span class="nav-number">1.2.</span> <span class="nav-text">安装openpyxl</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本操作"><span class="nav-number">2.</span> <span class="nav-text">基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新建workbook"><span class="nav-number">2.1.</span> <span class="nav-text">新建workbook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载已经存在的工作簿"><span class="nav-number">2.2.</span> <span class="nav-text">加载已经存在的工作簿</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择sheet"><span class="nav-number">2.3.</span> <span class="nav-text">选择sheet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新建sheet"><span class="nav-number">2.4.</span> <span class="nav-text">新建sheet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改sheet-tittle"><span class="nav-number">2.5.</span> <span class="nav-text">修改sheet tittle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写入单元格"><span class="nav-number">2.6.</span> <span class="nav-text">写入单元格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看单元格内容"><span class="nav-number">2.7.</span> <span class="nav-text">查看单元格内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#保存文件-工作簿"><span class="nav-number">2.8.</span> <span class="nav-text">保存文件&#x2F;工作簿</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关闭工作簿"><span class="nav-number">2.9.</span> <span class="nav-text">关闭工作簿</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#excel%E5%9F%BA%E6%9C%AC%E6%9C%AF%E8%AF%AD"><span class="nav-number">1.1.</span> <span class="nav-text">excel基本术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85openpyxl"><span class="nav-number">1.2.</span> <span class="nav-text">安装openpyxl</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAworkbook"><span class="nav-number">2.1.</span> <span class="nav-text">新建workbook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E5%B7%B2%E7%BB%8F%E5%AD%98%E5%9C%A8%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%B0%BF"><span class="nav-number">2.2.</span> <span class="nav-text">加载已经存在的工作簿</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9sheet"><span class="nav-number">2.3.</span> <span class="nav-text">选择sheet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAsheet"><span class="nav-number">2.4.</span> <span class="nav-text">新建sheet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9sheet-tittle"><span class="nav-number">2.5.</span> <span class="nav-text">修改sheet tittle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E5%85%A5%E5%8D%95%E5%85%83%E6%A0%BC"><span class="nav-number">2.6.</span> <span class="nav-text">写入单元格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%8D%95%E5%85%83%E6%A0%BC%E5%86%85%E5%AE%B9"><span class="nav-number">2.7.</span> <span class="nav-text">查看单元格内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E6%96%87%E4%BB%B6-%E5%B7%A5%E4%BD%9C%E7%B0%BF"><span class="nav-number">2.8.</span> <span class="nav-text">保存文件&#x2F;工作簿</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E5%B7%A5%E4%BD%9C%E7%B0%BF"><span class="nav-number">2.9.</span> <span class="nav-text">关闭工作簿</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -457,20 +458,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">62</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">57</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -515,14 +516,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">48k</span>
+    <span title="站点总字数">63k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:28</span>
+    <span title="站点阅读时长">1:55</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0

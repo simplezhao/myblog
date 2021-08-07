@@ -3,10 +3,11 @@ title: jupyter notebook使用环境变量
 tags:
   - jupyter
   - env
-date: 2021-06-18 15:44:57
 categories: jupyter
-keywords:
 description: 在jupyter notebook中使用环境变量
+abbrlink: 9e2a
+date: 2021-06-18 15:44:57
+keywords:
 ---
 
 > 使用python-dotenv库，在jupyter notebook中加载环境变量

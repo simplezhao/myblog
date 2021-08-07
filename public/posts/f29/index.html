@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
@@ -60,7 +60,7 @@
 <meta property="og:image" content="https://oss.smart-lifestyle.cn/file/io22a.png">
 <meta property="og:image" content="https://oss.smart-lifestyle.cn/file/gq6l8.png">
 <meta property="article:published_time" content="2021-05-23T07:39:12.000Z">
-<meta property="article:modified_time" content="2021-05-23T08:02:25.762Z">
+<meta property="article:modified_time" content="2021-05-23T08:02:25.000Z">
 <meta property="article:author" content="simple">
 <meta property="article:tag" content="docker">
 <meta property="article:tag" content="linux">
@@ -150,17 +150,17 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">42</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">62</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">34</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">57</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">11</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">22</span></a>
 
   </li>
         <li class="menu-item menu-item-读书">
@@ -265,7 +265,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>656</span>
+              <span>666</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -291,15 +291,17 @@
 <p><img src="https://oss.smart-lifestyle.cn/file/0vks3.png" alt="image-20210523155114587"></p>
 <p>发现此时终端显示的bash-4.2，而不是显示用户名@主机，另外终端文件夹文件的颜色也没有显示，最开始以为没有设置term颜色，但经过尝试不是这个问题（<code>TERM=xterm-256color</code>）。</p>
 <p>看到自己运行的docker命令，-v将data目录挂载了用户目录下，这时候想起里啊，docker volume第一次挂载是单项的，即及时容器内目录有内容，第一次挂载时，也会被主机目录覆盖掉，也就是现在主机data目录是空的，会把docker内用户目录内文件全部清空</p>
-<p>​	进行挂载后：</p>
+<p>​    进行挂载后：</p>
 <p><img src="https://oss.smart-lifestyle.cn/file/io22a.png" alt="image-20210523154824106"></p>
-<p>​	挂载前：</p>
+<p>​    挂载前：</p>
 <p><img src="https://oss.smart-lifestyle.cn/file/gq6l8.png" alt="image-20210523155224464"></p>
 <p>在用户目录下，存放着bash以及用户的各种配置文件，而进行挂载后，将所有配置文件全部清除了。</p>
 <p>正确做法，不要直接挂载到用户目录下，而应该挂载用户目录下的二级目录</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">volume="/Users/simple/workspace/function_graph/data"</span><br><span class="line">docker run -it --rm --init  --name centos -v $volume:/root/data -w /root python36:centos7 bash</span><br></pre></td></tr></table></figure>
-<h2 id="参考">参考</h2>
-<p>[1] (<a href="https://blog.csdn.net/liulihui1988/article/details/52796395" target="_blank" rel="noopener">linux 命令终端提示符显示-bash-4.2#解决方法__kairui的博客-CSDN博客_-bash-4.2#</a>)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">volume=&quot;/Users/simple/workspace/function_graph/data&quot;</span><br><span class="line">docker run -it --rm --init  --name centos -v $volume:/root/data -w /root python36:centos7 bash</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] (<a target="_blank" rel="noopener" href="https://blog.csdn.net/liulihui1988/article/details/52796395">linux 命令终端提示符显示-bash-4.2#解决方法__kairui的博客-CSDN博客_-bash-4.2#</a>)</p>
 
     </div>
 
@@ -323,7 +325,10 @@
     <a href="/posts/7376/" rel="prev" title="python递归创建目录(mkdir -p)">
       <i class="fa fa-chevron-left"></i> python递归创建目录(mkdir -p)
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/posts/91f6/" rel="next" title="空格">
+      空格 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -383,7 +388,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -399,20 +404,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">62</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">57</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -457,14 +462,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">48k</span>
+    <span title="站点总字数">63k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:28</span>
+    <span title="站点阅读时长">1:55</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0

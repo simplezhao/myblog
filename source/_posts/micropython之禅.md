@@ -3,10 +3,11 @@ title: micropython之禅
 tags:
   - micropython
   - microbit
-date: 2021-06-22 16:41:00
 categories: micropython
-keywords:
 description: zen of micropython
+abbrlink: 58bd
+date: 2021-06-22 16:41:00
+keywords:
 ---
 
 

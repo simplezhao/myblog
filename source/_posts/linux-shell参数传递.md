@@ -3,10 +3,11 @@ title: linux shell参数传递
 tags:
   - linux
   - shell
-date: 2021-07-01 21:10:52
 categories: linux
-keywords:
 description: 在shell脚本中获取执行时，传递的参数
+abbrlink: fab
+date: 2021-07-01 21:10:52
+keywords:
 ---
 
 | $#   | 参数数量                              |

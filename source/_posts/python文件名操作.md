@@ -3,10 +3,11 @@ title: python文件名操作
 tags:
   - python
   - file
-date: 2021-06-30 13:41:58
 categories: python
-keywords:
 description: 获取文件路径、文件名、文件后缀
+abbrlink: bea3
+date: 2021-06-30 13:41:58
+keywords:
 ---
 
 在进行文件上传或者文件转换时，需要进行文件上传（读取完整的本地文件路径），文件保存（仅文件名），格式转换（不包含后缀的文件名以及后缀名）

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
@@ -48,12 +48,12 @@
   };
 </script>
 
-  <meta name="description" content="使用python ftplib 库获取 某一天的文件列表，并下载到本地 1234# ftp 设置ftp_server &#x3D; &quot;******&quot;ftp_user &#x3D; &quot;*****&quot;ftp_password &#x3D; &quot;******&quot; 12345678from ftplib import FTPftp &#x3D; FTP(host&#x3D;ftp_server, user&#x3D;ftp_user, passwd&#x3D;ftp_passwo">
+  <meta name="description" content="使用python ftplib 库获取 某一天的文件列表，并下载到本地1234# ftp 设置ftp_server &#x3D; &quot;******&quot;ftp_user &#x3D; &quot;*****&quot;ftp_password &#x3D; &quot;******&quot;   12345678from ftplib import FTPftp &#x3D; FTP(host&#x3D;ftp_server, u">
 <meta property="og:type" content="article">
 <meta property="og:title" content="通过ftplib获取ftp指定日期间的文件">
 <meta property="og:url" content="https://blog.smart-lifestyle.cn/posts/e530/index.html">
 <meta property="og:site_name" content="simple&#39;s blog">
-<meta property="og:description" content="使用python ftplib 库获取 某一天的文件列表，并下载到本地 1234# ftp 设置ftp_server &#x3D; &quot;******&quot;ftp_user &#x3D; &quot;*****&quot;ftp_password &#x3D; &quot;******&quot; 12345678from ftplib import FTPftp &#x3D; FTP(host&#x3D;ftp_server, user&#x3D;ftp_user, passwd&#x3D;ftp_passwo">
+<meta property="og:description" content="使用python ftplib 库获取 某一天的文件列表，并下载到本地1234# ftp 设置ftp_server &#x3D; &quot;******&quot;ftp_user &#x3D; &quot;*****&quot;ftp_password &#x3D; &quot;******&quot;   12345678from ftplib import FTPftp &#x3D; FTP(host&#x3D;ftp_server, u">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-20T13:46:14.000Z">
 <meta property="article:modified_time" content="2020-05-20T13:46:14.000Z">
@@ -145,17 +145,17 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">42</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">62</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">34</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">57</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">11</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">22</span></a>
 
   </li>
         <li class="menu-item menu-item-读书">
@@ -270,14 +270,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -289,22 +289,28 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="使用python-ftplib-库获取-某一天的文件列表，并下载到本地">使用python ftplib 库获取 某一天的文件列表，并下载到本地</h2>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ftp 设置</span></span><br><span class="line">ftp_server = <span class="string">"******"</span></span><br><span class="line">ftp_user = <span class="string">"*****"</span></span><br><span class="line">ftp_password = <span class="string">"******"</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ftplib <span class="keyword">import</span> FTP</span><br><span class="line"></span><br><span class="line">ftp = FTP(host=ftp_server, user=ftp_user, passwd=ftp_password)</span><br><span class="line"><span class="comment"># 通过nlst获取文件列表</span></span><br><span class="line">file_list = ftp.nlst()</span><br><span class="line"><span class="comment"># 通过voidcmd 获取文件更新（上传）时间</span></span><br><span class="line">date = ftp.voidcmd(<span class="string">f"MDTM 202002190502.csv"</span>)</span><br><span class="line">print(date)</span><br></pre></td></tr></table></figure>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># <span class="number">213</span> <span class="number">20200219170403</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取文件</span></span><br><span class="line">filter_date = <span class="string">'20200520'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 遍历所有文件，生成一个迭代器</span></span><br><span class="line">items = filter(<span class="keyword">lambda</span> x: ftp.voidcmd(<span class="string">f"MDTM <span class="subst">&#123;x&#125;</span>"</span>)[<span class="number">4</span>:<span class="number">12</span>] == filter_date, file_list)</span><br><span class="line"><span class="comment"># 遍历迭代器, 通过retrbinary下载文件</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">    print(<span class="string">f"file name: <span class="subst">&#123;item&#125;</span>"</span>)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">f'temp/<span class="subst">&#123;item&#125;</span>'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">        ftp.retrbinary(<span class="string">f'RETR <span class="subst">&#123;item&#125;</span>'</span>, fp.write)</span><br><span class="line"><span class="comment"># 关闭ftp</span></span><br><span class="line">ftp.quit()</span><br></pre></td></tr></table></figure>
-<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">file</span> <span class="keyword">name</span>: HMI123456789_20200508.csv</span><br><span class="line"><span class="keyword">file</span> <span class="keyword">name</span>: HMI123456789_20200509.csv</span><br><span class="line"><span class="keyword">file</span> <span class="keyword">name</span>: HMI123456789_20200514.csv</span><br><span class="line"><span class="keyword">file</span> <span class="keyword">name</span>: HMI123456789_20200520.csv</span><br><span class="line"></span><br><span class="line"><span class="string">'221 Goodbye.'</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当ftp 服务器关闭是，再遍历过滤后的迭代器将为空</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">    print(itme)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>另外还可以通过ftp.dir获取，具体实现参考文档：<a href="https://www.semicolonworld.com/question/57790/how-to-get-ftp-file-39-s-modify-time-using-python-ftplib" target="_blank" rel="noopener">https://www.semicolonworld.com/question/57790/how-to-get-ftp-file-39-s-modify-time-using-python-ftplib</a></p>
+        <h2 id="使用python-ftplib-库获取-某一天的文件列表，并下载到本地"><a href="#使用python-ftplib-库获取-某一天的文件列表，并下载到本地" class="headerlink" title="使用python ftplib 库获取 某一天的文件列表，并下载到本地"></a>使用python ftplib 库获取 某一天的文件列表，并下载到本地</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ftp 设置</span></span><br><span class="line">ftp_server = <span class="string">&quot;******&quot;</span></span><br><span class="line">ftp_user = <span class="string">&quot;*****&quot;</span></span><br><span class="line">ftp_password = <span class="string">&quot;******&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ftplib <span class="keyword">import</span> FTP</span><br><span class="line"></span><br><span class="line">ftp = FTP(host=ftp_server, user=ftp_user, passwd=ftp_password)</span><br><span class="line"><span class="comment"># 通过nlst获取文件列表</span></span><br><span class="line">file_list = ftp.nlst()</span><br><span class="line"><span class="comment"># 通过voidcmd 获取文件更新（上传）时间</span></span><br><span class="line">date = ftp.voidcmd(<span class="string">f&quot;MDTM 202002190502.csv&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(date)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># 213 20200219170403</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取文件</span></span><br><span class="line">filter_date = <span class="string">&#x27;20200520&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 遍历所有文件，生成一个迭代器</span></span><br><span class="line">items = <span class="built_in">filter</span>(<span class="keyword">lambda</span> x: ftp.voidcmd(<span class="string">f&quot;MDTM <span class="subst">&#123;x&#125;</span>&quot;</span>)[<span class="number">4</span>:<span class="number">12</span>] == filter_date, file_list)</span><br><span class="line"><span class="comment"># 遍历迭代器, 通过retrbinary下载文件</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;file name: <span class="subst">&#123;item&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">f&#x27;temp/<span class="subst">&#123;item&#125;</span>&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">        ftp.retrbinary(<span class="string">f&#x27;RETR <span class="subst">&#123;item&#125;</span>&#x27;</span>, fp.write)</span><br><span class="line"><span class="comment"># 关闭ftp</span></span><br><span class="line">ftp.quit()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">file</span> <span class="keyword">name</span>: HMI123456789_20200508.csv</span><br><span class="line"><span class="keyword">file</span> <span class="keyword">name</span>: HMI123456789_20200509.csv</span><br><span class="line"><span class="keyword">file</span> <span class="keyword">name</span>: HMI123456789_20200514.csv</span><br><span class="line"><span class="keyword">file</span> <span class="keyword">name</span>: HMI123456789_20200520.csv</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;221 Goodbye.&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当ftp 服务器关闭是，再遍历过滤后的迭代器将为空</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">    <span class="built_in">print</span>(itme)</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<p>另外还可以通过ftp.dir获取，具体实现参考文档：<a target="_blank" rel="noopener" href="https://www.semicolonworld.com/question/57790/how-to-get-ftp-file-39-s-modify-time-using-python-ftplib">https://www.semicolonworld.com/question/57790/how-to-get-ftp-file-39-s-modify-time-using-python-ftplib</a></p>
 <p>参考：</p>
 <ol>
-<li><a href="https://docs.python.org/3/library/ftplib.html" target="_blank" rel="noopener" title="ftplib">https://docs.python.org/3/library/ftplib.html</a></li>
-<li><a href="https://stackoverflow.com/questions/8990598/python-ftp-get-the-most-recent-file-by-date?answertab=votes#tab-top" target="_blank" rel="noopener" title="Python FTP get the most recent file by date">https://stackoverflow.com/questions/8990598/python-ftp-get-the-most-recent-file-by-date?answertab=votes#tab-top</a></li>
-<li><a href="https://stackoverflow.com/questions/29026709/how-to-get-ftp-files-modify-time-using-python-ftplib" target="_blank" rel="noopener" title="How to get FTP file's modify time using Python ftplib">https://stackoverflow.com/questions/29026709/how-to-get-ftp-files-modify-time-using-python-ftplib</a></li>
-<li><a href="https://tools.ietf.org/html/rfc3659#section-3" target="_blank" rel="noopener" title="rfc3659">https://tools.ietf.org/html/rfc3659#section-3</a></li>
-<li><a href="https://www.semicolonworld.com/question/57790/how-to-get-ftp-file-39-s-modify-time-using-python-ftplib" target="_blank" rel="noopener"> https://www.semicolonworld.com/question/57790/how-to-get-ftp-file-39-s-modify-time-using-python-ftplib </a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/ftplib.html" title="ftplib">https://docs.python.org/3/library/ftplib.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/8990598/python-ftp-get-the-most-recent-file-by-date?answertab=votes#tab-top" title="Python FTP get the most recent file by date">https://stackoverflow.com/questions/8990598/python-ftp-get-the-most-recent-file-by-date?answertab=votes#tab-top</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/29026709/how-to-get-ftp-files-modify-time-using-python-ftplib" title="How to get FTP file&#39;s modify time using Python ftplib">https://stackoverflow.com/questions/29026709/how-to-get-ftp-files-modify-time-using-python-ftplib</a></li>
+<li><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc3659#section-3" title="rfc3659">https://tools.ietf.org/html/rfc3659#section-3</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.semicolonworld.com/question/57790/how-to-get-ftp-file-39-s-modify-time-using-python-ftplib"> https://www.semicolonworld.com/question/57790/how-to-get-ftp-file-39-s-modify-time-using-python-ftplib </a></li>
 </ol>
 
     </div>
@@ -392,7 +398,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用python-ftplib-库获取-某一天的文件列表，并下载到本地"><span class="nav-number">1.</span> <span class="nav-text">使用python ftplib 库获取 某一天的文件列表，并下载到本地</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8python-ftplib-%E5%BA%93%E8%8E%B7%E5%8F%96-%E6%9F%90%E4%B8%80%E5%A4%A9%E7%9A%84%E6%96%87%E4%BB%B6%E5%88%97%E8%A1%A8%EF%BC%8C%E5%B9%B6%E4%B8%8B%E8%BD%BD%E5%88%B0%E6%9C%AC%E5%9C%B0"><span class="nav-number">1.</span> <span class="nav-text">使用python ftplib 库获取 某一天的文件列表，并下载到本地</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -408,20 +414,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">62</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">57</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -466,14 +472,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">48k</span>
+    <span title="站点总字数">63k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:28</span>
+    <span title="站点阅读时长">1:55</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0

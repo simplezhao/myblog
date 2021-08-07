@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 5.4.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
@@ -71,7 +71,7 @@
   };
 </script>
 
-  <title>DevOps、IoT、全栈开发 - simple's blog - IoT Architect</title>
+  <title> - simple's blog - </title>
   
 
 
@@ -142,17 +142,17 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">42</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">62</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">34</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">57</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">11</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">22</span></a>
 
   </li>
         <li class="menu-item menu-item-读书">
@@ -217,7 +217,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/f29/">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/62e8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
@@ -231,7 +231,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/posts/f29/" class="post-title-link" itemprop="url">docker运行linux终端显示bash-4.2#</a>
+            <a href="/posts/62e8/" class="post-title-link" itemprop="url">ubuntu更改主机名</a>
         </h2>
 
         <div class="post-meta">
@@ -242,7 +242,18 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-05-23 15:39:12 / 修改时间：16:02:25" itemprop="dateCreated datePublished" datetime="2021-05-23T15:39:12+08:00">2021-05-23</time>
+              <time title="创建时间：2021-07-01 22:17:51 / 修改时间：22:25:48" itemprop="dateCreated datePublished" datetime="2021-07-01T22:17:51+08:00">2021-07-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index">
+                    <span itemprop="name">运维</span>
+                  </a>
+                </span>
             </span>
 
           <br>
@@ -251,7 +262,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>656</span>
+              <span>191</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -260,7 +271,7 @@
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               <span>1 分钟</span>
             </span>
-            <div class="post-description">docker运行linux终端显示bash-4.2#</div>
+            <div class="post-description">修改公有云上linux VM主机名</div>
 
         </div>
       </header>
@@ -271,14 +282,126 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>一次在docker中运行centos，为了省事，将数据卷挂载了整个用户工作目录下，执行<code>docker run -it -v /Users/simple/workspace/tmp/data:/root python36:centos7 bash</code></p>
-<p><img src="https://oss.smart-lifestyle.cn/file/k5nrn.png" alt="image-20210523154159576"></p>
-<p>理论上应该按如下显示：</p>
-<p><img src="https://oss.smart-lifestyle.cn/file/0vks3.png" alt="image-20210523155114587"></p>
-<p>发现此时终端显示的bash-4.2，而不是显示用户名@主机，另外终端文件夹文件的颜色也没有显示，最开始以为没有设置term颜色，但经过尝试不是这个问题（<code>TERM=xterm-256color</code>）。</p>
+          <ul>
+<li>增加或者修改<code>/etc/hostname</code>，添加新的主机名</li>
+<li>修改<code>/etc/hosts</code>，在127.0.0.1中添加新的主机名</li>
+<li>如果是在云上运行vm实例，需要修改上面的<code>/etc/cloud/cloud.cfg</code>，否则重启机器后，hostname会变为默认值😭；找到<code>preserve_hostname</code>，将其值改为<code>true</code></li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://www.myfreax.com/how-to-change-hostname-on-ubuntu-20-04/">如何在Ubuntu 20.04上更改主机名 (myfreax.com)</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/fab/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="IoT Architect">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simple's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/posts/fab/" class="post-title-link" itemprop="url">linux shell参数传递</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-01 21:10:52 / 修改时间：22:06:49" itemprop="dateCreated datePublished" datetime="2021-07-01T21:10:52+08:00">2021-07-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>415</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+            <div class="post-description">在shell脚本中获取执行时，传递的参数</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <table>
+<thead>
+<tr>
+<th>$#</th>
+<th>参数数量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$n</td>
+<td>表示第n个参数，n为0时表示运行的脚本名</td>
+</tr>
+<tr>
+<td>$@</td>
+<td>“$1” “$2” “$3”…. 传递的多个参数</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">echo &quot;total params: $#&quot;</span><br><span class="line">echo &quot;filename: $0&quot;</span><br><span class="line">echo &quot;param1: $1&quot;</span><br><span class="line">echo &quot;param2: $2&quot;</span><br><span class="line">echo &quot;param3: $3&quot;</span><br><span class="line">echo &quot;==============&quot;</span><br><span class="line">for i in &quot;$@&quot;; do</span><br><span class="line">    echo &quot;param: $i&quot;</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">total params: 2</span><br><span class="line">filename: ./test.sh</span><br><span class="line">param1: x1</span><br><span class="line">param2: x2</span><br><span class="line">param3:</span><br><span class="line">==============</span><br><span class="line">param: x1</span><br><span class="line">param: x2</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-shell-passing-arguments.html">Shell 传递参数 | 菜鸟教程 (runoob.com)</a></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/posts/f29/#more" rel="contents">
+              <a class="btn" href="/posts/fab/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -302,7 +425,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/7376/">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/1538/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
@@ -316,7 +439,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/posts/7376/" class="post-title-link" itemprop="url">python递归创建目录(mkdir -p)</a>
+            <a href="/posts/1538/" class="post-title-link" itemprop="url">SQL连接字符串中密码包含特殊字符</a>
         </h2>
 
         <div class="post-meta">
@@ -327,7 +450,108 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-05-22 16:15:50 / 修改时间：19:22:58" itemprop="dateCreated datePublished" datetime="2021-05-22T16:15:50+08:00">2021-05-22</time>
+              <time title="创建时间：2021-07-01 16:59:35 / 修改时间：17:11:56" itemprop="dateCreated datePublished" datetime="2021-07-01T16:59:35+08:00">2021-07-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SQLAlchemy/" itemprop="url" rel="index">
+                    <span itemprop="name">SQLAlchemy</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>650</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+            <div class="post-description">SQLAlchemy连接字符串中密码包含特殊字符，可以进行url编码</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>生产环境中，数据库的密码会包含特殊字符，如果包含了<code>@</code>等符号，会被create_engine识别错误。</p>
+<p>可以对密码进行url编码，使用<code>urllib.parse.quote_plus</code></p>
+<blockquote>
+<p>As the URL is like any other URL, <strong>special characters such as those that may be used in the password need to be URL encoded to be parsed correctly.</strong>. Below is an example of a URL that includes the password <code>&quot;kx%jj5/g&quot;</code>, where the percent sign and slash characters are represented as <code>%25</code> and <code>%2F</code>, respectively:</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line">username = <span class="string">&#x27;scoot&#x27;</span></span><br><span class="line">password = <span class="string">&#x27;@#@%/g&#x27;</span></span><br><span class="line"></span><br><span class="line">engine = create_engine(<span class="string">f&#x27;postgresql://<span class="subst">&#123;username&#125;</span>:<span class="subst">&#123;urllib.parse.quote_plus(password)&#125;</span>@localhost:5432/mydatabase&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/posts/1538/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/bea3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="IoT Architect">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simple's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/posts/bea3/" class="post-title-link" itemprop="url">python文件名操作</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-06-30 13:41:58 / 修改时间：16:04:19" itemprop="dateCreated datePublished" datetime="2021-06-30T13:41:58+08:00">2021-06-30</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -347,7 +571,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
+              <span>916</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -356,7 +580,7 @@
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               <span>2 分钟</span>
             </span>
-            <div class="post-description">使用python递归创建目录（类似于mkdir -p)</div>
+            <div class="post-description">获取文件路径、文件名、文件后缀</div>
 
         </div>
       </header>
@@ -367,14 +591,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>在为日志文件设置存放位置时，需要在程序里判断文件夹（位置）是否存在，通常使用<code>os.mkdir</code>来创建目录，但是如果目录为多层次目录，而且某一层目录存在，在使用<code>os.mkdir</code>时会报错：FileNotFoundError*</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.mkdir(<span class="string">'/tmp/logpath/path'</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">FileNotFoundError: [Errno <span class="number">2</span>] No such file <span class="keyword">or</span> directory: <span class="string">'/tmp/logpath/path'</span></span><br></pre></td></tr></table></figure>
-<p>这是因为os.mkdir不支持多层目录递归创建。</p>
-<p>在linux mkdir命令中，它支持如下操作，使用-p 可以实现递归创建目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">tldr mkdir</span><br><span class="line">Cache is out of date. You should run <span class="string">"tldr --update"</span></span><br><span class="line"></span><br><span class="line">  mkdir</span><br><span class="line"></span><br><span class="line">  Creates a directory.</span><br><span class="line">  More information: https://www.gnu.org/software/coreutils/mkdir.</span><br><span class="line"></span><br><span class="line">  - Create a directory <span class="keyword">in</span> current directory or given path:</span><br><span class="line">    mkdir directory</span><br><span class="line"></span><br><span class="line">  - Create directories recursively (useful <span class="keyword">for</span> creating nested <span class="built_in">dirs</span>):</span><br><span class="line">    mkdir -p path/to/directory</span><br></pre></td></tr></table></figure>
+          <p>在进行文件上传或者文件转换时，需要进行文件上传（读取完整的本地文件路径），文件保存（仅文件名），格式转换（不包含后缀的文件名以及后缀名）</p>
+<p>使用到python库有：</p>
+<ul>
+<li><p>os.path.splitext()</p>
+<p>分离文件名和文件后缀，以最后一个’.’来获取文件后缀</p>
+</li>
+<li><p>os.path.split()</p>
+<p>分离文件路径和文件名</p>
+</li>
+</ul>
+<ol>
+<li>os.path.splitext()</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> os.path <span class="keyword">import</span> splitext</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>splitext(<span class="string">&#x27;/Users/simple/workspace/tmp/traefik/docker-compose.yml&#x27;</span>)</span><br><span class="line">(<span class="string">&#x27;/Users/simple/workspace/tmp/traefik/docker-compose&#x27;</span>, <span class="string">&#x27;.yml&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果输入是一个不包含路径的隐藏文件格式，后缀返回为空</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>splitext(<span class="string">&#x27;.bashrc&#x27;</span>)</span><br><span class="line">(<span class="string">&#x27;.bashrc&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/posts/7376/#more" rel="contents">
+              <a class="btn" href="/posts/bea3/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -398,7 +631,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/c57a/">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/3178/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
@@ -412,7 +645,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/posts/c57a/" class="post-title-link" itemprop="url">使用crontab定期同步NTP时间</a>
+            <a href="/posts/3178/" class="post-title-link" itemprop="url">修改SQL Server连接字符串</a>
         </h2>
 
         <div class="post-meta">
@@ -421,24 +654,18 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-05-21 14:33:40" itemprop="dateCreated datePublished" datetime="2021-05-21T14:33:40+08:00">2021-05-21</time>
+              <time title="创建时间：2021-06-30 11:13:50 / 修改时间：11:19:48" itemprop="dateCreated datePublished" datetime="2021-06-30T11:13:50+08:00">2021-06-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-23 15:11:37" itemprop="dateModified" datetime="2021-05-23T15:11:37+08:00">2021-05-23</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
+                  <a href="/categories/SQL/" itemprop="url" rel="index">
+                    <span itemprop="name">SQL</span>
                   </a>
                 </span>
             </span>
@@ -449,16 +676,16 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
+              <span>168</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>1 分钟</span>
             </span>
-            <div class="post-description">使用crontab定期同步NTP时间</div>
+            <div class="post-description">在DataGrip中解决SQL Server连接报“驱动程序无法使用安全套接字层（SSL）加密建立到SQL Server的安全连接”</div>
 
         </div>
       </header>
@@ -469,14 +696,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>购买的阿里云香港虚机，不知道怎么回事，过一段时间，它的时间就跟实际时间偏离越来越远，导致HTTPS无法正常工作，</p>
-<p>最开始是手动的登录的服务器，使用<code>rdate -s time.nist.gov</code>进行手动更新时间，但后来发现自己越来越懒，而且最近这个命令一直出错: <code>rdate: Could not read data: Cannot assign requested address</code>, 可能是后面的时间同步服务器挂了。</p>
-<p>因此改为使用<code>ntpdate</code>来同步时间，<a href="http://xn--ntpntp-9g8in7dm0mk7jex1c6m9akydt74je7n.cloud.aliyuncs.com" target="_blank" rel="noopener">使用阿里云的ntp服务器ntp.cloud.aliyuncs.com</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ntpdate ntp.cloud.aliyuncs.com</span><br><span class="line">23 May 14:43:07 ntpdate[9801]: step time server 100.100.61.88 offset 3.848040 sec</span><br></pre></td></tr></table></figure>
-<p>然后将改名了加入crontab任务中</p>
+          <blockquote>
+<p>com.microsoft.sql server.jdbc.sqlserverException:驱动程序无法使用安全套接字层（SSL）加密建立到SQL Server的安全连接</p>
+</blockquote>
+<p>在高级设置中trustServerCertificate改为true即可</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/cs6v8.png" alt="image-20210630111813541"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://www.baooytra.com/knowledge/questions/56246/modifying-sql-server-connection-string.html?smartspace=fme-desktop-getting-started_2">修改SQL Server连接字符串-FME社区 - 亚搏在线 (baooytra.com)</a></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/posts/c57a/#more" rel="contents">
+              <a class="btn" href="/posts/3178/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -500,7 +728,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/a8ad/">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/990c/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
@@ -514,7 +742,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/posts/a8ad/" class="post-title-link" itemprop="url">rancherandgithub</a>
+            <a href="/posts/990c/" class="post-title-link" itemprop="url">函数计算中python依赖包打包</a>
         </h2>
 
         <div class="post-meta">
@@ -523,258 +751,18 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-05-12 23:55:56" itemprop="dateCreated datePublished" datetime="2021-05-12T23:55:56+08:00">2021-05-12</time>
+              <time title="创建时间：2021-06-30 10:09:58 / 修改时间：10:26:02" itemprop="dateCreated datePublished" datetime="2021-06-30T10:09:58+08:00">2021-06-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-22 19:19:02" itemprop="dateModified" datetime="2021-05-22T19:19:02+08:00">2021-05-22</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/ee95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
-      <meta itemprop="name" content="simple">
-      <meta itemprop="description" content="IoT Architect">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="simple's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/ee95/" class="post-title-link" itemprop="url">rancher部署</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-11 23:17:39" itemprop="dateCreated datePublished" datetime="2021-05-11T23:17:39+08:00">2021-05-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-22 19:19:02" itemprop="dateModified" datetime="2021-05-22T19:19:02+08:00">2021-05-22</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/7112/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
-      <meta itemprop="name" content="simple">
-      <meta itemprop="description" content="IoT Architect">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="simple's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/7112/" class="post-title-link" itemprop="url">traefik</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-10 23:36:49" itemprop="dateCreated datePublished" datetime="2021-05-10T23:36:49+08:00">2021-05-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-22 19:19:02" itemprop="dateModified" datetime="2021-05-22T19:19:02+08:00">2021-05-22</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/a9f1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
-      <meta itemprop="name" content="simple">
-      <meta itemprop="description" content="IoT Architect">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="simple's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/a9f1/" class="post-title-link" itemprop="url">sentry初试牛刀</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-08 23:50:12" itemprop="dateCreated datePublished" datetime="2021-05-08T23:50:12+08:00">2021-05-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-22 19:19:02" itemprop="dateModified" datetime="2021-05-22T19:19:02+08:00">2021-05-22</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index">
-                    <span itemprop="name">运维</span>
+                  <a href="/categories/serverless/" itemprop="url" rel="index">
+                    <span itemprop="name">serverless</span>
                   </a>
                 </span>
             </span>
@@ -785,7 +773,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>461</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -794,6 +782,7 @@
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               <span>1 分钟</span>
             </span>
+            <div class="post-description">如何在函数计算中为python打包依赖包</div>
 
         </div>
       </header>
@@ -804,7 +793,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <p>以下操作使用于华为云的<a target="_blank" rel="noopener" href="https://support.huaweicloud.com/functiongraph/">functiongraph</a>和腾讯云的<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/583/9199">serverless</a></p>
+<p><em>！有些包需要编译，因此建议在centos7中进行操作</em></p>
+<h3 id="准备内容"><a href="#准备内容" class="headerlink" title="准备内容"></a>准备内容</h3><ol>
+<li>Centos7 + python3.6环境 + zip</li>
+<li>requirements.txt</li>
+</ol>
+<h3 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/posts/990c/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -823,7 +826,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/76d7/">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/50db/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
@@ -837,7 +840,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/posts/76d7/" class="post-title-link" itemprop="url">python多线程</a>
+            <a href="/posts/50db/" class="post-title-link" itemprop="url">docker run -- 使用环境变量</a>
         </h2>
 
         <div class="post-meta">
@@ -846,16 +849,21 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-04-26 23:58:09" itemprop="dateCreated datePublished" datetime="2021-04-26T23:58:09+08:00">2021-04-26</time>
+              <time title="创建时间：2021-06-30 09:42:48 / 修改时间：09:51:19" itemprop="dateCreated datePublished" datetime="2021-06-30T09:42:48+08:00">2021-06-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-22 19:19:02" itemprop="dateModified" datetime="2021-05-22T19:19:02+08:00">2021-05-22</time>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
               </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
+                  </a>
+                </span>
+            </span>
 
           <br>
             <span class="post-meta-item" title="本文字数">
@@ -863,7 +871,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>219</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -872,6 +880,7 @@
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               <span>1 分钟</span>
             </span>
+            <div class="post-description">运行docker时，通过多种方式使用环境变量</div>
 
         </div>
       </header>
@@ -882,7 +891,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <ul>
+<li><p>docker run</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 -e, --env</span></span><br><span class="line">docker run -e ENV=prod --env IP=1.2.3.4 .....</span><br><span class="line"><span class="comment"># 如果只声明变量，没有值，表示从系统环境变量中获取改值</span></span><br><span class="line"><span class="built_in">export</span> secret=%$<span class="comment">#$FG</span></span><br><span class="line">docker run -e secret --env IP=1.2.3.4 .....</span><br><span class="line"><span class="comment"># 从文件中获取</span></span><br><span class="line">cat .env</span><br><span class="line"><span class="comment"># ENV=prod</span></span><br><span class="line"><span class="comment"># IP=1.2.3.4</span></span><br><span class="line"></span><br><span class="line">docker run --env-file .env .....</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+
       
     </div>
 
@@ -901,7 +914,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/1cbb/">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/d17f/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
@@ -915,7 +928,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/posts/1cbb/" class="post-title-link" itemprop="url">mongo</a>
+            <a href="/posts/d17f/" class="post-title-link" itemprop="url">docker commit -- 基于容器创建镜像</a>
         </h2>
 
         <div class="post-meta">
@@ -924,16 +937,21 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-04-23 22:53:55" itemprop="dateCreated datePublished" datetime="2021-04-23T22:53:55+08:00">2021-04-23</time>
+              <time title="创建时间：2021-06-30 09:33:50 / 修改时间：09:42:09" itemprop="dateCreated datePublished" datetime="2021-06-30T09:33:50+08:00">2021-06-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-22 19:19:02" itemprop="dateModified" datetime="2021-05-22T19:19:02+08:00">2021-05-22</time>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
               </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
+                  </a>
+                </span>
+            </span>
 
           <br>
             <span class="post-meta-item" title="本文字数">
@@ -941,7 +959,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>362</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -950,6 +968,7 @@
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               <span>1 分钟</span>
             </span>
+            <div class="post-description">使用docker commit创建一个新的镜像</div>
 
         </div>
       </header>
@@ -960,7 +979,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <ul>
+<li>docker commit 命令<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基本用法</span></span><br><span class="line">docker commit container_id image_name:tag</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果想修改某些内容，可以使用--change</span></span><br><span class="line">docker commit --change <span class="string">&quot;ENV DEBUG=true&quot;</span> container_id image_name:tag</span><br><span class="line">docker commit --change=<span class="string">&#x27;CMD [&quot;python&quot;, &quot;app.py&quot;]&#x27;</span> container_id image_name:tag</span><br><span class="line">docker commit --change <span class="string">&quot;EXPOSE 80&quot;</span> container_id image_name:tag</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/commit/">docker commit | Docker Documentation</a></p>
+
       
     </div>
 
@@ -979,7 +1002,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/b60b/">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/a038/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
@@ -993,7 +1016,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/posts/b60b/" class="post-title-link" itemprop="url">JavaScript深度拷贝</a>
+            <a href="/posts/a038/" class="post-title-link" itemprop="url">Alpha、Beta、RC、GA版本的区别</a>
         </h2>
 
         <div class="post-meta">
@@ -1002,16 +1025,21 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-04-21 21:26:53" itemprop="dateCreated datePublished" datetime="2021-04-21T21:26:53+08:00">2021-04-21</time>
+              <time title="创建时间：2021-06-29 23:57:37 / 修改时间：23:59:27" itemprop="dateCreated datePublished" datetime="2021-06-29T23:57:37+08:00">2021-06-29</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-22 19:19:02" itemprop="dateModified" datetime="2021-05-22T19:19:02+08:00">2021-05-22</time>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
               </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">软件工程</span>
+                  </a>
+                </span>
+            </span>
 
           <br>
             <span class="post-meta-item" title="本文字数">
@@ -1019,7 +1047,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>787</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1028,6 +1056,7 @@
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               <span>1 分钟</span>
             </span>
+            <div class="post-description">Alpha、Beta、RC、GA版本的区别</div>
 
         </div>
       </header>
@@ -1038,7 +1067,135 @@
     <div class="post-body" itemprop="articleBody">
 
       
+          <ul>
+<li><p>Alpha：是内部测试版,一般不向外部发布,会有很多Bug.一般只有测试人员使用。</p>
+</li>
+<li><p>Beta：也是测试版，这个阶段的版本会一直加入新的功能。在Alpha版之后推出。</p>
+</li>
+<li><p>RC：(Release　Candidate) 顾名思义么 ! 用在软件上就是候选版本。系统平台上就是发行候选版本。RC版不会再加入新的功能了，主要着重于除错。</p>
+</li>
+<li><p>GA:General Availability,正式发布的版本，在国外都是用GA来说明release版本的。</p>
+</li>
+<li><p>RTM：(Release to Manufacture)是给工厂大量压片的版本，内容跟正式版是一样的，不过RTM版也有出限制、评估版的。但是和正式版本的主要程序代码都是一样的。</p>
+</li>
+<li><p>OEM：是给计算机厂商随着计算机贩卖的，也就是随机版。只能随机器出货，不能零售。只能全新安装，不能从旧有操作系统升级。包装不像零售版精美，通常只有一面CD和说明书(授权书)。</p>
+</li>
+<li><p>RVL：号称是正式版，其实RVL根本不是版本的名称。它是中文版/英文版文档破解出来的。</p>
+</li>
+<li><p>EVAL：而流通在网络上的EVAL版，与“评估版”类似，功能上和零售版没有区别。</p>
+</li>
+<li><p>RTL：Retail(零售版)是真正的正式版，正式上架零售版。在安装盘的i386文件夹里有一个eula.txt，最后有一行EULAID，就是你的版本。比如简体中文正式版是EULAID:WX.4_PRO_RTL_CN，繁体中文正式版是WX.4_PRO_RTL_TW。其中：如果是WX.开头是正式版，WB.开头是测试版。_PRE，代表家庭版；_PRO，代表专业版。</p>
+</li>
+</ul>
+<p>α、β、λ常用来表示软件测试过程中的三个阶段，α是第一阶段，一般只供内部测试使用；β是第二个阶段，已经消除了软件中大部分的不完善之处，但仍有可能还存在缺陷和漏洞，一般只提供给特定的用户群来测试使用；λ是第三个阶段，此时产品已经相当成熟，只需在个别地方再做进一步的优化处理即可上市发行。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/143a/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="IoT Architect">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simple's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
           
+            <a href="/posts/143a/" class="post-title-link" itemprop="url">python poetry requirements.txt</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-06-29 23:33:21 / 修改时间：23:54:08" itemprop="dateCreated datePublished" datetime="2021-06-29T23:33:21+08:00">2021-06-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>858</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+            <div class="post-description">使用poetry来管理python包，并介绍如何导出和导入requirements.txt</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Poetry 是一个python虚拟环境和依赖管理工具，也可以用来构建打包python包，只需要一个标准化<a target="_blank" rel="noopener" href="https://www.python.org/dev/peps/pep-0518/">pyproject.toml</a>文件，其他依赖管理工具如：virtualenv、pipenv等</p>
+<p>requirements.txt是用来描述用了哪些python包，以及版本是什么</p>
+<p>这里记录一下这两者之间如何转换</p>
+<ul>
+<li><p>poetry export requirements.txt</p>
+<p>导出requirements.txt用于容器等环境构建</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poetry export -f requirements.txt --output requirements-prod.txt --without-hashes</span><br></pre></td></tr></table></figure></li>
+<li><p>poerty add from requirements.txt </p>
+<p>如果现在有requirements.txt，而后续想通过poetry管理包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat requirements.txt|xargs poetry add</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="已知的问题"><a href="#已知的问题" class="headerlink" title="已知的问题"></a>已知的问题</h3></li>
+</ul>
+<p>poetry 导出的requirements.txt里包含了依赖的python最低版本，如果poetry使用的python版本高于requirements.txt使用的python版本，执行安装时将会忽略版本不满足的包</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/posts/143a/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1057,7 +1214,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1125,20 +1282,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">62</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">57</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1183,14 +1340,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">48k</span>
+    <span title="站点总字数">63k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:28</span>
+    <span title="站点阅读时长">1:55</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0

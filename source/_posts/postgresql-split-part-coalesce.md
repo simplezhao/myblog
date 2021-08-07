@@ -3,10 +3,11 @@ title: postgresql split_part coalesce
 tags:
   - split_part
   - coalesce
-date: 2021-06-18 14:35:43
 categories: postgresql
-keywords:
 description: split_part没有命中时返回为空字符串，而不是null，COALESCE返回第一个不为null的元素
+abbrlink: 89ab
+date: 2021-06-18 14:35:43
+keywords:
 ---
 
 > split_part 在没有命中时返回的是空字符串，而不是null，COALESCE返回第一个不为null的元素

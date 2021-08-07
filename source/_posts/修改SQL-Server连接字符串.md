@@ -3,10 +3,11 @@ title: 修改SQL Server连接字符串
 tags:
   - SQL
   - sqlserverException
-date: 2021-06-30 11:13:50
 categories: SQL
-keywords:
 description: 在DataGrip中解决SQL Server连接报“驱动程序无法使用安全套接字层（SSL）加密建立到SQL Server的安全连接”
+abbrlink: '3178'
+date: 2021-06-30 11:13:50
+keywords:
 ---
 
 > com.microsoft.sql server.jdbc.sqlserverException:驱动程序无法使用安全套接字层（SSL）加密建立到SQL Server的安全连接

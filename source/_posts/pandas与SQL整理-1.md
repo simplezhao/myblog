@@ -3,10 +3,11 @@ title: pandas与SQL整理-1
 tags:
   - pandas
   - sqlalchemy
-date: 2021-06-18 14:08:16
 categories: pandas
 keywords: pandas
 description: 使用pandas读取数据表，并导出excel
+abbrlink: eac6
+date: 2021-06-18 14:08:16
 ---
 
 

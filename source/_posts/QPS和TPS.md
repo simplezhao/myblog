@@ -3,10 +3,11 @@ title: QPS和TPS
 tags:
   - 测试
   - 性能指标
-date: 2021-06-29 16:38:03
 categories: 测试
-keywords: 
 description: 理解QPS和TPS的区别
+abbrlink: 3f2f
+date: 2021-06-29 16:38:03
+keywords:
 ---
 
 * QPS

@@ -3,10 +3,11 @@ title: 快速搭建PGSQL for Serverless
 tags:
   - serverless
   - scf
-date: 2021-06-29 15:12:13
 categories: serverless
-keywords:
 description: 使用腾讯云serverless快速搭建postgresql数据库
+abbrlink: 6bab
+date: 2021-06-29 15:12:13
+keywords:
 ---
 
 >  想使用一个独立的数据库服务，使用量和规模不用太大
