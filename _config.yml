@@ -3,10 +3,10 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: simple's blog
-subtitle:
-description: IoT Architect
-keywords: DevOps、IoT、全栈开发
+title: simplezhao的博客
+subtitle: 道生一，一生二，三生万物
+description: 专注于物联网架构和产品
+keywords: 架构,IoT,产品,开发
 author: simple
 language: zh-CN
 timezone:

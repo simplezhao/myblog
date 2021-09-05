@@ -168,7 +168,7 @@ sidebar:
 # Sidebar Avatar
 avatar:
   # Replace the default image and set the url here.
-  url: https://oss.smart-lifestyle.cn/blog/2019-11-10-smart-lifestyle-logo.jpeg #/images/avatar.gif
+  url: https://oss.smart-lifestyle.cn/static/avatar/simplezhao.png #/images/avatar.gif
   # If true, the avatar will be dispalyed in circle.
   rounded: true
   # If true, the avatar will be rotated with the cursor.

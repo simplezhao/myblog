@@ -2120,4 +2120,33 @@
         <tag>ftplib</tag>
       </tags>
   </entry>
+  <entry>
+    <title>在apple M1上构建x86_64 Docker镜像</title>
+    <url>/posts/de6/</url>
+    <content><![CDATA[<p>默认通过<code>docker build</code>方式构建的镜像时arm64的版本，可以通过<code>docker inspect IMAGE_ID</code>查看到</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"># docker image inspect <span class="number">0382</span>b9b17bdb</span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="attr">&quot;Architecture&quot;</span>: <span class="string">&quot;arm64&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;Variant&quot;</span>: <span class="string">&quot;v8&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;Os&quot;</span>: <span class="string">&quot;linux&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;Size&quot;</span>: <span class="number">223036168</span>,</span><br><span class="line">        <span class="attr">&quot;VirtualSize&quot;</span>: <span class="number">223036168</span>,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这样的镜像时没有办法在Intel x86/64的容器服务中运行的，我们可以选择基于arm版本服务器的容器服务，更好的选择是在M1上编译 x86架构的容器镜像</p>
+<p>Docker Desktop for Mac M1中集成了一个buildx的工具，可以方便我们编译各种跨平台的容器镜像</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker buildx ls</span><br><span class="line"></span><br><span class="line">desktop-linux desktop-linux   running linux/arm64, linux/amd64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/arm/v7, linux/arm/v6</span><br><span class="line">default *       docker</span><br><span class="line">  default       default         running linux/arm64, linux/amd64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/arm/v7, linux/arm/v6</span><br></pre></td></tr></table></figure>
+
+<p>使用docker buildx build来构建X86/64 docker镜像</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker buildx build --platform=linux/amd64 . -t xxx</span><br></pre></td></tr></table></figure>
+
+<p>之后就可按照正常的docker tag、docker push进行操作</p>
+<p>更多的命令可以参考官方文档</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://blog.jaimyn.dev/how-to-build-multi-architecture-docker-images-on-an-m1-mac/">How to build x86 (and others!) Docker images on an M1 Mac – Jaimyn’s Blog</a></p>
+<p>[2] <a href="https://github.com/docker/buildx/blob/master/docs/reference/buildx_build.md">buildx/buildx_build.md at master · docker/buildx (github.com)</a></p>
+<p>[3] <a href="https://docs.docker.com/buildx/working-with-buildx/">Docker Buildx | Docker Documentation</a></p>
+]]></content>
+      <categories>
+        <category>Devops</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>Apple M1</tag>
+      </tags>
+  </entry>
 </search>
