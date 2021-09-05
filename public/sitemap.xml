@@ -23,14 +23,14 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/posts/91f6/</loc>
+    <loc>https://blog.smart-lifestyle.cn/posts/6bab/</loc>
     
     <lastmod>2021-08-07</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/posts/6bab/</loc>
+    <loc>https://blog.smart-lifestyle.cn/posts/91f6/</loc>
     
     <lastmod>2021-08-07</lastmod>
     
@@ -93,6 +93,13 @@
   </url>
   
   <url>
+    <loc>https://blog.smart-lifestyle.cn/posts/fab/</loc>
+    
+    <lastmod>2021-08-07</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.smart-lifestyle.cn/posts/58bd/</loc>
     
     <lastmod>2021-08-07</lastmod>
@@ -100,7 +107,7 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/posts/fab/</loc>
+    <loc>https://blog.smart-lifestyle.cn/posts/1538/</loc>
     
     <lastmod>2021-08-07</lastmod>
     
@@ -115,13 +122,6 @@
   
   <url>
     <loc>https://blog.smart-lifestyle.cn/posts/50db/</loc>
-    
-    <lastmod>2021-08-07</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/posts/1538/</loc>
     
     <lastmod>2021-08-07</lastmod>
     
@@ -184,14 +184,14 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/posts/1cbb/</loc>
+    <loc>https://blog.smart-lifestyle.cn/posts/688d/</loc>
     
     <lastmod>2021-05-22</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/posts/688d/</loc>
+    <loc>https://blog.smart-lifestyle.cn/posts/1cbb/</loc>
     
     <lastmod>2021-05-22</lastmod>
     
@@ -205,7 +205,21 @@
   </url>
   
   <url>
+    <loc>https://blog.smart-lifestyle.cn/posts/76d7/</loc>
+    
+    <lastmod>2021-05-22</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.smart-lifestyle.cn/posts/4e20/</loc>
+    
+    <lastmod>2021-05-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/posts/a9f1/</loc>
     
     <lastmod>2021-05-22</lastmod>
     
@@ -219,21 +233,7 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/posts/76d7/</loc>
-    
-    <lastmod>2021-05-22</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://blog.smart-lifestyle.cn/posts/7112/</loc>
-    
-    <lastmod>2021-05-22</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/posts/a9f1/</loc>
     
     <lastmod>2021-05-22</lastmod>
     
@@ -387,14 +387,14 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/posts/1ea1/</loc>
+    <loc>https://blog.smart-lifestyle.cn/posts/c222/</loc>
     
     <lastmod>2020-04-25</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/posts/c222/</loc>
+    <loc>https://blog.smart-lifestyle.cn/posts/ea0a/</loc>
     
     <lastmod>2020-04-25</lastmod>
     
@@ -408,7 +408,7 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/posts/ea0a/</loc>
+    <loc>https://blog.smart-lifestyle.cn/posts/1ea1/</loc>
     
     <lastmod>2020-04-25</lastmod>
     
@@ -480,6 +480,125 @@
 
   
   <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/dependency/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/git/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/python/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/jupyterlab/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/git-commit/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/python-library/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/pydantic/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/docker/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/excel/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/virtualenv/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/linux/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/shell/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/ubuntu/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/oh-my-zsh/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/code-review/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/%E5%89%8D%E7%AB%AF/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.smart-lifestyle.cn/tags/JavaScript/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
@@ -508,7 +627,14 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/python/</loc>
+    <loc>https://blog.smart-lifestyle.cn/tags/SQL/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/SQLAlchemy/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -536,42 +662,7 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/docker/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/linux/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/dependency/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/SQL/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/SQLAlchemy/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/git/</loc>
+    <loc>https://blog.smart-lifestyle.cn/tags/gitignore/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -586,13 +677,6 @@
   
   <url>
     <loc>https://blog.smart-lifestyle.cn/tags/hexo/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/git-commit/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -620,20 +704,6 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/gitignore/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/jupyterlab/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.smart-lifestyle.cn/tags/micropython/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
@@ -642,13 +712,6 @@
   
   <url>
     <loc>https://blog.smart-lifestyle.cn/tags/microbit/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/shell/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -669,13 +732,6 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/celery/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.smart-lifestyle.cn/tags/split-part/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
@@ -690,20 +746,6 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/python-library/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/json/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.smart-lifestyle.cn/tags/thread/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
@@ -711,14 +753,14 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/pydantic/</loc>
+    <loc>https://blog.smart-lifestyle.cn/tags/celery/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/flask/</loc>
+    <loc>https://blog.smart-lifestyle.cn/tags/json/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -739,6 +781,13 @@
   </url>
   
   <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/flask/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.smart-lifestyle.cn/tags/exception/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
@@ -747,13 +796,6 @@
   
   <url>
     <loc>https://blog.smart-lifestyle.cn/tags/function/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/excel/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -781,35 +823,7 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/ubuntu/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/%E8%BF%90%E7%BB%B4/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/virtualenv/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.smart-lifestyle.cn/tags/sentry/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/crontab/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -823,7 +837,21 @@
   </url>
   
   <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/%E8%BF%90%E7%BB%B4/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.smart-lifestyle.cn/tags/sqlserverException/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/tags/crontab/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -837,14 +865,7 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/%E5%89%8D%E7%AB%AF/</loc>
+    <loc>https://blog.smart-lifestyle.cn/tags/Apple-M1/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -858,34 +879,69 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/oh-my-zsh/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/code-review/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.smart-lifestyle.cn/tags/ftplib/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
+
+  
   <url>
-    <loc>https://blog.smart-lifestyle.cn/tags/Apple-M1/</loc>
+    <loc>https://blog.smart-lifestyle.cn/categories/python/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
-
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/categories/git/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/categories/docker/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/categories/linux/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/categories/zsh/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/categories/book/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.smart-lifestyle.cn/categories/%E5%89%8D%E7%AB%AF/</loc>
+    <lastmod>2021-09-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
   
   <url>
     <loc>https://blog.smart-lifestyle.cn/categories/%E5%B7%A5%E5%85%B7/</loc>
@@ -902,7 +958,7 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/categories/python/</loc>
+    <loc>https://blog.smart-lifestyle.cn/categories/SQLAlchemy/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -916,35 +972,7 @@
   </url>
   
   <url>
-    <loc>https://blog.smart-lifestyle.cn/categories/docker/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/categories/SQLAlchemy/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/categories/git/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.smart-lifestyle.cn/categories/%E9%83%A8%E7%BD%B2/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/categories/book/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -959,13 +987,6 @@
   
   <url>
     <loc>https://blog.smart-lifestyle.cn/categories/micropython/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/categories/linux/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1015,27 +1036,6 @@
   
   <url>
     <loc>https://blog.smart-lifestyle.cn/categories/serverless/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/categories/%E5%89%8D%E7%AB%AF/</loc>
-    <lastmod>2021-09-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.smart-lifestyle.cn/categories/zsh/</loc>
     <lastmod>2021-09-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

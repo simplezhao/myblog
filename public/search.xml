@@ -41,6 +41,45 @@
       </tags>
   </entry>
   <entry>
+    <title>Python</title>
+    <url>/posts/aaa7/</url>
+    <content><![CDATA[<blockquote>
+<p>参考：</p>
+<ol>
+<li><a href="https://github.com/python-poetry/poetry">https://github.com/python-poetry/poetry</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/110721747">https://zhuanlan.zhihu.com/p/110721747</a></li>
+<li><a href="https://blog.csdn.net/daihaoxin/article/details/109262807">https://blog.csdn.net/daihaoxin/article/details/109262807</a></li>
+</ol>
+</blockquote>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>dependency</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python Type Checking</title>
+    <url>/posts/acc1/</url>
+    <content><![CDATA[<blockquote>
+<p>参考：</p>
+<ol>
+<li><p><a href="https://testdriven.io/blog/python-type-checking/">https://testdriven.io/blog/python-type-checking/</a></p>
+</li>
+<li><p><a href="https://testdriven.io/blog/python-code-quality/#running-code-quality-tools">https://testdriven.io/blog/python-code-quality/#running-code-quality-tools</a></p>
+</li>
+</ol>
+</blockquote>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>QPS和TPS</title>
     <url>/posts/3f2f/</url>
     <content><![CDATA[<ul>
@@ -73,23 +112,25 @@
       </tags>
   </entry>
   <entry>
-    <title>Python Type Checking</title>
-    <url>/posts/acc1/</url>
-    <content><![CDATA[<blockquote>
-<p>参考：</p>
-<ol>
-<li><p><a href="https://testdriven.io/blog/python-type-checking/">https://testdriven.io/blog/python-type-checking/</a></p>
-</li>
-<li><p><a href="https://testdriven.io/blog/python-code-quality/#running-code-quality-tools">https://testdriven.io/blog/python-code-quality/#running-code-quality-tools</a></p>
-</li>
-</ol>
+    <title>SQL连接字符串中密码包含特殊字符</title>
+    <url>/posts/1538/</url>
+    <content><![CDATA[<p>生产环境中，数据库的密码会包含特殊字符，如果包含了<code>@</code>等符号，会被create_engine识别错误。</p>
+<p>可以对密码进行url编码，使用<code>urllib.parse.quote_plus</code></p>
+<blockquote>
+<p>As the URL is like any other URL, <strong>special characters such as those that may be used in the password need to be URL encoded to be parsed correctly.</strong>. Below is an example of a URL that includes the password <code>&quot;kx%jj5/g&quot;</code>, where the percent sign and slash characters are represented as <code>%25</code> and <code>%2F</code>, respectively:</p>
 </blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line">username = <span class="string">&#x27;scoot&#x27;</span></span><br><span class="line">password = <span class="string">&#x27;@#@%/g&#x27;</span></span><br><span class="line"></span><br><span class="line">engine = create_engine(<span class="string">f&#x27;postgresql://<span class="subst">&#123;username&#125;</span>:<span class="subst">&#123;urllib.parse.quote_plus(password)&#125;</span>@localhost:5432/mydatabase&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://docs.sqlalchemy.org/en/14/core/engines.html">Engine Configuration — SQLAlchemy 1.4 Documentation</a></p>
 ]]></content>
       <categories>
-        <category>python</category>
+        <category>SQLAlchemy</category>
       </categories>
       <tags>
-        <tag>python</tag>
+        <tag>SQL</tag>
+        <tag>SQLAlchemy</tag>
       </tags>
   </entry>
   <entry>
@@ -145,36 +186,6 @@
       </tags>
   </entry>
   <entry>
-    <title>docker commit -- 基于容器创建镜像</title>
-    <url>/posts/d17f/</url>
-    <content><![CDATA[<ul>
-<li>docker commit 命令<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 基本用法</span></span><br><span class="line">docker commit container_id image_name:tag</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果想修改某些内容，可以使用--change</span></span><br><span class="line">docker commit --change <span class="string">&quot;ENV DEBUG=true&quot;</span> container_id image_name:tag</span><br><span class="line">docker commit --change=<span class="string">&#x27;CMD [&quot;python&quot;, &quot;app.py&quot;]&#x27;</span> container_id image_name:tag</span><br><span class="line">docker commit --change <span class="string">&quot;EXPOSE 80&quot;</span> container_id image_name:tag</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://docs.docker.com/engine/reference/commandline/commit/">docker commit | Docker Documentation</a></p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker run -- 使用环境变量</title>
-    <url>/posts/50db/</url>
-    <content><![CDATA[<ul>
-<li><p>docker run</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用 -e, --env</span></span><br><span class="line">docker run -e ENV=prod --env IP=1.2.3.4 .....</span><br><span class="line"><span class="comment"># 如果只声明变量，没有值，表示从系统环境变量中获取改值</span></span><br><span class="line"><span class="built_in">export</span> secret=%$<span class="comment">#$FG</span></span><br><span class="line">docker run -e secret --env IP=1.2.3.4 .....</span><br><span class="line"><span class="comment"># 从文件中获取</span></span><br><span class="line">cat .env</span><br><span class="line"><span class="comment"># ENV=prod</span></span><br><span class="line"><span class="comment"># IP=1.2.3.4</span></span><br><span class="line"></span><br><span class="line">docker run --env-file .env .....</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker运行linux终端显示bash-4.2#</title>
     <url>/posts/f29/</url>
     <content><![CDATA[<p>一次在docker中运行centos，为了省事，将数据卷挂载了整个用户工作目录下，执行<code>docker run -it -v /Users/simple/workspace/tmp/data:/root python36:centos7 bash</code></p>
@@ -201,104 +212,12 @@
       </tags>
   </entry>
   <entry>
-    <title>Python</title>
-    <url>/posts/aaa7/</url>
-    <content><![CDATA[<blockquote>
-<p>参考：</p>
-<ol>
-<li><a href="https://github.com/python-poetry/poetry">https://github.com/python-poetry/poetry</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/110721747">https://zhuanlan.zhihu.com/p/110721747</a></li>
-<li><a href="https://blog.csdn.net/daihaoxin/article/details/109262807">https://blog.csdn.net/daihaoxin/article/details/109262807</a></li>
-</ol>
-</blockquote>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>dependency</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SQL连接字符串中密码包含特殊字符</title>
-    <url>/posts/1538/</url>
-    <content><![CDATA[<p>生产环境中，数据库的密码会包含特殊字符，如果包含了<code>@</code>等符号，会被create_engine识别错误。</p>
-<p>可以对密码进行url编码，使用<code>urllib.parse.quote_plus</code></p>
-<blockquote>
-<p>As the URL is like any other URL, <strong>special characters such as those that may be used in the password need to be URL encoded to be parsed correctly.</strong>. Below is an example of a URL that includes the password <code>&quot;kx%jj5/g&quot;</code>, where the percent sign and slash characters are represented as <code>%25</code> and <code>%2F</code>, respectively:</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line">username = <span class="string">&#x27;scoot&#x27;</span></span><br><span class="line">password = <span class="string">&#x27;@#@%/g&#x27;</span></span><br><span class="line"></span><br><span class="line">engine = create_engine(<span class="string">f&#x27;postgresql://<span class="subst">&#123;username&#125;</span>:<span class="subst">&#123;urllib.parse.quote_plus(password)&#125;</span>@localhost:5432/mydatabase&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://docs.sqlalchemy.org/en/14/core/engines.html">Engine Configuration — SQLAlchemy 1.4 Documentation</a></p>
-]]></content>
-      <categories>
-        <category>SQLAlchemy</category>
-      </categories>
-      <tags>
-        <tag>SQL</tag>
-        <tag>SQLAlchemy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker部署记录</title>
-    <url>/posts/c5ac/</url>
+    <title>docker commit -- 基于容器创建镜像</title>
+    <url>/posts/d17f/</url>
     <content><![CDATA[<ul>
-<li><a href="">x</a> 磁盘初始化</li>
-<li><a href="">x</a> 修改系统时区为UTC+8</li>
-<li><a href="">x</a> 部署docker环境，修改docker安装位置</li>
-<li><a href="">x</a> 优化docker环境，适配china</li>
-<li><a href="">x</a> 修改代码配置文件，适配测试环境和生产环境</li>
-<li><a href="">x</a> 代码merge到master分支</li>
-<li><a href="">x</a> 安装docker镜像</li>
-<li><a href="">x</a> 从git获取代码，部署</li>
-<li><a href=""> </a> 配置https</li>
-<li><a href=""> </a> 测试</li>
+<li>docker commit 命令<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 基本用法</span></span><br><span class="line">docker commit container_id image_name:tag</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果想修改某些内容，可以使用--change</span></span><br><span class="line">docker commit --change <span class="string">&quot;ENV DEBUG=true&quot;</span> container_id image_name:tag</span><br><span class="line">docker commit --change=<span class="string">&#x27;CMD [&quot;python&quot;, &quot;app.py&quot;]&#x27;</span> container_id image_name:tag</span><br><span class="line">docker commit --change <span class="string">&quot;EXPOSE 80&quot;</span> container_id image_name:tag</span><br></pre></td></tr></table></figure></li>
 </ul>
-<blockquote>
-<p>本文记录在Azure 上部署docker应用的过程</p>
-</blockquote>
-<h2 id="磁盘初始化"><a href="#磁盘初始化" class="headerlink" title="磁盘初始化"></a>磁盘初始化</h2><p>Azure提供的磁盘为系统盘+数据盘，数据盘的大小在新建虚拟机的时候可以选，默认数据盘是未挂载到系统上的，需要手动挂载，挂载数据盘可以参考：<br><a href="https://docs.azure.cn/zh-cn/virtual-machines/linux/add-disk">https://docs.azure.cn/zh-cn/virtual-machines/linux/add-disk</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 通过dh -h命令查看当前系统磁盘的大小和使用情况，目前没有数据盘</span></span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">udev            3.9G     0  3.9G   0% /dev</span><br><span class="line">tmpfs           796M  676K  795M   1% /run</span><br><span class="line">/dev/sda1        29G  1.5G   28G   5% /</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /dev/shm</span><br><span class="line">tmpfs           5.0M     0  5.0M   0% /run/lock</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /sys/fs/cgroup</span><br><span class="line">/dev/sda15      105M  3.6M  101M   4% /boot/efi</span><br><span class="line">/dev/sdb1        16G   45M   15G   1% /mnt</span><br><span class="line">tmpfs           796M     0  796M   0% /run/user/1000</span><br><span class="line">........</span><br><span class="line"><span class="comment"># 操作完之后， df -h，最后一行已经挂在到/datadrive上</span></span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">udev            3.9G     0  3.9G   0% /dev</span><br><span class="line">tmpfs           796M  680K  795M   1% /run</span><br><span class="line">/dev/sda1        29G  1.5G   28G   5% /</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /dev/shm</span><br><span class="line">tmpfs           5.0M     0  5.0M   0% /run/lock</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /sys/fs/cgroup</span><br><span class="line">/dev/sda15      105M  3.6M  101M   4% /boot/efi</span><br><span class="line">/dev/sdb1        16G   45M   15G   1% /mnt</span><br><span class="line">tmpfs           796M     0  796M   0% /run/user/1000</span><br><span class="line">/dev/sdc1       196G   61M  186G   1% /datadrive</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>之后的所有文件操作都是在/datadrive下</strong><br>默认datadrive的权限为root权限，修改所有者为当前用户</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo chown -R cniabservice:cniabservice /datadrive/</span><br></pre></td></tr></table></figure>
-
-<h2 id="修改系统时区"><a href="#修改系统时区" class="headerlink" title="修改系统时区"></a>修改系统时区</h2><p>Azure提供的linux默认时区为UTC，需要改为中国UTC+8时区<br>简单操作如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime </span><br></pre></td></tr></table></figure>
-<p><strong>!docker 内时区默认也为UTC，跟主机并不同步，需要修改为UTC+8，下面会说明，不在这里介绍</strong></p>
-<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><h3 id="1-使用Ubuntu-源进行安装"><a href="#1-使用Ubuntu-源进行安装" class="headerlink" title="1. 使用Ubuntu 源进行安装"></a>1. 使用Ubuntu 源进行安装</h3><p>参考 <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">https://docs.docker.com/install/linux/docker-ce/ubuntu/</a> </p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install \</span><br><span class="line">apt-transport-https \</span><br><span class="line">ca-certificates \</span><br><span class="line">curl \</span><br><span class="line">gnupg-agent \</span><br><span class="line">software-properties-common</span><br><span class="line"></span><br><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br><span class="line"></span><br><span class="line">sudo add-apt-repository \</span><br><span class="line">   <span class="string">&quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">   <span class="subst">$(lsb_release -cs)</span> \</span></span><br><span class="line"><span class="string">   stable&quot;</span></span><br><span class="line"></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br><span class="line">sudo apt-get install docker-compose</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong>apt-get是从国外网站下载，可能速度会非常慢</strong>，可以下载deb离线包：<br><a href="https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/" title="针对于ubuntu 18.04">https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/</a></p>
-<blockquote>
-<p>Go to <a href="https://download.docker.com/linux/ubuntu/dists/">https://download.docker.com/linux/ubuntu/dists/</a>, choose your Ubuntu version, browse to pool/stable/, choose amd64, armhf, arm64, ppc64el, or s390x, and download the .deb file for the Docker Engine - Community version you want to install.<br>使用dpkg -i *.deb 安装顺序为：</p>
-</blockquote>
-<ol>
-<li>containerd.io</li>
-<li>docker-ce</li>
-<li>docker-ce-cli</li>
-<li>最后 apt-get install docker-compose</li>
-</ol>
-<p>docker默认root权限操作，将当前用户加入root组，免每次操作输入密码</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># If you would like to use Docker as a non-root user, you should now consider adding your user to the “docker” group with something like:</span></span><br><span class="line">sudo usermod -aG docker your-user</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-修改docker镜像存储等存储位置"><a href="#2-修改docker镜像存储等存储位置" class="headerlink" title="2. 修改docker镜像存储等存储位置"></a>2. 修改docker镜像存储等存储位置</h3><p>默认存储位置在系统盘，要将其迁移至数据盘<br>在控制台输入docker info，查看当前docker 存储位置<br><img src="https://oss.smart-lifestyle.cn/blog/qx062.jpg"><br>在/etc/docker/下新建daemon.json文件, graph为存储位置</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;https://1x2ypu6h.mirror.aliyuncs.com&quot;</span>],</span><br><span class="line">  <span class="attr">&quot;hosts&quot;</span>:[</span><br><span class="line">    <span class="string">&quot;tcp://0.0.0.0:2375&quot;</span>,</span><br><span class="line">    <span class="string">&quot;unix:///var/run/docker.sock&quot;</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">&quot;graph&quot;</span>: <span class="string">&quot;/datadrive/dockerdata&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>重启docker，sudo service docker restart，再次docker info查看配置<br><img src="https://oss.smart-lifestyle.cn/blog/7rvdj.jpg"><br><strong>修改成功！</strong></p>
-<h2 id="从代码仓库获取代码"><a href="#从代码仓库获取代码" class="headerlink" title="从代码仓库获取代码"></a>从代码仓库获取代码</h2><h3 id="1-pull-request-to-Master"><a href="#1-pull-request-to-Master" class="headerlink" title="1. pull request to Master"></a>1. pull request to Master</h3><p>遇到问题，没有权限进行合并操作，只有审批功能，修改如下地方<br><img src="https://oss.smart-lifestyle.cn/blog/98qaq.jpg"></p>
-<h3 id="2-在远程服务器使用git-clone获取代码"><a href="#2-在远程服务器使用git-clone获取代码" class="headerlink" title="2. 在远程服务器使用git clone获取代码"></a>2. 在远程服务器使用git clone获取代码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用如下用户名密码</span></span><br><span class="line"><span class="comment"># 用户名：jenkins 密码：***************</span></span><br><span class="line">git <span class="built_in">clone</span> https://dev.azure.com/ds-rnd/*************</span><br></pre></td></tr></table></figure>
-
-<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir redisdb</span><br><span class="line">mkdir mysqldb</span><br><span class="line">mkdir ssl_key</span><br><span class="line">mkdir conf</span><br><span class="line"><span class="comment"># 修改nginx.conf文件</span></span><br><span class="line">mkdir -p static/.well-known</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;1.0.0&quot;</span> \&gt; version</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-构建docker"><a href="#1-构建docker" class="headerlink" title="1. 构建docker"></a>1. 构建docker</h3><p>在工程根目录下执行 docker-compose up 进行首次编译镜像和启动容器</p>
-<h3 id="2-初始化数据库"><a href="#2-初始化数据库" class="headerlink" title="2. 初始化数据库"></a>2. 初始化数据库</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建abbdrive数据库</span></span><br><span class="line">python manage.py makemigrations abbdrivemodel</span><br><span class="line">python manage.py migrate</span><br><span class="line">执行</span><br><span class="line">http://g*************.cloudapp.chinacloudapi.cn/**********</span><br></pre></td></tr></table></figure>
-
-
-
-
-
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://docs.docker.com/engine/reference/commandline/commit/">docker commit | Docker Documentation</a></p>
 ]]></content>
       <categories>
         <category>docker</category>
@@ -451,61 +370,6 @@
       </tags>
   </entry>
   <entry>
-    <title>github actions初试牛刀</title>
-    <url>/posts/9f77/</url>
-    <content><![CDATA[<blockquote>
-<p>最近将hex博客部署由手动执行，改为通过github actions自动部署，这里做下记录</p>
-</blockquote>
-<h3 id="自动部署原理"><a href="#自动部署原理" class="headerlink" title="自动部署原理"></a>自动部署原理</h3><p>使用github actions功能，将hexo生成的静态文件在每次提交代码时，通过scp将文件上传到服务器</p>
-<h3 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h3><p><img src="https://oss.smart-lifestyle.cn/file/jl6ye.png" alt="image-20210326140634778"></p>
-<p>在git仓库新增actions，内容如下：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># This is a basic workflow to help you get started with Actions</span></span><br><span class="line"></span><br><span class="line"><span class="attr">name:</span> <span class="string">CI</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Controls when the action will run. </span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="comment"># Triggers the workflow on push or pull request events but only for the master branch</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line">  <span class="attr">pull_request:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Allows you to run this workflow manually from the Actions tab</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A workflow run is made up of one or more jobs that can run sequentially or in parallel</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="comment"># This workflow contains a single job called &quot;build&quot;</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="comment"># The type of runner that the job will run on</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Steps represent a sequence of tasks that will be executed as part of the job</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="comment"># Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># Runs a single command using the runners shell</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">a</span> <span class="string">one-line</span> <span class="string">script</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">echo</span> <span class="string">Hello,</span> <span class="string">world!</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># Runs a set of commands using the runners shell</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">a</span> <span class="string">multi-line</span> <span class="string">script</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          echo Add other actions to build,</span></span><br><span class="line"><span class="string">          echo test, and deploy your project.</span></span><br><span class="line"><span class="string">          ls</span></span><br><span class="line"><span class="string">          pwd</span></span><br><span class="line"><span class="string"></span>      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">copy</span> <span class="string">file</span> <span class="string">via</span> <span class="string">ssh</span> <span class="string">password</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">appleboy/scp-action@master</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">host:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.HOST</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">username:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.USERNAME</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">password:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.PASSWORD</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">port:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.PORT</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">source:</span> <span class="string">&quot;public/*,!public/robots.txt&quot;</span></span><br><span class="line">          <span class="attr">target:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.TARGET_DIR</span> <span class="string">&#125;&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>说明</p>
-<ul>
-<li><p>on 触发条件</p>
-<ul>
-<li>push 推送目标仓库</li>
-<li>pull_request 合并分支仓库</li>
-</ul>
-</li>
-<li><p>steps 步骤</p>
-<ul>
-<li>uses: actions/checkout@v2 获取代码</li>
-<li>uses: appleboy/scp-action@master 使用第三方库，通过scp 传输文件<ul>
-<li>host: $</li>
-<li>username: $</li>
-<li> password: $</li>
-<li>port: $</li>
-<li> source: “public/*,!public/robots.txt”</li>
-<li> target: $</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>上面的secrets信息在github上进行配置</p>
-<p><img src="https://oss.smart-lifestyle.cn/file/oydi5.png" alt="image-20210326141554880"></p>
-<p>每当push代码到仓库master分支时，会进行执行actions，进行博客部署</p>
-<p><img src="https://oss.smart-lifestyle.cn/file/jbae5.png" alt="image-20210326141938875"></p>
-<h3 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h3><ol>
-<li>目前没有通过github actions生成静态文件，也就是推送之前需要手动执行hexo g，这个在进一步研究之后再尝试</li>
-<li>github 本身可以添加Deploy keys，为了安全，scp应该避免使用密码进行操作，也在研究明白之后再尝试</li>
-<li>由于问题1，尤为hexo g会重新生成静态文件，每次push的时候会有大量带提交文件。。。</li>
-</ol>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>[1] <a href="http://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html">GitHub Actions 入门教程</a></p>
-<p>[2] <a href="https://github.com/appleboy/scp-action">🚀 SCP for GitHub Actions</a></p>
-<p>[3] <a href="https://dev.to/miangame/how-to-automate-a-deploy-in-a-vps-with-github-actions-via-ssh-101e">How to automate a deploy in a VPS with GitHub actions via SSH</a></p>
-]]></content>
-      <categories>
-        <category>部署</category>
-      </categories>
-      <tags>
-        <tag>github actions</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git commit规范</title>
     <url>/posts/76bd/</url>
     <content><![CDATA[<blockquote>
@@ -570,6 +434,72 @@
       </tags>
   </entry>
   <entry>
+    <title>docker部署记录</title>
+    <url>/posts/c5ac/</url>
+    <content><![CDATA[<ul>
+<li><a href="">x</a> 磁盘初始化</li>
+<li><a href="">x</a> 修改系统时区为UTC+8</li>
+<li><a href="">x</a> 部署docker环境，修改docker安装位置</li>
+<li><a href="">x</a> 优化docker环境，适配china</li>
+<li><a href="">x</a> 修改代码配置文件，适配测试环境和生产环境</li>
+<li><a href="">x</a> 代码merge到master分支</li>
+<li><a href="">x</a> 安装docker镜像</li>
+<li><a href="">x</a> 从git获取代码，部署</li>
+<li><a href=""> </a> 配置https</li>
+<li><a href=""> </a> 测试</li>
+</ul>
+<blockquote>
+<p>本文记录在Azure 上部署docker应用的过程</p>
+</blockquote>
+<h2 id="磁盘初始化"><a href="#磁盘初始化" class="headerlink" title="磁盘初始化"></a>磁盘初始化</h2><p>Azure提供的磁盘为系统盘+数据盘，数据盘的大小在新建虚拟机的时候可以选，默认数据盘是未挂载到系统上的，需要手动挂载，挂载数据盘可以参考：<br><a href="https://docs.azure.cn/zh-cn/virtual-machines/linux/add-disk">https://docs.azure.cn/zh-cn/virtual-machines/linux/add-disk</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 通过dh -h命令查看当前系统磁盘的大小和使用情况，目前没有数据盘</span></span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">udev            3.9G     0  3.9G   0% /dev</span><br><span class="line">tmpfs           796M  676K  795M   1% /run</span><br><span class="line">/dev/sda1        29G  1.5G   28G   5% /</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /dev/shm</span><br><span class="line">tmpfs           5.0M     0  5.0M   0% /run/lock</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /sys/fs/cgroup</span><br><span class="line">/dev/sda15      105M  3.6M  101M   4% /boot/efi</span><br><span class="line">/dev/sdb1        16G   45M   15G   1% /mnt</span><br><span class="line">tmpfs           796M     0  796M   0% /run/user/1000</span><br><span class="line">........</span><br><span class="line"><span class="comment"># 操作完之后， df -h，最后一行已经挂在到/datadrive上</span></span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">udev            3.9G     0  3.9G   0% /dev</span><br><span class="line">tmpfs           796M  680K  795M   1% /run</span><br><span class="line">/dev/sda1        29G  1.5G   28G   5% /</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /dev/shm</span><br><span class="line">tmpfs           5.0M     0  5.0M   0% /run/lock</span><br><span class="line">tmpfs           3.9G     0  3.9G   0% /sys/fs/cgroup</span><br><span class="line">/dev/sda15      105M  3.6M  101M   4% /boot/efi</span><br><span class="line">/dev/sdb1        16G   45M   15G   1% /mnt</span><br><span class="line">tmpfs           796M     0  796M   0% /run/user/1000</span><br><span class="line">/dev/sdc1       196G   61M  186G   1% /datadrive</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>之后的所有文件操作都是在/datadrive下</strong><br>默认datadrive的权限为root权限，修改所有者为当前用户</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo chown -R cniabservice:cniabservice /datadrive/</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改系统时区"><a href="#修改系统时区" class="headerlink" title="修改系统时区"></a>修改系统时区</h2><p>Azure提供的linux默认时区为UTC，需要改为中国UTC+8时区<br>简单操作如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime </span><br></pre></td></tr></table></figure>
+<p><strong>!docker 内时区默认也为UTC，跟主机并不同步，需要修改为UTC+8，下面会说明，不在这里介绍</strong></p>
+<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><h3 id="1-使用Ubuntu-源进行安装"><a href="#1-使用Ubuntu-源进行安装" class="headerlink" title="1. 使用Ubuntu 源进行安装"></a>1. 使用Ubuntu 源进行安装</h3><p>参考 <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">https://docs.docker.com/install/linux/docker-ce/ubuntu/</a> </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install \</span><br><span class="line">apt-transport-https \</span><br><span class="line">ca-certificates \</span><br><span class="line">curl \</span><br><span class="line">gnupg-agent \</span><br><span class="line">software-properties-common</span><br><span class="line"></span><br><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br><span class="line"></span><br><span class="line">sudo add-apt-repository \</span><br><span class="line">   <span class="string">&quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">   <span class="subst">$(lsb_release -cs)</span> \</span></span><br><span class="line"><span class="string">   stable&quot;</span></span><br><span class="line"></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br><span class="line">sudo apt-get install docker-compose</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>apt-get是从国外网站下载，可能速度会非常慢</strong>，可以下载deb离线包：<br><a href="https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/" title="针对于ubuntu 18.04">https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/</a></p>
+<blockquote>
+<p>Go to <a href="https://download.docker.com/linux/ubuntu/dists/">https://download.docker.com/linux/ubuntu/dists/</a>, choose your Ubuntu version, browse to pool/stable/, choose amd64, armhf, arm64, ppc64el, or s390x, and download the .deb file for the Docker Engine - Community version you want to install.<br>使用dpkg -i *.deb 安装顺序为：</p>
+</blockquote>
+<ol>
+<li>containerd.io</li>
+<li>docker-ce</li>
+<li>docker-ce-cli</li>
+<li>最后 apt-get install docker-compose</li>
+</ol>
+<p>docker默认root权限操作，将当前用户加入root组，免每次操作输入密码</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># If you would like to use Docker as a non-root user, you should now consider adding your user to the “docker” group with something like:</span></span><br><span class="line">sudo usermod -aG docker your-user</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-修改docker镜像存储等存储位置"><a href="#2-修改docker镜像存储等存储位置" class="headerlink" title="2. 修改docker镜像存储等存储位置"></a>2. 修改docker镜像存储等存储位置</h3><p>默认存储位置在系统盘，要将其迁移至数据盘<br>在控制台输入docker info，查看当前docker 存储位置<br><img src="https://oss.smart-lifestyle.cn/blog/qx062.jpg"><br>在/etc/docker/下新建daemon.json文件, graph为存储位置</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;https://1x2ypu6h.mirror.aliyuncs.com&quot;</span>],</span><br><span class="line">  <span class="attr">&quot;hosts&quot;</span>:[</span><br><span class="line">    <span class="string">&quot;tcp://0.0.0.0:2375&quot;</span>,</span><br><span class="line">    <span class="string">&quot;unix:///var/run/docker.sock&quot;</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">&quot;graph&quot;</span>: <span class="string">&quot;/datadrive/dockerdata&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重启docker，sudo service docker restart，再次docker info查看配置<br><img src="https://oss.smart-lifestyle.cn/blog/7rvdj.jpg"><br><strong>修改成功！</strong></p>
+<h2 id="从代码仓库获取代码"><a href="#从代码仓库获取代码" class="headerlink" title="从代码仓库获取代码"></a>从代码仓库获取代码</h2><h3 id="1-pull-request-to-Master"><a href="#1-pull-request-to-Master" class="headerlink" title="1. pull request to Master"></a>1. pull request to Master</h3><p>遇到问题，没有权限进行合并操作，只有审批功能，修改如下地方<br><img src="https://oss.smart-lifestyle.cn/blog/98qaq.jpg"></p>
+<h3 id="2-在远程服务器使用git-clone获取代码"><a href="#2-在远程服务器使用git-clone获取代码" class="headerlink" title="2. 在远程服务器使用git clone获取代码"></a>2. 在远程服务器使用git clone获取代码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用如下用户名密码</span></span><br><span class="line"><span class="comment"># 用户名：jenkins 密码：***************</span></span><br><span class="line">git <span class="built_in">clone</span> https://dev.azure.com/ds-rnd/*************</span><br></pre></td></tr></table></figure>
+
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir redisdb</span><br><span class="line">mkdir mysqldb</span><br><span class="line">mkdir ssl_key</span><br><span class="line">mkdir conf</span><br><span class="line"><span class="comment"># 修改nginx.conf文件</span></span><br><span class="line">mkdir -p static/.well-known</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;1.0.0&quot;</span> \&gt; version</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-构建docker"><a href="#1-构建docker" class="headerlink" title="1. 构建docker"></a>1. 构建docker</h3><p>在工程根目录下执行 docker-compose up 进行首次编译镜像和启动容器</p>
+<h3 id="2-初始化数据库"><a href="#2-初始化数据库" class="headerlink" title="2. 初始化数据库"></a>2. 初始化数据库</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建abbdrive数据库</span></span><br><span class="line">python manage.py makemigrations abbdrivemodel</span><br><span class="line">python manage.py migrate</span><br><span class="line">执行</span><br><span class="line">http://g*************.cloudapp.chinacloudapi.cn/**********</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git仓库用户权限问题</title>
     <url>/posts/f5f9/</url>
     <content><![CDATA[<blockquote>
@@ -589,6 +519,104 @@
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>.gitignore模式匹配</title>
+    <url>/posts/4da0/</url>
+    <content><![CDATA[<ul>
+<li>匹配模式前使用 <code>/</code> 表示根目录<pre><code>  /filename 表示匹配根目录下的文件filename
+</code></pre>
+</li>
+<li>匹配模式后使用 <code>/</code> 代表是目录（不是文件）<pre><code>  dirname/ 表示匹配的是dirname文件夹
+</code></pre>
+</li>
+<li>匹配模式前加 <code>！</code> 表示取反</li>
+<li><code>*</code> 代表任意个字符<pre><code>  db*.json 表示匹配以db开头的json文件
+</code></pre>
+</li>
+<li><code>?</code> 匹配任意一个字符<pre><code>  db?.json 表示以db开头并且文件名为三个字符的json文件
+</code></pre>
+</li>
+<li> <code>**</code> 匹配任意级目录</li>
+</ul>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>gitignore</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker run -- 使用环境变量</title>
+    <url>/posts/50db/</url>
+    <content><![CDATA[<ul>
+<li><p>docker run</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用 -e, --env</span></span><br><span class="line">docker run -e ENV=prod --env IP=1.2.3.4 .....</span><br><span class="line"><span class="comment"># 如果只声明变量，没有值，表示从系统环境变量中获取改值</span></span><br><span class="line"><span class="built_in">export</span> secret=%$<span class="comment">#$FG</span></span><br><span class="line">docker run -e secret --env IP=1.2.3.4 .....</span><br><span class="line"><span class="comment"># 从文件中获取</span></span><br><span class="line">cat .env</span><br><span class="line"><span class="comment"># ENV=prod</span></span><br><span class="line"><span class="comment"># IP=1.2.3.4</span></span><br><span class="line"></span><br><span class="line">docker run --env-file .env .....</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>github actions初试牛刀</title>
+    <url>/posts/9f77/</url>
+    <content><![CDATA[<blockquote>
+<p>最近将hex博客部署由手动执行，改为通过github actions自动部署，这里做下记录</p>
+</blockquote>
+<h3 id="自动部署原理"><a href="#自动部署原理" class="headerlink" title="自动部署原理"></a>自动部署原理</h3><p>使用github actions功能，将hexo生成的静态文件在每次提交代码时，通过scp将文件上传到服务器</p>
+<h3 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h3><p><img src="https://oss.smart-lifestyle.cn/file/jl6ye.png" alt="image-20210326140634778"></p>
+<p>在git仓库新增actions，内容如下：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># This is a basic workflow to help you get started with Actions</span></span><br><span class="line"></span><br><span class="line"><span class="attr">name:</span> <span class="string">CI</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Controls when the action will run. </span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="comment"># Triggers the workflow on push or pull request events but only for the master branch</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line">  <span class="attr">pull_request:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Allows you to run this workflow manually from the Actions tab</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A workflow run is made up of one or more jobs that can run sequentially or in parallel</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="comment"># This workflow contains a single job called &quot;build&quot;</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="comment"># The type of runner that the job will run on</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Steps represent a sequence of tasks that will be executed as part of the job</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="comment"># Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># Runs a single command using the runners shell</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">a</span> <span class="string">one-line</span> <span class="string">script</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">echo</span> <span class="string">Hello,</span> <span class="string">world!</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># Runs a set of commands using the runners shell</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">a</span> <span class="string">multi-line</span> <span class="string">script</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          echo Add other actions to build,</span></span><br><span class="line"><span class="string">          echo test, and deploy your project.</span></span><br><span class="line"><span class="string">          ls</span></span><br><span class="line"><span class="string">          pwd</span></span><br><span class="line"><span class="string"></span>      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">copy</span> <span class="string">file</span> <span class="string">via</span> <span class="string">ssh</span> <span class="string">password</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">appleboy/scp-action@master</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">host:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.HOST</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">username:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.USERNAME</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">password:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.PASSWORD</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">port:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.PORT</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">source:</span> <span class="string">&quot;public/*,!public/robots.txt&quot;</span></span><br><span class="line">          <span class="attr">target:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.TARGET_DIR</span> <span class="string">&#125;&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>说明</p>
+<ul>
+<li><p>on 触发条件</p>
+<ul>
+<li>push 推送目标仓库</li>
+<li>pull_request 合并分支仓库</li>
+</ul>
+</li>
+<li><p>steps 步骤</p>
+<ul>
+<li>uses: actions/checkout@v2 获取代码</li>
+<li>uses: appleboy/scp-action@master 使用第三方库，通过scp 传输文件<ul>
+<li>host: $</li>
+<li>username: $</li>
+<li> password: $</li>
+<li>port: $</li>
+<li> source: “public/*,!public/robots.txt”</li>
+<li> target: $</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>上面的secrets信息在github上进行配置</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/oydi5.png" alt="image-20210326141554880"></p>
+<p>每当push代码到仓库master分支时，会进行执行actions，进行博客部署</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/jbae5.png" alt="image-20210326141938875"></p>
+<h3 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h3><ol>
+<li>目前没有通过github actions生成静态文件，也就是推送之前需要手动执行hexo g，这个在进一步研究之后再尝试</li>
+<li>github 本身可以添加Deploy keys，为了安全，scp应该避免使用密码进行操作，也在研究明白之后再尝试</li>
+<li>由于问题1，尤为hexo g会重新生成静态文件，每次push的时候会有大量带提交文件。。。</li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>[1] <a href="http://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html">GitHub Actions 入门教程</a></p>
+<p>[2] <a href="https://github.com/appleboy/scp-action">🚀 SCP for GitHub Actions</a></p>
+<p>[3] <a href="https://dev.to/miangame/how-to-automate-a-deploy-in-a-vps-with-github-actions-via-ssh-101e">How to automate a deploy in a VPS with GitHub actions via SSH</a></p>
+]]></content>
+      <categories>
+        <category>部署</category>
+      </categories>
+      <tags>
+        <tag>github actions</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -644,107 +672,6 @@
       </tags>
   </entry>
   <entry>
-    <title>.gitignore模式匹配</title>
-    <url>/posts/4da0/</url>
-    <content><![CDATA[<ul>
-<li>匹配模式前使用 <code>/</code> 表示根目录<pre><code>  /filename 表示匹配根目录下的文件filename
-</code></pre>
-</li>
-<li>匹配模式后使用 <code>/</code> 代表是目录（不是文件）<pre><code>  dirname/ 表示匹配的是dirname文件夹
-</code></pre>
-</li>
-<li>匹配模式前加 <code>！</code> 表示取反</li>
-<li><code>*</code> 代表任意个字符<pre><code>  db*.json 表示匹配以db开头的json文件
-</code></pre>
-</li>
-<li><code>?</code> 匹配任意一个字符<pre><code>  db?.json 表示以db开头并且文件名为三个字符的json文件
-</code></pre>
-</li>
-<li> <code>**</code> 匹配任意级目录</li>
-</ul>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>gitignore</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jupyterlab + jupyterhub + supervisor</title>
-    <url>/posts/93be/</url>
-    <content><![CDATA[<blockquote>
-<p>记录在jupyterhub 中使用jupyterlab，并且使用supervisor管理进程运行<br>supervisor 在非root用户下运行和管理进程</p>
-</blockquote>
-<h3 id="安装jupyterhub"><a href="#安装jupyterhub" class="headerlink" title="安装jupyterhub"></a>安装jupyterhub</h3><blockquote>
-<p>前提条件</p>
-<ol>
-<li>python 3.5+</li>
-<li>nodejs/npm</li>
-</ol>
-</blockquote>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 安装 http-proxy，并使用淘宝镜像</span></span><br><span class="line">npm install -g configurable-http-proxy --registry=https://registry.npm.taobao.org</span><br><span class="line"><span class="comment"># 安装 jupyterhub，并使用豆瓣镜像</span></span><br><span class="line">python3 -m pip install jupyterhub -i https://pypi.douban.com/simple/</span><br><span class="line"><span class="comment"># 在终端中输入jupyterhub 看是否运行</span></span><br><span class="line">jupyterhub</span><br><span class="line"><span class="comment"># Visit https://localhost:8000 in your browser, and sign in with your unix PAM credentials.</span></span><br></pre></td></tr></table></figure>
-<h3 id="安装-jupyterlab，并配置到-jupyterhub中"><a href="#安装-jupyterlab，并配置到-jupyterhub中" class="headerlink" title="安装 jupyterlab，并配置到 jupyterhub中"></a>安装 jupyterlab，并配置到 jupyterhub中</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装 jupyterlab</span></span><br><span class="line">python3 -m pip install jupyterlab -i https://pypi.douban.com/simple/</span><br><span class="line"><span class="comment"># 通过 jupyterhub生成配置文件，并存放在 $HOME/jupyterhub中</span></span><br><span class="line">jupyterhub --generate-config</span><br><span class="line"><span class="comment"># 编辑 jupyterhub_config.py</span></span><br><span class="line"><span class="comment"># 设定你的启动打开目录</span></span><br><span class="line">c.Spawner.notebook_dir = <span class="string">&#x27;/home/simple/develop/jupyter_home&#x27;</span></span><br><span class="line"><span class="comment"># 设定以 jupyterlab运行</span></span><br><span class="line">c.Spawner.default_url = <span class="string">&#x27;/lab&#x27;</span></span><br></pre></td></tr></table></figure>
-<h3 id="安装supervisor，并将-jupyterhub管理加入其中"><a href="#安装supervisor，并将-jupyterhub管理加入其中" class="headerlink" title="安装supervisor，并将 jupyterhub管理加入其中"></a>安装supervisor，并将 jupyterhub管理加入其中</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装supervisor</span></span><br><span class="line">python -m pip install supervisor</span><br><span class="line"><span class="comment"># 生成配置文件，放在/etc/ 中</span></span><br><span class="line">echo_supervisord_conf &gt; /etc/supervisord.conf </span><br><span class="line"><span class="comment"># 创建配置文件夹</span></span><br><span class="line">sudo mkdir -p /etc/supervisor/conf.d/</span><br><span class="line"><span class="comment"># 编辑 supervisord.conf ，在最后取消注释，加入f iles = /etc/supervisor/conf.d/*.conf</span></span><br><span class="line">[include]</span><br><span class="line">;files = relative/directory/*.ini</span><br><span class="line">files = /etc/supervisor/conf.d/*.conf</span><br><span class="line"><span class="comment"># 修改启动用户为当前用户，如果是root，请忽略</span></span><br><span class="line">[supervisord]</span><br><span class="line">user=simple</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"># 在 /etc/supervisor/<span class="keyword">conf</span>.d/ 新建 jupyterhub.<span class="keyword">conf</span>， 内容如下</span><br><span class="line">[program:jupyterhub]</span><br><span class="line"><span class="keyword">command</span>=jupyterhub -<span class="keyword">f</span> /home/simple/jupyterhub/jupyterhub_config.<span class="keyword">py</span></span><br><span class="line">directory=/home/simple/jupyterhub</span><br><span class="line">autostart=true</span><br><span class="line">autorestart=true</span><br><span class="line">startretries=<span class="number">3</span></span><br><span class="line">exitcodes=<span class="number">0</span>,<span class="number">2</span></span><br><span class="line">stopsignal=TERM</span><br><span class="line">redirect_stderr=true</span><br><span class="line">stdout_logfile=/home/simple/jupyterhub/<span class="built_in">log</span>/jupyterhub.<span class="built_in">log</span></span><br><span class="line">stdout_logfile_maxbytes=<span class="number">1</span>MB</span><br><span class="line">stdout_logfile_backups=<span class="number">10</span></span><br><span class="line">user=simple</span><br></pre></td></tr></table></figure>
-<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在任意位置运行 supervisord，启动 supervisor 主进程</span></span><br><span class="line">supervisord</span><br><span class="line"><span class="comment"># 通过supervisorctl status 查看状态</span></span><br><span class="line">supervisorctl status</span><br><span class="line">$ jupyterhub                       RUNNING   pid 16161, uptime 0:24:15</span><br></pre></td></tr></table></figure>
-<p>在浏览器中访问ip:8000，输入系统的设置的用户名密码进行登录</p>
-<h3 id="配置https"><a href="#配置https" class="headerlink" title="配置https"></a>配置https</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 编辑 jupyterhub_config.py， 配置ssl_cert 和 ssl_key</span></span><br><span class="line">c.JupyterHub.ssl_cert = <span class="string">&#x27;/****/*****/ssl_file/full_chain.pem&#x27;</span></span><br><span class="line">c.JupyterHub.ssl_key = <span class="string">&#x27;/****/****/ssl_file/private.key&#x27;</span></span><br><span class="line"><span class="comment"># 保存后重启supervisor</span></span><br><span class="line">supervisorctl restart jupyterhub</span><br></pre></td></tr></table></figure>
-<p><em>ssl 证书申请可以参考：<a href="https://freessl.cn/">https://freessl.cn/</a></em><br>最终效果：<br><img src="https://oss.smart-lifestyle.cn/blog/mrwzk.png" alt="效果"></p>
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li>启用jupyterlab 插件管理</li>
-</ul>
-<ul>
-<li>Settings –&gt; Enable Extension Manager 启用</li>
-<li>在 Extension Manager中搜索manager，选择@jupyter-widgets/jupyterlab-manager，点击安装</li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
-<li><a href="https://juejin.im/post/5d80da83e51d45620c1c5471">如何安装supervisor</a></li>
-<li><a href="https://developer.aliyun.com/mirror/NPM">npm淘宝镜像</a></li>
-<li><a href="https://www.jianshu.com/p/c5b7c619dd0b">豆瓣python源</a></li>
-<li><a href="https://github.com/jupyterhub/jupyterhub-tutorial/tree/master/supervisor">jupyterhub官网 supervisor参考</a></li>
-<li><a href="https://jupyterlab.readthedocs.io/en/latest/user/jupyterhub.html">配置jupyterhub 使用jupyterlab</a></li>
-<li><a href="https://jupyter.org/install">jupyterlab安装</a></li>
-<li><a href="https://github.com/jupyterhub/jupyterhub">jupyterhub安装</a></li>
-<li><a href="https://jupyterhub.readthedocs.io/en/stable/getting-started/security-basics.html">ssl 加密 https化</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>jupyterlab</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mongo</title>
-    <url>/posts/1cbb/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>micropython之禅</title>
-    <url>/posts/58bd/</url>
-    <content><![CDATA[<blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Code,</span><br><span class="line">Hack it,</span><br><span class="line">Less <span class="keyword">is</span> more,</span><br><span class="line">Keep it simple,</span><br><span class="line">Small <span class="keyword">is</span> beautiful,</span><br><span class="line"></span><br><span class="line">Be brave! Break things! Learn <span class="keyword">and</span> have fun!</span><br><span class="line">Express yourself <span class="keyword">with</span> MicroPython.</span><br><span class="line"></span><br><span class="line">Happy hacking! :-)</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p><img src="https://oss.smart-lifestyle.cn/file/bmwmh.png" alt="ESP8266 and MicroPython - Part 1 - Hackster.io" style="zoom:50%;" />       <img src="https://oss.smart-lifestyle.cn/file/u74xj.png" alt="Micro Bit - 维基百科，自由的百科全书" style="zoom:50%;" /></p>
-]]></content>
-      <categories>
-        <category>micropython</category>
-      </categories>
-      <tags>
-        <tag>micropython</tag>
-        <tag>microbit</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nvm用法</title>
-    <url>/posts/688d/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>linux shell参数传递</title>
     <url>/posts/fab/</url>
     <content><![CDATA[<table>
@@ -784,6 +711,27 @@
       </tags>
   </entry>
   <entry>
+    <title>micropython之禅</title>
+    <url>/posts/58bd/</url>
+    <content><![CDATA[<blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Code,</span><br><span class="line">Hack it,</span><br><span class="line">Less <span class="keyword">is</span> more,</span><br><span class="line">Keep it simple,</span><br><span class="line">Small <span class="keyword">is</span> beautiful,</span><br><span class="line"></span><br><span class="line">Be brave! Break things! Learn <span class="keyword">and</span> have fun!</span><br><span class="line">Express yourself <span class="keyword">with</span> MicroPython.</span><br><span class="line"></span><br><span class="line">Happy hacking! :-)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><img src="https://oss.smart-lifestyle.cn/file/bmwmh.png" alt="ESP8266 and MicroPython - Part 1 - Hackster.io" style="zoom:50%;" />       <img src="https://oss.smart-lifestyle.cn/file/u74xj.png" alt="Micro Bit - 维基百科，自由的百科全书" style="zoom:50%;" /></p>
+]]></content>
+      <categories>
+        <category>micropython</category>
+      </categories>
+      <tags>
+        <tag>micropython</tag>
+        <tag>microbit</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nvm用法</title>
+    <url>/posts/688d/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>pandas与SQL整理-1</title>
     <url>/posts/eac6/</url>
     <content><![CDATA[<h2 id="读取数据库内容"><a href="#读取数据库内容" class="headerlink" title="读取数据库内容"></a>读取数据库内容</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># excel header无格式</span></span><br><span class="line">pd.io.formats.excel.ExcelFormatter.header_style = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">db_user = os.getenv(<span class="string">&#x27;DB_USER&#x27;</span>)</span><br><span class="line">db_password = os.getenv(<span class="string">&#x27;DB_PASSWORD&#x27;</span>)</span><br><span class="line">db_host = os.getenv(<span class="string">&#x27;DB_HOST&#x27;</span>)</span><br><span class="line">db_name = os.getenv(<span class="string">&#x27;DB_NAME&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">engine = create_engine(<span class="string">f&#x27;postgresql://<span class="subst">&#123;db_user&#125;</span>:<span class="subst">&#123;db_password&#125;</span>@<span class="subst">&#123;db_host&#125;</span>:5432/<span class="subst">&#123;db_name&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取表</span></span><br><span class="line">df = pd.read_sql_table(<span class="string">&#x27;AssetWeeklyReportView&#x27;</span>, engine)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存到excel中</span></span><br><span class="line">df.to_excel(<span class="string">&#x27;asset_table.xlsx&#x27;</span>, index=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过是否为空进行过滤</span></span><br><span class="line">df1 = df[df[<span class="string">&#x27;Type&#x27;</span>].notnull()]</span><br><span class="line">df2 = df[df[<span class="string">&#x27;Type&#x27;</span>].isnull()]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取行数</span></span><br><span class="line">size = <span class="built_in">len</span>(df1)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 遍历每一行</span></span><br><span class="line"><span class="keyword">for</span> index, row <span class="keyword">in</span> df1.iterrows():</span><br><span class="line">  <span class="built_in">print</span>(row[<span class="string">&#x27;Type&#x27;</span>].....)</span><br></pre></td></tr></table></figure>
@@ -804,39 +752,9 @@
       </tags>
   </entry>
   <entry>
-    <title>kombu.exceptions.EncodeError XXXX is not JSON serializable</title>
-    <url>/posts/3277/</url>
-    <content><![CDATA[<p>本文记录在使用celery时，任务函数参数序列化问题</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@celery_app.task(<span class="params">name=<span class="string">&quot;create_subscription&quot;</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_subscription_file</span>(<span class="params">req: SubscriptionRequest</span>):</span></span><br><span class="line"></span><br><span class="line">    req = SubscriptionRequest(**kwargs)</span><br><span class="line">    subscription_count = req.count</span><br><span class="line">    run_times = math.ceil(subscription_count / <span class="number">200</span>)</span><br><span class="line">    results = &#123;</span><br><span class="line">        <span class="string">&quot;count&quot;</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">&quot;validDateTime&quot;</span>: <span class="literal">None</span></span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubscriptionRequest</span>(<span class="params">BaseModel</span>):</span></span><br><span class="line">    bearer_token: <span class="built_in">str</span> = <span class="literal">None</span></span><br><span class="line">    validDateTime: datetime = <span class="literal">None</span></span><br><span class="line">    validPeriodTime: <span class="built_in">int</span> = <span class="number">12</span></span><br><span class="line">    count: <span class="built_in">int</span> = <span class="number">200</span></span><br><span class="line">    deviceTypeId: <span class="built_in">int</span> = <span class="number">2</span></span><br><span class="line">    subscriptionLevelId: <span class="built_in">int</span> = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">data_json</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.json(exclude=&#123;<span class="string">&#x27;bearer_token&#x27;</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @validator(<span class="params"><span class="string">&#x27;validDateTime&#x27;</span></span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create_default_date</span>(<span class="params">cls, v</span>):</span></span><br><span class="line">        <span class="keyword">if</span> v <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            v = get_default_valid_datetime()</span><br><span class="line">        <span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">default</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.json()</span><br><span class="line">    </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<p>在实际项目中，准备使用pydantic作为参数校验，因此在传递给celery task时，传递了一个class Instance；接着在任务调度时报错：</p>
-<p><code>kombu.exceptions.EncodeError: SubscriptionRequest is not JSON serializable</code></p>
-<p>默认情况下，celery 使用JSON进行序列化数据，因此根本原因在于默认情况下class实例无法被json序列化</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&gt; json.dumps(SubscriptionRequest)</span><br><span class="line">TypeError: Object of <span class="built_in">type</span> SubscriptionRequest <span class="keyword">is</span> <span class="keyword">not</span> JSON serializable</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
-
-<p>json.dumps有一个参数default，在python docs文档中描述如下</p>
-<blockquote>
-<p>当 <em>default</em> 被指定时，其应该是一个函数，每当某个对象无法被序列化时它会被调用。它应该返回该对象的一个可以被 JSON 编码的版本或者引发一个 <a href="https://docs.python.org/zh-cn/3/library/exceptions.html#TypeError"><code>TypeError</code></a>。如果没有被指定，则会直接引发 <a href="https://docs.python.org/zh-cn/3/library/exceptions.html#TypeError"><code>TypeError</code></a>。</p>
-</blockquote>
-<p>我们可以借助default函数来为class实例创建一个方法实现对其json序列化。</p>
-<p>这里没有对类进行改造，而是优化函数的入参</p>
-<p>最后改成，先传递参数到task，然后在task内对所有参数进行pydantic 校验</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@celery_app.task(<span class="params">name=<span class="string">&quot;create_subscription&quot;</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_subscription_file</span>(<span class="params">*args, **kwargs</span>):</span></span><br><span class="line">		<span class="comment"># 对kv参数使用pydantic校验</span></span><br><span class="line">    req = SubscriptionRequest(**kwargs)</span><br><span class="line">    subscription_count = req.count</span><br><span class="line">    run_times = math.ceil(subscription_count / <span class="number">200</span>)</span><br><span class="line">    results = &#123;</span><br><span class="line">        <span class="string">&quot;count&quot;</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">&quot;validDateTime&quot;</span>: <span class="literal">None</span></span><br><span class="line">    &#125;</span><br><span class="line">    result_queue = Queue()</span><br><span class="line">		...</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://stackoverflow.com/questions/10252010/serializing-class-instance-to-json">class serialize</a></p>
-<p>[2] <a href="https://github.com/celery/celery/issues/5922">github issue</a></p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>celery</tag>
-      </tags>
+    <title>mongo</title>
+    <url>/posts/1cbb/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>postgresql split_part coalesce</title>
@@ -900,6 +818,117 @@
       </tags>
   </entry>
   <entry>
+    <title>python thread result</title>
+    <url>/posts/5f19/</url>
+    <content><![CDATA[]]></content>
+      <tags>
+        <tag>python</tag>
+        <tag>thread</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jupyterlab + jupyterhub + supervisor</title>
+    <url>/posts/93be/</url>
+    <content><![CDATA[<blockquote>
+<p>记录在jupyterhub 中使用jupyterlab，并且使用supervisor管理进程运行<br>supervisor 在非root用户下运行和管理进程</p>
+</blockquote>
+<h3 id="安装jupyterhub"><a href="#安装jupyterhub" class="headerlink" title="安装jupyterhub"></a>安装jupyterhub</h3><blockquote>
+<p>前提条件</p>
+<ol>
+<li>python 3.5+</li>
+<li>nodejs/npm</li>
+</ol>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 安装 http-proxy，并使用淘宝镜像</span></span><br><span class="line">npm install -g configurable-http-proxy --registry=https://registry.npm.taobao.org</span><br><span class="line"><span class="comment"># 安装 jupyterhub，并使用豆瓣镜像</span></span><br><span class="line">python3 -m pip install jupyterhub -i https://pypi.douban.com/simple/</span><br><span class="line"><span class="comment"># 在终端中输入jupyterhub 看是否运行</span></span><br><span class="line">jupyterhub</span><br><span class="line"><span class="comment"># Visit https://localhost:8000 in your browser, and sign in with your unix PAM credentials.</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装-jupyterlab，并配置到-jupyterhub中"><a href="#安装-jupyterlab，并配置到-jupyterhub中" class="headerlink" title="安装 jupyterlab，并配置到 jupyterhub中"></a>安装 jupyterlab，并配置到 jupyterhub中</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装 jupyterlab</span></span><br><span class="line">python3 -m pip install jupyterlab -i https://pypi.douban.com/simple/</span><br><span class="line"><span class="comment"># 通过 jupyterhub生成配置文件，并存放在 $HOME/jupyterhub中</span></span><br><span class="line">jupyterhub --generate-config</span><br><span class="line"><span class="comment"># 编辑 jupyterhub_config.py</span></span><br><span class="line"><span class="comment"># 设定你的启动打开目录</span></span><br><span class="line">c.Spawner.notebook_dir = <span class="string">&#x27;/home/simple/develop/jupyter_home&#x27;</span></span><br><span class="line"><span class="comment"># 设定以 jupyterlab运行</span></span><br><span class="line">c.Spawner.default_url = <span class="string">&#x27;/lab&#x27;</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装supervisor，并将-jupyterhub管理加入其中"><a href="#安装supervisor，并将-jupyterhub管理加入其中" class="headerlink" title="安装supervisor，并将 jupyterhub管理加入其中"></a>安装supervisor，并将 jupyterhub管理加入其中</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装supervisor</span></span><br><span class="line">python -m pip install supervisor</span><br><span class="line"><span class="comment"># 生成配置文件，放在/etc/ 中</span></span><br><span class="line">echo_supervisord_conf &gt; /etc/supervisord.conf </span><br><span class="line"><span class="comment"># 创建配置文件夹</span></span><br><span class="line">sudo mkdir -p /etc/supervisor/conf.d/</span><br><span class="line"><span class="comment"># 编辑 supervisord.conf ，在最后取消注释，加入f iles = /etc/supervisor/conf.d/*.conf</span></span><br><span class="line">[include]</span><br><span class="line">;files = relative/directory/*.ini</span><br><span class="line">files = /etc/supervisor/conf.d/*.conf</span><br><span class="line"><span class="comment"># 修改启动用户为当前用户，如果是root，请忽略</span></span><br><span class="line">[supervisord]</span><br><span class="line">user=simple</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"># 在 /etc/supervisor/<span class="keyword">conf</span>.d/ 新建 jupyterhub.<span class="keyword">conf</span>， 内容如下</span><br><span class="line">[program:jupyterhub]</span><br><span class="line"><span class="keyword">command</span>=jupyterhub -<span class="keyword">f</span> /home/simple/jupyterhub/jupyterhub_config.<span class="keyword">py</span></span><br><span class="line">directory=/home/simple/jupyterhub</span><br><span class="line">autostart=true</span><br><span class="line">autorestart=true</span><br><span class="line">startretries=<span class="number">3</span></span><br><span class="line">exitcodes=<span class="number">0</span>,<span class="number">2</span></span><br><span class="line">stopsignal=TERM</span><br><span class="line">redirect_stderr=true</span><br><span class="line">stdout_logfile=/home/simple/jupyterhub/<span class="built_in">log</span>/jupyterhub.<span class="built_in">log</span></span><br><span class="line">stdout_logfile_maxbytes=<span class="number">1</span>MB</span><br><span class="line">stdout_logfile_backups=<span class="number">10</span></span><br><span class="line">user=simple</span><br></pre></td></tr></table></figure>
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在任意位置运行 supervisord，启动 supervisor 主进程</span></span><br><span class="line">supervisord</span><br><span class="line"><span class="comment"># 通过supervisorctl status 查看状态</span></span><br><span class="line">supervisorctl status</span><br><span class="line">$ jupyterhub                       RUNNING   pid 16161, uptime 0:24:15</span><br></pre></td></tr></table></figure>
+<p>在浏览器中访问ip:8000，输入系统的设置的用户名密码进行登录</p>
+<h3 id="配置https"><a href="#配置https" class="headerlink" title="配置https"></a>配置https</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 编辑 jupyterhub_config.py， 配置ssl_cert 和 ssl_key</span></span><br><span class="line">c.JupyterHub.ssl_cert = <span class="string">&#x27;/****/*****/ssl_file/full_chain.pem&#x27;</span></span><br><span class="line">c.JupyterHub.ssl_key = <span class="string">&#x27;/****/****/ssl_file/private.key&#x27;</span></span><br><span class="line"><span class="comment"># 保存后重启supervisor</span></span><br><span class="line">supervisorctl restart jupyterhub</span><br></pre></td></tr></table></figure>
+<p><em>ssl 证书申请可以参考：<a href="https://freessl.cn/">https://freessl.cn/</a></em><br>最终效果：<br><img src="https://oss.smart-lifestyle.cn/blog/mrwzk.png" alt="效果"></p>
+<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
+<li>启用jupyterlab 插件管理</li>
+</ul>
+<ul>
+<li>Settings –&gt; Enable Extension Manager 启用</li>
+<li>在 Extension Manager中搜索manager，选择@jupyter-widgets/jupyterlab-manager，点击安装</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a href="https://juejin.im/post/5d80da83e51d45620c1c5471">如何安装supervisor</a></li>
+<li><a href="https://developer.aliyun.com/mirror/NPM">npm淘宝镜像</a></li>
+<li><a href="https://www.jianshu.com/p/c5b7c619dd0b">豆瓣python源</a></li>
+<li><a href="https://github.com/jupyterhub/jupyterhub-tutorial/tree/master/supervisor">jupyterhub官网 supervisor参考</a></li>
+<li><a href="https://jupyterlab.readthedocs.io/en/latest/user/jupyterhub.html">配置jupyterhub 使用jupyterlab</a></li>
+<li><a href="https://jupyter.org/install">jupyterlab安装</a></li>
+<li><a href="https://github.com/jupyterhub/jupyterhub">jupyterhub安装</a></li>
+<li><a href="https://jupyterhub.readthedocs.io/en/stable/getting-started/security-basics.html">ssl 加密 https化</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>jupyterlab</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>kombu.exceptions.EncodeError XXXX is not JSON serializable</title>
+    <url>/posts/3277/</url>
+    <content><![CDATA[<p>本文记录在使用celery时，任务函数参数序列化问题</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@celery_app.task(<span class="params">name=<span class="string">&quot;create_subscription&quot;</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_subscription_file</span>(<span class="params">req: SubscriptionRequest</span>):</span></span><br><span class="line"></span><br><span class="line">    req = SubscriptionRequest(**kwargs)</span><br><span class="line">    subscription_count = req.count</span><br><span class="line">    run_times = math.ceil(subscription_count / <span class="number">200</span>)</span><br><span class="line">    results = &#123;</span><br><span class="line">        <span class="string">&quot;count&quot;</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">&quot;validDateTime&quot;</span>: <span class="literal">None</span></span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubscriptionRequest</span>(<span class="params">BaseModel</span>):</span></span><br><span class="line">    bearer_token: <span class="built_in">str</span> = <span class="literal">None</span></span><br><span class="line">    validDateTime: datetime = <span class="literal">None</span></span><br><span class="line">    validPeriodTime: <span class="built_in">int</span> = <span class="number">12</span></span><br><span class="line">    count: <span class="built_in">int</span> = <span class="number">200</span></span><br><span class="line">    deviceTypeId: <span class="built_in">int</span> = <span class="number">2</span></span><br><span class="line">    subscriptionLevelId: <span class="built_in">int</span> = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">data_json</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.json(exclude=&#123;<span class="string">&#x27;bearer_token&#x27;</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @validator(<span class="params"><span class="string">&#x27;validDateTime&#x27;</span></span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create_default_date</span>(<span class="params">cls, v</span>):</span></span><br><span class="line">        <span class="keyword">if</span> v <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            v = get_default_valid_datetime()</span><br><span class="line">        <span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">default</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.json()</span><br><span class="line">    </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>在实际项目中，准备使用pydantic作为参数校验，因此在传递给celery task时，传递了一个class Instance；接着在任务调度时报错：</p>
+<p><code>kombu.exceptions.EncodeError: SubscriptionRequest is not JSON serializable</code></p>
+<p>默认情况下，celery 使用JSON进行序列化数据，因此根本原因在于默认情况下class实例无法被json序列化</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&gt; json.dumps(SubscriptionRequest)</span><br><span class="line">TypeError: Object of <span class="built_in">type</span> SubscriptionRequest <span class="keyword">is</span> <span class="keyword">not</span> JSON serializable</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<p>json.dumps有一个参数default，在python docs文档中描述如下</p>
+<blockquote>
+<p>当 <em>default</em> 被指定时，其应该是一个函数，每当某个对象无法被序列化时它会被调用。它应该返回该对象的一个可以被 JSON 编码的版本或者引发一个 <a href="https://docs.python.org/zh-cn/3/library/exceptions.html#TypeError"><code>TypeError</code></a>。如果没有被指定，则会直接引发 <a href="https://docs.python.org/zh-cn/3/library/exceptions.html#TypeError"><code>TypeError</code></a>。</p>
+</blockquote>
+<p>我们可以借助default函数来为class实例创建一个方法实现对其json序列化。</p>
+<p>这里没有对类进行改造，而是优化函数的入参</p>
+<p>最后改成，先传递参数到task，然后在task内对所有参数进行pydantic 校验</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@celery_app.task(<span class="params">name=<span class="string">&quot;create_subscription&quot;</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_subscription_file</span>(<span class="params">*args, **kwargs</span>):</span></span><br><span class="line">		<span class="comment"># 对kv参数使用pydantic校验</span></span><br><span class="line">    req = SubscriptionRequest(**kwargs)</span><br><span class="line">    subscription_count = req.count</span><br><span class="line">    run_times = math.ceil(subscription_count / <span class="number">200</span>)</span><br><span class="line">    results = &#123;</span><br><span class="line">        <span class="string">&quot;count&quot;</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">&quot;validDateTime&quot;</span>: <span class="literal">None</span></span><br><span class="line">    &#125;</span><br><span class="line">    result_queue = Queue()</span><br><span class="line">		...</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://stackoverflow.com/questions/10252010/serializing-class-instance-to-json">class serialize</a></p>
+<p>[2] <a href="https://github.com/celery/celery/issues/5922">github issue</a></p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>celery</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python json.dumps unicode</title>
+    <url>/posts/b1/</url>
+    <content><![CDATA[<blockquote>
+<p>在dumps/dump中使用ensure_ascii=False，来手动编码为UTF8格式</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="comment"># 输出为Unicode编码，不便于可视化</span></span><br><span class="line">&gt; json.dumps(<span class="string">&quot;我爱China🇨🇳&quot;</span>)</span><br><span class="line"><span class="string">&#x27;&quot;\\u6211\\u7231China\\ud83c\\udde8\\ud83c\\uddf3&quot;&#x27;</span></span><br><span class="line"></span><br><span class="line">&gt; json.dumps(<span class="string">&quot;我爱China🇨🇳&quot;</span>, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"><span class="string">&#x27;&quot;我爱China🇨🇳&quot;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://stackoverflow.com/questions/18337407/saving-utf-8-texts-with-json-dumps-as-utf8-not-as-u-escape-sequence">json dumps unicode</a></p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>json</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python library package</title>
     <url>/posts/205e/</url>
     <content><![CDATA[<h2 id="视觉"><a href="#视觉" class="headerlink" title="视觉"></a>视觉</h2><ol>
@@ -936,35 +965,6 @@
       </categories>
       <tags>
         <tag>python library</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python json.dumps unicode</title>
-    <url>/posts/b1/</url>
-    <content><![CDATA[<blockquote>
-<p>在dumps/dump中使用ensure_ascii=False，来手动编码为UTF8格式</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="comment"># 输出为Unicode编码，不便于可视化</span></span><br><span class="line">&gt; json.dumps(<span class="string">&quot;我爱China🇨🇳&quot;</span>)</span><br><span class="line"><span class="string">&#x27;&quot;\\u6211\\u7231China\\ud83c\\udde8\\ud83c\\uddf3&quot;&#x27;</span></span><br><span class="line"></span><br><span class="line">&gt; json.dumps(<span class="string">&quot;我爱China🇨🇳&quot;</span>, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"><span class="string">&#x27;&quot;我爱China🇨🇳&quot;&#x27;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://stackoverflow.com/questions/18337407/saving-utf-8-texts-with-json-dumps-as-utf8-not-as-u-escape-sequence">json dumps unicode</a></p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>json</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python thread result</title>
-    <url>/posts/5f19/</url>
-    <content><![CDATA[]]></content>
-      <tags>
-        <tag>python</tag>
-        <tag>thread</tag>
       </tags>
   </entry>
   <entry>
@@ -1025,27 +1025,6 @@
       </tags>
   </entry>
   <entry>
-    <title>python web--flask jsonify unicode</title>
-    <url>/posts/9b/</url>
-    <content><![CDATA[<blockquote>
-<p>类似于json.dumps中ensure_ascii的配置，在flask中也有类似配置，来避免jsonify时，返回unicode编码字符</p>
-</blockquote>
-<p>在flask config中加入<code>app.config[&#39;JSON_AS_ASCII&#39;] = False</code>来避免jsonify对非ascii字符进行unicode编码</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">app = Flask(__name__)</span><br><span class="line">app.config.from_object(app_config)</span><br><span class="line">app.config.from_mapping(</span><br><span class="line">    SQLALCHEMY_DATABASE_URI=<span class="string">f&quot;postgresql+psycopg2://<span class="subst">&#123;app_config.DB_USER&#125;</span>:<span class="subst">&#123;app_config.DB_PASSWORD&#125;</span>&quot;</span></span><br><span class="line">                            <span class="string">f&quot;@<span class="subst">&#123;app_config.DB_HOST&#125;</span>:<span class="subst">&#123;app_config.DB_PORT&#125;</span>/<span class="subst">&#123;app_config.DB_NAME&#125;</span>&quot;</span>,</span><br><span class="line">    SQLALCHEMY_TRACK_MODIFICATIONS=<span class="literal">False</span>,</span><br><span class="line">    <span class="comment"># SQLALCHEMY_ECHO=True</span></span><br><span class="line">)</span><br><span class="line">app.config[<span class="string">&#x27;JSON_AS_ASCII&#x27;</span>] = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] [<a href="https://stackoverflow.com/questions/37531067/how-to-prevent-unicode-representation-for-latin1-characters">How to prevent Unicode representation for Latin1 characters?</a>]</p>
-]]></content>
-      <categories>
-        <category>flask</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>flask</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python poetry requirements.txt</title>
     <url>/posts/143a/</url>
     <content><![CDATA[<p>Poetry 是一个python虚拟环境和依赖管理工具，也可以用来构建打包python包，只需要一个标准化<a href="https://www.python.org/dev/peps/pep-0518/">pyproject.toml</a>文件，其他依赖管理工具如：virtualenv、pipenv等</p>
@@ -1101,6 +1080,27 @@
       <tags>
         <tag>python</tag>
         <tag>urlenocde</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python web--flask jsonify unicode</title>
+    <url>/posts/9b/</url>
+    <content><![CDATA[<blockquote>
+<p>类似于json.dumps中ensure_ascii的配置，在flask中也有类似配置，来避免jsonify时，返回unicode编码字符</p>
+</blockquote>
+<p>在flask config中加入<code>app.config[&#39;JSON_AS_ASCII&#39;] = False</code>来避免jsonify对非ascii字符进行unicode编码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">app = Flask(__name__)</span><br><span class="line">app.config.from_object(app_config)</span><br><span class="line">app.config.from_mapping(</span><br><span class="line">    SQLALCHEMY_DATABASE_URI=<span class="string">f&quot;postgresql+psycopg2://<span class="subst">&#123;app_config.DB_USER&#125;</span>:<span class="subst">&#123;app_config.DB_PASSWORD&#125;</span>&quot;</span></span><br><span class="line">                            <span class="string">f&quot;@<span class="subst">&#123;app_config.DB_HOST&#125;</span>:<span class="subst">&#123;app_config.DB_PORT&#125;</span>/<span class="subst">&#123;app_config.DB_NAME&#125;</span>&quot;</span>,</span><br><span class="line">    SQLALCHEMY_TRACK_MODIFICATIONS=<span class="literal">False</span>,</span><br><span class="line">    <span class="comment"># SQLALCHEMY_ECHO=True</span></span><br><span class="line">)</span><br><span class="line">app.config[<span class="string">&#x27;JSON_AS_ASCII&#x27;</span>] = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] [<a href="https://stackoverflow.com/questions/37531067/how-to-prevent-unicode-representation-for-latin1-characters">How to prevent Unicode representation for Latin1 characters?</a>]</p>
+]]></content>
+      <categories>
+        <category>flask</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>flask</tag>
       </tags>
   </entry>
   <entry>
@@ -1191,17 +1191,6 @@
       <tags>
         <tag>python</tag>
         <tag>exception</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python基础篇--function</title>
-    <url>/posts/2f69/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>function</tag>
       </tags>
   </entry>
   <entry>
@@ -1385,20 +1374,15 @@
       </tags>
   </entry>
   <entry>
-    <title>python进阶--魔法函数</title>
-    <url>/posts/4e20/</url>
+    <title>python基础篇--function</title>
+    <url>/posts/2f69/</url>
     <content><![CDATA[]]></content>
       <categories>
         <category>python</category>
       </categories>
       <tags>
-        <tag>python</tag>
+        <tag>function</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>rancherandgithub</title>
-    <url>/posts/a8ad/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>python文件名操作</title>
@@ -1440,6 +1424,17 @@
     <title>python多线程</title>
     <url>/posts/76d7/</url>
     <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>python进阶--魔法函数</title>
+    <url>/posts/4e20/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
   </entry>
   <entry>
     <title>rancher初步使用</title>
@@ -1571,6 +1566,17 @@
       </tags>
   </entry>
   <entry>
+    <title>sentry初试牛刀</title>
+    <url>/posts/a9f1/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>运维</category>
+      </categories>
+      <tags>
+        <tag>sentry</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>shell变量与环境变量</title>
     <url>/posts/77ae/</url>
     <content><![CDATA[<blockquote>
@@ -1651,27 +1657,42 @@
       </tags>
   </entry>
   <entry>
-    <title>ubuntu更改主机名</title>
-    <url>/posts/62e8/</url>
-    <content><![CDATA[<ul>
-<li>增加或者修改<code>/etc/hostname</code>，添加新的主机名</li>
-<li>修改<code>/etc/hosts</code>，在127.0.0.1中添加新的主机名</li>
-<li>如果是在云上运行vm实例，需要修改上面的<code>/etc/cloud/cloud.cfg</code>，否则重启机器后，hostname会变为默认值😭；找到<code>preserve_hostname</code>，将其值改为<code>true</code></li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://www.myfreax.com/how-to-change-hostname-on-ubuntu-20-04/">如何在Ubuntu 20.04上更改主机名 (myfreax.com)</a></p>
-]]></content>
-      <categories>
-        <category>运维</category>
-      </categories>
-      <tags>
-        <tag>ubuntu</tag>
-        <tag>运维</tag>
-      </tags>
+    <title>rancherandgithub</title>
+    <url>/posts/a8ad/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>traefik</title>
     <url>/posts/7112/</url>
     <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>python递归创建目录(mkdir -p)</title>
+    <url>/posts/7376/</url>
+    <content><![CDATA[<p>在为日志文件设置存放位置时，需要在程序里判断文件夹（位置）是否存在，通常使用<code>os.mkdir</code>来创建目录，但是如果目录为多层次目录，而且某一层目录存在，在使用<code>os.mkdir</code>时会报错：FileNotFoundError*</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.mkdir(<span class="string">&#x27;/tmp/logpath/path&#x27;</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;&lt;stdin&gt;&quot;</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">FileNotFoundError: [Errno <span class="number">2</span>] No such file <span class="keyword">or</span> directory: <span class="string">&#x27;/tmp/logpath/path&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>这是因为os.mkdir不支持多层目录递归创建。</p>
+<p>在linux mkdir命令中，它支持如下操作，使用-p 可以实现递归创建目录</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tldr mkdir</span><br><span class="line">Cache is out of date. You should run <span class="string">&quot;tldr --update&quot;</span></span><br><span class="line"></span><br><span class="line">  mkdir</span><br><span class="line"></span><br><span class="line">  Creates a directory.</span><br><span class="line">  More information: https://www.gnu.org/software/coreutils/mkdir.</span><br><span class="line"></span><br><span class="line">  - Create a directory <span class="keyword">in</span> current directory or given path:</span><br><span class="line">    mkdir directory</span><br><span class="line"></span><br><span class="line">  - Create directories recursively (useful <span class="keyword">for</span> creating nested <span class="built_in">dirs</span>):</span><br><span class="line">    mkdir -p path/to/directory</span><br></pre></td></tr></table></figure>
+
+<p>而在python中我们可以使用pathlib.Path.mkdir来实现，需要让<code>exist_ok=True</code> 以及<code>parents=True</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Path.mkdir(mode=<span class="number">0o777</span>, parents=<span class="literal">False</span>, exist_ok=<span class="literal">False</span>)</span><br><span class="line">If exist_ok <span class="keyword">is</span> true, FileExistsError exceptions will be ignored (same behavior <span class="keyword">as</span> the POSIX mkdir -p command), but only <span class="keyword">if</span> the last path component <span class="keyword">is</span> <span class="keyword">not</span> an existing non-directory file.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>Path(<span class="string">&#x27;/tmp/logtmp/XMKDRL&#x27;</span>).mkdir(exist_ok=<span class="literal">True</span>, parents=<span class="literal">True</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.path.exists(<span class="string">&#x27;/tmp/logtmp/XMKDRL&#x27;</span>)</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] [mkdir-p-functionality-in-python](<a href="https://stackoverflow.com/questions/600268/mkdir-p-functionality-in-python">mkdir -p functionality in Python - Stack Overflow</a>)</p>
+<p>[2] [Path.mkdir](<a href="https://docs.python.org/3/library/pathlib.html#pathlib.Path.mkdir">pathlib — Object-oriented filesystem paths — Python 3.9.5 documentation</a>)</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>python小技巧</tag>
+      </tags>
   </entry>
   <entry>
     <title>virtualenvwrapper的安装和使用</title>
@@ -1697,14 +1718,39 @@
       </tags>
   </entry>
   <entry>
-    <title>sentry初试牛刀</title>
-    <url>/posts/a9f1/</url>
-    <content><![CDATA[]]></content>
+    <title>ubuntu更改主机名</title>
+    <url>/posts/62e8/</url>
+    <content><![CDATA[<ul>
+<li>增加或者修改<code>/etc/hostname</code>，添加新的主机名</li>
+<li>修改<code>/etc/hosts</code>，在127.0.0.1中添加新的主机名</li>
+<li>如果是在云上运行vm实例，需要修改上面的<code>/etc/cloud/cloud.cfg</code>，否则重启机器后，hostname会变为默认值😭；找到<code>preserve_hostname</code>，将其值改为<code>true</code></li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://www.myfreax.com/how-to-change-hostname-on-ubuntu-20-04/">如何在Ubuntu 20.04上更改主机名 (myfreax.com)</a></p>
+]]></content>
       <categories>
         <category>运维</category>
       </categories>
       <tags>
-        <tag>sentry</tag>
+        <tag>ubuntu</tag>
+        <tag>运维</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>修改SQL Server连接字符串</title>
+    <url>/posts/3178/</url>
+    <content><![CDATA[<blockquote>
+<p>com.microsoft.sql server.jdbc.sqlserverException:驱动程序无法使用安全套接字层（SSL）加密建立到SQL Server的安全连接</p>
+</blockquote>
+<p>在高级设置中trustServerCertificate改为true即可</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/cs6v8.png" alt="image-20210630111813541"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://www.baooytra.com/knowledge/questions/56246/modifying-sql-server-connection-string.html?smartspace=fme-desktop-getting-started_2">修改SQL Server连接字符串-FME社区 - 亚搏在线 (baooytra.com)</a></p>
+]]></content>
+      <categories>
+        <category>SQL</category>
+      </categories>
+      <tags>
+        <tag>SQL</tag>
+        <tag>sqlserverException</tag>
       </tags>
   </entry>
   <entry>
@@ -1774,52 +1820,6 @@
       </tags>
   </entry>
   <entry>
-    <title>python递归创建目录(mkdir -p)</title>
-    <url>/posts/7376/</url>
-    <content><![CDATA[<p>在为日志文件设置存放位置时，需要在程序里判断文件夹（位置）是否存在，通常使用<code>os.mkdir</code>来创建目录，但是如果目录为多层次目录，而且某一层目录存在，在使用<code>os.mkdir</code>时会报错：FileNotFoundError*</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.mkdir(<span class="string">&#x27;/tmp/logpath/path&#x27;</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;&lt;stdin&gt;&quot;</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">FileNotFoundError: [Errno <span class="number">2</span>] No such file <span class="keyword">or</span> directory: <span class="string">&#x27;/tmp/logpath/path&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>这是因为os.mkdir不支持多层目录递归创建。</p>
-<p>在linux mkdir命令中，它支持如下操作，使用-p 可以实现递归创建目录</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tldr mkdir</span><br><span class="line">Cache is out of date. You should run <span class="string">&quot;tldr --update&quot;</span></span><br><span class="line"></span><br><span class="line">  mkdir</span><br><span class="line"></span><br><span class="line">  Creates a directory.</span><br><span class="line">  More information: https://www.gnu.org/software/coreutils/mkdir.</span><br><span class="line"></span><br><span class="line">  - Create a directory <span class="keyword">in</span> current directory or given path:</span><br><span class="line">    mkdir directory</span><br><span class="line"></span><br><span class="line">  - Create directories recursively (useful <span class="keyword">for</span> creating nested <span class="built_in">dirs</span>):</span><br><span class="line">    mkdir -p path/to/directory</span><br></pre></td></tr></table></figure>
-
-<p>而在python中我们可以使用pathlib.Path.mkdir来实现，需要让<code>exist_ok=True</code> 以及<code>parents=True</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Path.mkdir(mode=<span class="number">0o777</span>, parents=<span class="literal">False</span>, exist_ok=<span class="literal">False</span>)</span><br><span class="line">If exist_ok <span class="keyword">is</span> true, FileExistsError exceptions will be ignored (same behavior <span class="keyword">as</span> the POSIX mkdir -p command), but only <span class="keyword">if</span> the last path component <span class="keyword">is</span> <span class="keyword">not</span> an existing non-directory file.</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>Path(<span class="string">&#x27;/tmp/logtmp/XMKDRL&#x27;</span>).mkdir(exist_ok=<span class="literal">True</span>, parents=<span class="literal">True</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.path.exists(<span class="string">&#x27;/tmp/logtmp/XMKDRL&#x27;</span>)</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] [mkdir-p-functionality-in-python](<a href="https://stackoverflow.com/questions/600268/mkdir-p-functionality-in-python">mkdir -p functionality in Python - Stack Overflow</a>)</p>
-<p>[2] [Path.mkdir](<a href="https://docs.python.org/3/library/pathlib.html#pathlib.Path.mkdir">pathlib — Object-oriented filesystem paths — Python 3.9.5 documentation</a>)</p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>python小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>修改SQL Server连接字符串</title>
-    <url>/posts/3178/</url>
-    <content><![CDATA[<blockquote>
-<p>com.microsoft.sql server.jdbc.sqlserverException:驱动程序无法使用安全套接字层（SSL）加密建立到SQL Server的安全连接</p>
-</blockquote>
-<p>在高级设置中trustServerCertificate改为true即可</p>
-<p><img src="https://oss.smart-lifestyle.cn/file/cs6v8.png" alt="image-20210630111813541"></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://www.baooytra.com/knowledge/questions/56246/modifying-sql-server-connection-string.html?smartspace=fme-desktop-getting-started_2">修改SQL Server连接字符串-FME社区 - 亚搏在线 (baooytra.com)</a></p>
-]]></content>
-      <categories>
-        <category>SQL</category>
-      </categories>
-      <tags>
-        <tag>SQL</tag>
-        <tag>sqlserverException</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>函数计算中python依赖包打包</title>
     <url>/posts/990c/</url>
     <content><![CDATA[<p>以下操作使用于华为云的<a href="https://support.huaweicloud.com/functiongraph/">functiongraph</a>和腾讯云的<a href="https://cloud.tencent.com/document/product/583/9199">serverless</a></p>
@@ -1849,31 +1849,6 @@
       </tags>
   </entry>
   <entry>
-    <title>小程序下拉刷新操作</title>
-    <url>/posts/1ea1/</url>
-    <content><![CDATA[<ul>
-<li>功能： 实现手动下拉刷新触发事件</li>
-</ul>
-<ul>
-<li>在需要加载下拉刷新页面的json文件中加入 <strong>“enablePullDownRefresh”: true, “backgroundTextStyle”: “dark”</strong>, <figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;enablePullDownRefresh&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;backgroundTextStyle&quot;</span>: <span class="string">&quot;dark&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;usingComponents&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;mp-dialog&quot;</span>: <span class="string">&quot;../../weui-miniprogram/dialog/dialog&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;mp-navigation-bar&quot;</span>: <span class="string">&quot;../../weui-miniprogram/navigation-bar/navigation-bar&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<ol start="2">
-<li>在对应的js文件中配置方法<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">onPullDownRefresh: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      wx.showNavigationBarLoading();</span><br><span class="line">      <span class="comment">// 你要触发的函数</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;refresh&#x27;</span>);</span><br><span class="line">      <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 标题栏隐藏刷新转圈圈图标</span></span><br><span class="line">        wx.hideNavigationBarLoading();</span><br><span class="line">        wx.stopPullDownRefresh(&#123;</span><br><span class="line">          <span class="attr">complete</span>: <span class="function">(<span class="params">res</span>) =&gt;</span> &#123;&#125;,</span><br><span class="line">        &#125;)</span><br><span class="line">  </span><br><span class="line">        &#125;, <span class="number">500</span>);</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure></li>
-<li>在onShow中加入startPullDownRefresh，会每次show 页面时调用刷新函数<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">onShow: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      wx.startPullDownRefresh(&#123;</span><br><span class="line">         <span class="attr">complete</span>: <span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">           <span class="built_in">console</span>.log(<span class="string">&#x27;===============onshow resfrsh use info&#x27;</span>)</span><br><span class="line">         &#125;,</span><br><span class="line">       &#125;)</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
-参考：</li>
-<li><a href="https://blog.csdn.net/weichen913/article/details/79360658">小程序上拉加载和下拉刷新问题总结</a></li>
-</ol>
-<hr>
-<p>最后效果<br><img src="https://oss.smart-lifestyle.cn/blog/yqv6s.gif" alt="image"></p>
-]]></content>
-      <categories>
-        <category>小程序</category>
-      </categories>
-      <tags>
-        <tag>小程序</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>在Ubuntu中创建sudo user</title>
     <url>/posts/c222/</url>
     <content><![CDATA[<ul>
@@ -1893,6 +1868,29 @@
       </categories>
       <tags>
         <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在linux中安装oh-my-zsh</title>
+    <url>/posts/ea0a/</url>
+    <content><![CDATA[<blockquote>
+<p>oh-my-zsh 是zsh的管理配置工具，因此在使用oh-my-zsh之前安装zsh</p>
+</blockquote>
+<p><img src="https://oss.smart-lifestyle.cn/blog/w5ahz.jpg" alt="zsh"></p>
+<ol>
+<li>判断当前系统使用的shell<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 打印当前系统使用的shell</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$SHELL</span></span><br><span class="line"><span class="comment"># 可能会输出</span></span><br><span class="line"><span class="comment"># /bin/bash</span></span><br><span class="line"><span class="comment"># /bin/sh</span></span><br><span class="line"><span class="comment"># /bin/zsh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看当前系统支持的shell</span></span><br><span class="line">cat /etc/shells</span><br></pre></td></tr></table></figure></li>
+<li>安装zsh<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 如果未安装zsh</span></span><br><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure></li>
+<li>切换shell为zsh<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 需要重启</span></span><br><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure></li>
+<li>安装 oh my zsh<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># via curl</span></span><br><span class="line">sh -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>&quot;</span></span><br><span class="line"><span class="comment"># via wget</span></span><br><span class="line">sh -c <span class="string">&quot;<span class="subst">$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+参考：</li>
+<li><a href="https://www.jianshu.com/p/d194d29e488c">https://www.jianshu.com/p/d194d29e488c</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>zsh</category>
+      </categories>
+      <tags>
+        <tag>oh-my-zsh</tag>
       </tags>
   </entry>
   <entry>
@@ -1916,61 +1914,33 @@
       </tags>
   </entry>
   <entry>
-    <title>组件化实战</title>
-    <url>/posts/9b54/</url>
-    <content><![CDATA[<p>目前前端三大框架（Vue.js, Angular.js, React.js）都在引领着前端的组件化开发方向，组件化的前端开发方式的确为业务实现带来了前所未有的方便，但如何封装一个优秀的组件，可能并不是每位前端开发者都能够做好的。</p>
-<h2 id="组件化的特点"><a href="#组件化的特点" class="headerlink" title="组件化的特点"></a>组件化的特点</h2><ul>
-<li>组件化是对实现的分层，是更有效地代码组合方式</li>
-<li>组件化是对资源的重组和优化，从而使项目资源管理更合理</li>
-<li>组件化有利于单元测试</li>
-<li>组件化对重构较友好<h3 id="组件与模块"><a href="#组件与模块" class="headerlink" title="组件与模块"></a>组件与模块</h3>模块(Module)通常强调的是职责（分离、内聚），组件是可复用模块和相关依赖的封装。<blockquote>
-<p>In my view, Module and Component are all just a couple of functions and assets.<br>And the different between them is:<br><strong>Component has business logical and module not.</strong><br>For example,this text input area is just a Module, but when there was some post api called,it become a Component. you can put a module everywhere and it will work fine, but Componet just can be used in a specific page or view(coz it has a specific api call)</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="组件化结构"><a href="#组件化结构" class="headerlink" title="组件化结构"></a>组件化结构</h3><p>一个组件包括以下部分：</p>
-<ul>
-<li>Attribute</li>
-<li> Config &amp; State</li>
-<li>Event</li>
-<li>Lifecycle</li>
-<li>Children</li>
-<li>Properties</li>
-<li>Methods</li>
-<li>Inherit<br><img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-170957.png"></li>
-</ul>
-<h2 id="Webpack资源组件化"><a href="#Webpack资源组件化" class="headerlink" title="Webpack资源组件化"></a>Webpack资源组件化</h2><blockquote>
-<p>webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle<br><img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-160837.jpg"><br>从图上我们可以看到，webpack将多种静态资源js、css、less等转化成一个静态文件，减少页面的请求<br>Webpack包括四个核心概念：入口、输出、loader、插件</p>
-</blockquote>
-<h3 id="入口"><a href="#入口" class="headerlink" title="入口"></a>入口</h3><p>入口起点(entry point)指示 webpack 应该使用哪个模块，来作为构建其内部依赖图的开始。进入入口起点后，webpack 会找出有哪些模块和库是入口起点（直接和间接）依赖的，可以通过在 webpack 配置中配置 entry 属性，来指定一个入口起点（或多个入口起点）</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">mode: <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;main.js&#x27;</span></span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
-<h3 id="出口"><a href="#出口" class="headerlink" title="出口"></a>出口</h3><p>output 属性告诉 webpack 在哪里输出它所创建的 bundles，以及如何命名这些文件，默认值为 ./dist。你可以通过在配置中指定一个 output 字段，来配置这些处理过程</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">mode: <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;main.js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="LOADER"><a href="#LOADER" class="headerlink" title="LOADER"></a>LOADER</h3><p>loader 让 webpack 能够去处理那些非 JavaScript 文件（webpack 自身只理解 JavaScript）。loader 可以将所有类型的文件转换为 webpack 能够处理的有效模块，然后你就可以利用 webpack 的打包能力，对它们进行处理。<br>本质上，webpack loader 将所有类型的文件，转换为应用程序的依赖图（和最终的 bundle）可以直接引用的模块。<br>在更高层面，在 webpack 的配置中 loader 有两个目标：</p>
-<ol>
-<li>test 属性，用于标识出应该被对应的 loader 进行转换的某个或某些文件。</li>
-<li>use 属性，表示进行转换时，应该使用哪个 loader。<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123; <span class="attr">test</span>: <span class="regexp">/\.js$/</span>, exclude: <span class="regexp">/node_modules/</span>, loader: <span class="string">&quot;babel-loader&quot;</span> &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.css$/i</span>,</span><br><span class="line">        use: [<span class="string">&#x27;style-loader&#x27;</span>, <span class="string">&#x27;css-loader&#x27;</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.s[ac]ss$/i</span>,</span><br><span class="line">        use: [</span><br><span class="line">          <span class="string">&#x27;style-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;css-loader&#x27;</span>,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">loader</span>: <span class="string">&#x27;sass-loader&#x27;</span>,</span><br><span class="line">            <span class="attr">options</span>: &#123;</span><br><span class="line">              <span class="comment">// Prefer `dart-sass`</span></span><br><span class="line">              <span class="attr">implementation</span>: <span class="built_in">require</span>(<span class="string">&#x27;sass&#x27;</span>),</span><br><span class="line">            &#125;,</span><br><span class="line">          &#125;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;,</span><br><span class="line">     </span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
-<h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3>loader 被用于转换某些类型的模块，而插件则可以用于执行范围更广的任务。想要使用一个插件，你只需要 require() 它，然后把它添加到 plugins 数组中。多数插件可以通过选项(option)自定义。你也可以在一个配置文件中因为不同目的而多次使用同一个插件，这时需要通过使用 new 操作符来创建它的一个实例。<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> CopyPlugin([</span><br><span class="line">      &#123; <span class="attr">from</span>: <span class="string">&#x27;./static/&#x27;</span>, <span class="attr">to</span>: <span class="string">&#x27;static/&#x27;</span>, <span class="attr">force</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">from</span>: <span class="string">&#x27;./index.html&#x27;</span>, <span class="attr">to</span>: <span class="string">&#x27;index.html&#x27;</span>, <span class="attr">force</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">    ]),</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
-本项目中完整webpack实例<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"># webpack.config.js</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> CopyPlugin = <span class="built_in">require</span>(<span class="string">&#x27;copy-webpack-plugin&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">mode</span>: <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;main.js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123; <span class="attr">test</span>: <span class="regexp">/\.js$/</span>, exclude: <span class="regexp">/node_modules/</span>, loader: <span class="string">&quot;babel-loader&quot;</span> &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.css$/i</span>,</span><br><span class="line">        use: [<span class="string">&#x27;style-loader&#x27;</span>, <span class="string">&#x27;css-loader&#x27;</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.s[ac]ss$/i</span>,</span><br><span class="line">        use: [</span><br><span class="line">          <span class="string">&#x27;style-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;css-loader&#x27;</span>,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">loader</span>: <span class="string">&#x27;sass-loader&#x27;</span>,</span><br><span class="line">            <span class="attr">options</span>: &#123;</span><br><span class="line">              <span class="comment">// Prefer `dart-sass`</span></span><br><span class="line">              <span class="attr">implementation</span>: <span class="built_in">require</span>(<span class="string">&#x27;sass&#x27;</span>),</span><br><span class="line">            &#125;,</span><br><span class="line">          &#125;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;,</span><br><span class="line">     </span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">plugins</span>: [</span><br><span class="line">    <span class="keyword">new</span> CopyPlugin([</span><br><span class="line">      &#123; <span class="attr">from</span>: <span class="string">&#x27;./static/&#x27;</span>, <span class="attr">to</span>: <span class="string">&#x27;static/&#x27;</span>, <span class="attr">force</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">from</span>: <span class="string">&#x27;./index.html&#x27;</span>, <span class="attr">to</span>: <span class="string">&#x27;index.html&#x27;</span>, <span class="attr">force</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">    ]),</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">devtool</span>: <span class="string">&#x27;inline-source-map&#x27;</span>,</span><br><span class="line">  <span class="attr">devServer</span>: &#123;</span><br><span class="line">    <span class="attr">contentBase</span>: <span class="string">&#x27;./dist&#x27;</span>,</span><br><span class="line">    <span class="attr">host</span>: <span class="string">&#x27;0.0.0.0&#x27;</span>,</span><br><span class="line">    <span class="attr">port</span>: <span class="string">&#x27;8000&#x27;</span>,</span><br><span class="line">    <span class="attr">hot</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">optimization</span>: &#123;</span><br><span class="line">    <span class="attr">minimize</span>: <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="组件实战"><a href="#组件实战" class="headerlink" title="组件实战"></a>组件实战</h2><h3 id="Tab组件"><a href="#Tab组件" class="headerlink" title="Tab组件"></a>Tab组件</h3><h4 id="通过点击Tab-Header实现"><a href="#通过点击Tab-Header实现" class="headerlink" title="通过点击Tab Header实现"></a>通过点击Tab Header实现</h4></li>
-<li>Display 切换<br><img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-165152.png"></li>
-<li>Animation切换<br> ￼<img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-165231.png"><h4 id="通过手势切换"><a href="#通过手势切换" class="headerlink" title="通过手势切换"></a>通过手势切换</h4>跟 Carousel 同一原理<br><img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-165814.png"><h4 id="Scroll组件"><a href="#Scroll组件" class="headerlink" title="Scroll组件"></a>Scroll组件</h4></li>
-<li>ScrollTop<br> ￼<img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-165949.png"></li>
-<li>通过站位元素实现<br> <img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-170030.png"><h2 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h2><img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-2019-11-17%2001.21.51.gif"><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>通过三个月跟着极客大学前端训练营和winter老师的学习，从基本功能实现一个简单的有好货页面。<br>组件化化思想很重要，避免了重复造轮子，使自己的代码更加健全，需要之后的工作中多多实践，深刻体会组件化思想，目前我还需要多练多体会。<br>革命尚未成功，同志还需努力。</li>
-</ol>
-<p><strong>未完结</strong><br>完整代码地址：<br><a href="https://github.com/simplezhao/Front-end" title="前段训练营"></a></p>
+    <title>在apple M1上构建x86_64 Docker镜像</title>
+    <url>/posts/de6/</url>
+    <content><![CDATA[<p>默认通过<code>docker build</code>方式构建的镜像时arm64的版本，可以通过<code>docker inspect IMAGE_ID</code>查看到</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"># docker image inspect <span class="number">0382</span>b9b17bdb</span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="attr">&quot;Architecture&quot;</span>: <span class="string">&quot;arm64&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;Variant&quot;</span>: <span class="string">&quot;v8&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;Os&quot;</span>: <span class="string">&quot;linux&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;Size&quot;</span>: <span class="number">223036168</span>,</span><br><span class="line">        <span class="attr">&quot;VirtualSize&quot;</span>: <span class="number">223036168</span>,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这样的镜像时没有办法在Intel x86/64的容器服务中运行的，我们可以选择基于arm版本服务器的容器服务，更好的选择是在M1上编译 x86架构的容器镜像</p>
+<p>Docker Desktop for Mac M1中集成了一个buildx的工具，可以方便我们编译各种跨平台的容器镜像</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker buildx ls</span><br><span class="line"></span><br><span class="line">desktop-linux desktop-linux   running linux/arm64, linux/amd64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/arm/v7, linux/arm/v6</span><br><span class="line">default *       docker</span><br><span class="line">  default       default         running linux/arm64, linux/amd64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/arm/v7, linux/arm/v6</span><br></pre></td></tr></table></figure>
+
+<p>使用docker buildx build来构建X86/64 docker镜像</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker buildx build --platform=linux/amd64 . -t xxx</span><br></pre></td></tr></table></figure>
+
+<p>之后就可按照正常的docker tag、docker push进行操作</p>
+<p>更多的命令可以参考官方文档</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://blog.jaimyn.dev/how-to-build-multi-architecture-docker-images-on-an-m1-mac/">How to build x86 (and others!) Docker images on an M1 Mac – Jaimyn’s Blog</a></p>
+<p>[2] <a href="https://github.com/docker/buildx/blob/master/docs/reference/buildx_build.md">buildx/buildx_build.md at master · docker/buildx (github.com)</a></p>
+<p>[3] <a href="https://docs.docker.com/buildx/working-with-buildx/">Docker Buildx | Docker Documentation</a></p>
 ]]></content>
       <categories>
-        <category>前端</category>
+        <category>Devops</category>
       </categories>
       <tags>
-        <tag>前端</tag>
+        <tag>docker</tag>
+        <tag>Apple M1</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>空格</title>
-    <url>/posts/91f6/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>快速搭建PGSQL for Serverless</title>
@@ -2019,27 +1989,34 @@
       </tags>
   </entry>
   <entry>
-    <title>在linux中安装oh-my-zsh</title>
-    <url>/posts/ea0a/</url>
-    <content><![CDATA[<blockquote>
-<p>oh-my-zsh 是zsh的管理配置工具，因此在使用oh-my-zsh之前安装zsh</p>
-</blockquote>
-<p><img src="https://oss.smart-lifestyle.cn/blog/w5ahz.jpg" alt="zsh"></p>
-<ol>
-<li>判断当前系统使用的shell<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 打印当前系统使用的shell</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$SHELL</span></span><br><span class="line"><span class="comment"># 可能会输出</span></span><br><span class="line"><span class="comment"># /bin/bash</span></span><br><span class="line"><span class="comment"># /bin/sh</span></span><br><span class="line"><span class="comment"># /bin/zsh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看当前系统支持的shell</span></span><br><span class="line">cat /etc/shells</span><br></pre></td></tr></table></figure></li>
-<li>安装zsh<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 如果未安装zsh</span></span><br><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure></li>
-<li>切换shell为zsh<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 需要重启</span></span><br><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure></li>
-<li>安装 oh my zsh<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># via curl</span></span><br><span class="line">sh -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>&quot;</span></span><br><span class="line"><span class="comment"># via wget</span></span><br><span class="line">sh -c <span class="string">&quot;<span class="subst">$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+    <title>小程序下拉刷新操作</title>
+    <url>/posts/1ea1/</url>
+    <content><![CDATA[<ul>
+<li>功能： 实现手动下拉刷新触发事件</li>
+</ul>
+<ul>
+<li>在需要加载下拉刷新页面的json文件中加入 <strong>“enablePullDownRefresh”: true, “backgroundTextStyle”: “dark”</strong>, <figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;enablePullDownRefresh&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;backgroundTextStyle&quot;</span>: <span class="string">&quot;dark&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;usingComponents&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;mp-dialog&quot;</span>: <span class="string">&quot;../../weui-miniprogram/dialog/dialog&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;mp-navigation-bar&quot;</span>: <span class="string">&quot;../../weui-miniprogram/navigation-bar/navigation-bar&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="2">
+<li>在对应的js文件中配置方法<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">onPullDownRefresh: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      wx.showNavigationBarLoading();</span><br><span class="line">      <span class="comment">// 你要触发的函数</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;refresh&#x27;</span>);</span><br><span class="line">      <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 标题栏隐藏刷新转圈圈图标</span></span><br><span class="line">        wx.hideNavigationBarLoading();</span><br><span class="line">        wx.stopPullDownRefresh(&#123;</span><br><span class="line">          <span class="attr">complete</span>: <span class="function">(<span class="params">res</span>) =&gt;</span> &#123;&#125;,</span><br><span class="line">        &#125;)</span><br><span class="line">  </span><br><span class="line">        &#125;, <span class="number">500</span>);</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure></li>
+<li>在onShow中加入startPullDownRefresh，会每次show 页面时调用刷新函数<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">onShow: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      wx.startPullDownRefresh(&#123;</span><br><span class="line">         <span class="attr">complete</span>: <span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">           <span class="built_in">console</span>.log(<span class="string">&#x27;===============onshow resfrsh use info&#x27;</span>)</span><br><span class="line">         &#125;,</span><br><span class="line">       &#125;)</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
 参考：</li>
-<li><a href="https://www.jianshu.com/p/d194d29e488c">https://www.jianshu.com/p/d194d29e488c</a></li>
+<li><a href="https://blog.csdn.net/weichen913/article/details/79360658">小程序上拉加载和下拉刷新问题总结</a></li>
 </ol>
+<hr>
+<p>最后效果<br><img src="https://oss.smart-lifestyle.cn/blog/yqv6s.gif" alt="image"></p>
 ]]></content>
       <categories>
-        <category>zsh</category>
+        <category>小程序</category>
       </categories>
       <tags>
-        <tag>oh-my-zsh</tag>
+        <tag>小程序</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>空格</title>
+    <url>/posts/91f6/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>谷歌工程实践 — code review 开发者指南</title>
@@ -2121,32 +2098,55 @@
       </tags>
   </entry>
   <entry>
-    <title>在apple M1上构建x86_64 Docker镜像</title>
-    <url>/posts/de6/</url>
-    <content><![CDATA[<p>默认通过<code>docker build</code>方式构建的镜像时arm64的版本，可以通过<code>docker inspect IMAGE_ID</code>查看到</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"># docker image inspect <span class="number">0382</span>b9b17bdb</span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="attr">&quot;Architecture&quot;</span>: <span class="string">&quot;arm64&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;Variant&quot;</span>: <span class="string">&quot;v8&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;Os&quot;</span>: <span class="string">&quot;linux&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;Size&quot;</span>: <span class="number">223036168</span>,</span><br><span class="line">        <span class="attr">&quot;VirtualSize&quot;</span>: <span class="number">223036168</span>,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>这样的镜像时没有办法在Intel x86/64的容器服务中运行的，我们可以选择基于arm版本服务器的容器服务，更好的选择是在M1上编译 x86架构的容器镜像</p>
-<p>Docker Desktop for Mac M1中集成了一个buildx的工具，可以方便我们编译各种跨平台的容器镜像</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker buildx ls</span><br><span class="line"></span><br><span class="line">desktop-linux desktop-linux   running linux/arm64, linux/amd64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/arm/v7, linux/arm/v6</span><br><span class="line">default *       docker</span><br><span class="line">  default       default         running linux/arm64, linux/amd64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/arm/v7, linux/arm/v6</span><br></pre></td></tr></table></figure>
-
-<p>使用docker buildx build来构建X86/64 docker镜像</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker buildx build --platform=linux/amd64 . -t xxx</span><br></pre></td></tr></table></figure>
-
-<p>之后就可按照正常的docker tag、docker push进行操作</p>
-<p>更多的命令可以参考官方文档</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="https://blog.jaimyn.dev/how-to-build-multi-architecture-docker-images-on-an-m1-mac/">How to build x86 (and others!) Docker images on an M1 Mac – Jaimyn’s Blog</a></p>
-<p>[2] <a href="https://github.com/docker/buildx/blob/master/docs/reference/buildx_build.md">buildx/buildx_build.md at master · docker/buildx (github.com)</a></p>
-<p>[3] <a href="https://docs.docker.com/buildx/working-with-buildx/">Docker Buildx | Docker Documentation</a></p>
+    <title>组件化实战</title>
+    <url>/posts/9b54/</url>
+    <content><![CDATA[<p>目前前端三大框架（Vue.js, Angular.js, React.js）都在引领着前端的组件化开发方向，组件化的前端开发方式的确为业务实现带来了前所未有的方便，但如何封装一个优秀的组件，可能并不是每位前端开发者都能够做好的。</p>
+<h2 id="组件化的特点"><a href="#组件化的特点" class="headerlink" title="组件化的特点"></a>组件化的特点</h2><ul>
+<li>组件化是对实现的分层，是更有效地代码组合方式</li>
+<li>组件化是对资源的重组和优化，从而使项目资源管理更合理</li>
+<li>组件化有利于单元测试</li>
+<li>组件化对重构较友好<h3 id="组件与模块"><a href="#组件与模块" class="headerlink" title="组件与模块"></a>组件与模块</h3>模块(Module)通常强调的是职责（分离、内聚），组件是可复用模块和相关依赖的封装。<blockquote>
+<p>In my view, Module and Component are all just a couple of functions and assets.<br>And the different between them is:<br><strong>Component has business logical and module not.</strong><br>For example,this text input area is just a Module, but when there was some post api called,it become a Component. you can put a module everywhere and it will work fine, but Componet just can be used in a specific page or view(coz it has a specific api call)</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="组件化结构"><a href="#组件化结构" class="headerlink" title="组件化结构"></a>组件化结构</h3><p>一个组件包括以下部分：</p>
+<ul>
+<li>Attribute</li>
+<li> Config &amp; State</li>
+<li>Event</li>
+<li>Lifecycle</li>
+<li>Children</li>
+<li>Properties</li>
+<li>Methods</li>
+<li>Inherit<br><img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-170957.png"></li>
+</ul>
+<h2 id="Webpack资源组件化"><a href="#Webpack资源组件化" class="headerlink" title="Webpack资源组件化"></a>Webpack资源组件化</h2><blockquote>
+<p>webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle<br><img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-160837.jpg"><br>从图上我们可以看到，webpack将多种静态资源js、css、less等转化成一个静态文件，减少页面的请求<br>Webpack包括四个核心概念：入口、输出、loader、插件</p>
+</blockquote>
+<h3 id="入口"><a href="#入口" class="headerlink" title="入口"></a>入口</h3><p>入口起点(entry point)指示 webpack 应该使用哪个模块，来作为构建其内部依赖图的开始。进入入口起点后，webpack 会找出有哪些模块和库是入口起点（直接和间接）依赖的，可以通过在 webpack 配置中配置 entry 属性，来指定一个入口起点（或多个入口起点）</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">mode: <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;main.js&#x27;</span></span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="出口"><a href="#出口" class="headerlink" title="出口"></a>出口</h3><p>output 属性告诉 webpack 在哪里输出它所创建的 bundles，以及如何命名这些文件，默认值为 ./dist。你可以通过在配置中指定一个 output 字段，来配置这些处理过程</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">mode: <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;main.js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="LOADER"><a href="#LOADER" class="headerlink" title="LOADER"></a>LOADER</h3><p>loader 让 webpack 能够去处理那些非 JavaScript 文件（webpack 自身只理解 JavaScript）。loader 可以将所有类型的文件转换为 webpack 能够处理的有效模块，然后你就可以利用 webpack 的打包能力，对它们进行处理。<br>本质上，webpack loader 将所有类型的文件，转换为应用程序的依赖图（和最终的 bundle）可以直接引用的模块。<br>在更高层面，在 webpack 的配置中 loader 有两个目标：</p>
+<ol>
+<li>test 属性，用于标识出应该被对应的 loader 进行转换的某个或某些文件。</li>
+<li>use 属性，表示进行转换时，应该使用哪个 loader。<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123; <span class="attr">test</span>: <span class="regexp">/\.js$/</span>, exclude: <span class="regexp">/node_modules/</span>, loader: <span class="string">&quot;babel-loader&quot;</span> &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.css$/i</span>,</span><br><span class="line">        use: [<span class="string">&#x27;style-loader&#x27;</span>, <span class="string">&#x27;css-loader&#x27;</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.s[ac]ss$/i</span>,</span><br><span class="line">        use: [</span><br><span class="line">          <span class="string">&#x27;style-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;css-loader&#x27;</span>,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">loader</span>: <span class="string">&#x27;sass-loader&#x27;</span>,</span><br><span class="line">            <span class="attr">options</span>: &#123;</span><br><span class="line">              <span class="comment">// Prefer `dart-sass`</span></span><br><span class="line">              <span class="attr">implementation</span>: <span class="built_in">require</span>(<span class="string">&#x27;sass&#x27;</span>),</span><br><span class="line">            &#125;,</span><br><span class="line">          &#125;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;,</span><br><span class="line">     </span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3>loader 被用于转换某些类型的模块，而插件则可以用于执行范围更广的任务。想要使用一个插件，你只需要 require() 它，然后把它添加到 plugins 数组中。多数插件可以通过选项(option)自定义。你也可以在一个配置文件中因为不同目的而多次使用同一个插件，这时需要通过使用 new 操作符来创建它的一个实例。<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">    <span class="keyword">new</span> CopyPlugin([</span><br><span class="line">      &#123; <span class="attr">from</span>: <span class="string">&#x27;./static/&#x27;</span>, <span class="attr">to</span>: <span class="string">&#x27;static/&#x27;</span>, <span class="attr">force</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">from</span>: <span class="string">&#x27;./index.html&#x27;</span>, <span class="attr">to</span>: <span class="string">&#x27;index.html&#x27;</span>, <span class="attr">force</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">    ]),</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
+本项目中完整webpack实例<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"># webpack.config.js</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> CopyPlugin = <span class="built_in">require</span>(<span class="string">&#x27;copy-webpack-plugin&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">mode</span>: <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;main.js&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123; <span class="attr">test</span>: <span class="regexp">/\.js$/</span>, exclude: <span class="regexp">/node_modules/</span>, loader: <span class="string">&quot;babel-loader&quot;</span> &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.css$/i</span>,</span><br><span class="line">        use: [<span class="string">&#x27;style-loader&#x27;</span>, <span class="string">&#x27;css-loader&#x27;</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.s[ac]ss$/i</span>,</span><br><span class="line">        use: [</span><br><span class="line">          <span class="string">&#x27;style-loader&#x27;</span>,</span><br><span class="line">          <span class="string">&#x27;css-loader&#x27;</span>,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="attr">loader</span>: <span class="string">&#x27;sass-loader&#x27;</span>,</span><br><span class="line">            <span class="attr">options</span>: &#123;</span><br><span class="line">              <span class="comment">// Prefer `dart-sass`</span></span><br><span class="line">              <span class="attr">implementation</span>: <span class="built_in">require</span>(<span class="string">&#x27;sass&#x27;</span>),</span><br><span class="line">            &#125;,</span><br><span class="line">          &#125;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;,</span><br><span class="line">     </span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">plugins</span>: [</span><br><span class="line">    <span class="keyword">new</span> CopyPlugin([</span><br><span class="line">      &#123; <span class="attr">from</span>: <span class="string">&#x27;./static/&#x27;</span>, <span class="attr">to</span>: <span class="string">&#x27;static/&#x27;</span>, <span class="attr">force</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">from</span>: <span class="string">&#x27;./index.html&#x27;</span>, <span class="attr">to</span>: <span class="string">&#x27;index.html&#x27;</span>, <span class="attr">force</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">    ]),</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">devtool</span>: <span class="string">&#x27;inline-source-map&#x27;</span>,</span><br><span class="line">  <span class="attr">devServer</span>: &#123;</span><br><span class="line">    <span class="attr">contentBase</span>: <span class="string">&#x27;./dist&#x27;</span>,</span><br><span class="line">    <span class="attr">host</span>: <span class="string">&#x27;0.0.0.0&#x27;</span>,</span><br><span class="line">    <span class="attr">port</span>: <span class="string">&#x27;8000&#x27;</span>,</span><br><span class="line">    <span class="attr">hot</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">optimization</span>: &#123;</span><br><span class="line">    <span class="attr">minimize</span>: <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="组件实战"><a href="#组件实战" class="headerlink" title="组件实战"></a>组件实战</h2><h3 id="Tab组件"><a href="#Tab组件" class="headerlink" title="Tab组件"></a>Tab组件</h3><h4 id="通过点击Tab-Header实现"><a href="#通过点击Tab-Header实现" class="headerlink" title="通过点击Tab Header实现"></a>通过点击Tab Header实现</h4></li>
+<li>Display 切换<br><img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-165152.png"></li>
+<li>Animation切换<br> ￼<img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-165231.png"><h4 id="通过手势切换"><a href="#通过手势切换" class="headerlink" title="通过手势切换"></a>通过手势切换</h4>跟 Carousel 同一原理<br><img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-165814.png"><h4 id="Scroll组件"><a href="#Scroll组件" class="headerlink" title="Scroll组件"></a>Scroll组件</h4></li>
+<li>ScrollTop<br> ￼<img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-165949.png"></li>
+<li>通过站位元素实现<br> <img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-170030.png"><h2 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h2><img src="https://oss.smart-lifestyle.cn/blog/2019-11-16-2019-11-17%2001.21.51.gif"><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>通过三个月跟着极客大学前端训练营和winter老师的学习，从基本功能实现一个简单的有好货页面。<br>组件化化思想很重要，避免了重复造轮子，使自己的代码更加健全，需要之后的工作中多多实践，深刻体会组件化思想，目前我还需要多练多体会。<br>革命尚未成功，同志还需努力。</li>
+</ol>
+<p><strong>未完结</strong><br>完整代码地址：<br><a href="https://github.com/simplezhao/Front-end" title="前段训练营"></a></p>
 ]]></content>
       <categories>
-        <category>Devops</category>
+        <category>前端</category>
       </categories>
       <tags>
-        <tag>docker</tag>
-        <tag>Apple M1</tag>
+        <tag>前端</tag>
       </tags>
   </entry>
 </search>
