@@ -888,97 +888,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/b9a0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/static/avatar/simplezhao_cartoon2.jpg">
-      <meta itemprop="name" content="simple">
-      <meta itemprop="description" content="专注于物联网架构和产品">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="simplezhao的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/b9a0/" class="post-title-link" itemprop="url">微信小程序全局变量</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-26 00:05:00" itemprop="dateCreated datePublished" datetime="2020-04-26T00:05:00+08:00">2020-04-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" itemprop="url" rel="index">
-                    <span itemprop="name">小程序</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>316</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>通过在app.js中声明globalData，将所需要的变量及其值放在这里</p>
-</blockquote>
-<ol>
-<li>定义声明<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">globalData: &#123;</span><br><span class="line">    <span class="attr">userInfo</span>: <span class="literal">null</span>,</span><br><span class="line">    <span class="comment">// dev or prod</span></span><br><span class="line">    <span class="attr">platform</span>: <span class="string">&quot;dev&quot;</span>,</span><br><span class="line">    <span class="attr">dev_server</span>: <span class="string">&quot;xxxx&quot;</span>,</span><br><span class="line">    <span class="attr">prod_server</span>: <span class="string">&quot;xxxxxx&quot;</span>,</span><br><span class="line">    <span class="attr">feedback_server</span>: <span class="string">&quot;xxxxx&quot;</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
-<li>引用<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在需要使用全局变量的地方，声明变量</span></span><br><span class="line"><span class="keyword">const</span> app = getApp();</span><br><span class="line"><span class="comment">// 引用</span></span><br><span class="line"><span class="keyword">var</span> paltform = app.globalData.platform</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-参考：</li>
-<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/925aad432874">微信小程序 全局变量</a></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/1ea1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1064,6 +973,97 @@
             </div>
           <!--/noindex-->
         
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/b9a0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/static/avatar/simplezhao_cartoon2.jpg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="专注于物联网架构和产品">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simplezhao的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/posts/b9a0/" class="post-title-link" itemprop="url">微信小程序全局变量</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-26 00:05:00" itemprop="dateCreated datePublished" datetime="2020-04-26T00:05:00+08:00">2020-04-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" itemprop="url" rel="index">
+                    <span itemprop="name">小程序</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>316</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>通过在app.js中声明globalData，将所需要的变量及其值放在这里</p>
+</blockquote>
+<ol>
+<li>定义声明<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">globalData: &#123;</span><br><span class="line">    <span class="attr">userInfo</span>: <span class="literal">null</span>,</span><br><span class="line">    <span class="comment">// dev or prod</span></span><br><span class="line">    <span class="attr">platform</span>: <span class="string">&quot;dev&quot;</span>,</span><br><span class="line">    <span class="attr">dev_server</span>: <span class="string">&quot;xxxx&quot;</span>,</span><br><span class="line">    <span class="attr">prod_server</span>: <span class="string">&quot;xxxxxx&quot;</span>,</span><br><span class="line">    <span class="attr">feedback_server</span>: <span class="string">&quot;xxxxx&quot;</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
+<li>引用<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在需要使用全局变量的地方，声明变量</span></span><br><span class="line"><span class="keyword">const</span> app = getApp();</span><br><span class="line"><span class="comment">// 引用</span></span><br><span class="line"><span class="keyword">var</span> paltform = app.globalData.platform</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+参考：</li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/925aad432874">微信小程序 全局变量</a></li>
+</ol>
+
       
     </div>
 
