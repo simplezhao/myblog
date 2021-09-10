@@ -62,5 +62,17 @@ jobs:
       - name: test
         run: ls ./public
 
+      - name: push public to gh-pages branch
+      env:
+        REMOTE_REPO: https://${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.GIT_REPOSITORY }}.git
+        REMOTE_BRANCH: gh-pages
+      run: |
+        cd ./public && git init && git add .
+        git config user.name "${{ secrets.GIT_USERNAME }}"
+        git config user.email "${{ secrets.GIT_USEREMAIL }}"
+        echo -n 'Files to Commit:' && ls -l | wc -l
+        git commit -m'action build' > /dev/null 2>&1
+        git push --force $REMOTE_REPO master:$REMOTE_BRANCH > /dev/null 2>&1
+
       
           
