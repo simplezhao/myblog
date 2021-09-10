@@ -58,8 +58,7 @@ jobs:
 
       - name: copy robots.txt to public directory
         run: cp robots.txt ./public
-      - name: test
-        run: ls ./public
+
 
       - name: push public to gh-pages branch
         env:
@@ -72,6 +71,10 @@ jobs:
           echo -n 'Files to Commit:' && ls -l | wc -l
           git commit -m'action build' > /dev/null 2>&1
           git push --force $REMOTE_REPO master:$REMOTE_BRANCH > /dev/null 2>&1
+
+      - name: complete
+        run: |
+          echo build successfully, now you can redeploy your website
 
       
           
