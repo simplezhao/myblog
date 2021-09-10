@@ -71,7 +71,7 @@ jobs:
           git config user.name "${{ secrets.GIT_USERNAME }}"
           git config user.email "${{ secrets.GIT_USEREMAIL }}"
           echo -n 'Files to Commit:' && ls -l | wc -l
-          git commit -m "github actions build at $(date +'%Y-%m-%d %H:%M:%S')" > /dev/null 2>&1
+          git commit -m "github actions build at $(TZ=GMT+8 date +'%Y-%m-%d %H:%M:%S')" > /dev/null 2>&1
           git push --force $REMOTE_REPO master:$REMOTE_BRANCH > /dev/null 2>&1
 
       - name: deploy
