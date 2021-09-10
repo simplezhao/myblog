@@ -59,6 +59,8 @@ jobs:
 
       - name: copy robots.txt to public directory
         run: cp robots.txt ./public
+      - name: test
+        run: ls ./public
 
       
           
