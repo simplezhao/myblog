@@ -1,15 +1,13 @@
 ---
-
-
-
 title: github actions + serverless + hexo 搭建博客
 tags:
   - hexo
   - serverless
-date: 2021-09-10 23:26:08
 categories: serverless
-keywords:
 description: 通过github actions将hexo博客编译后生成静态文件，然后serverless自动获取分支代码部署网站
+abbrlink: 186f
+date: 2021-09-10 23:26:08
+keywords:
 ---
 
 ## 背景
@@ -331,6 +329,8 @@ steps中包括如下actions
 
 ![image-20210911122509404](https://oss.smart-lifestyle.cn/file/x1n8d.png)
 
+
+
 这样我们的工作流就配置完了
 
 
@@ -338,6 +338,8 @@ steps中包括如下actions
 ## 总结
 
 整个流程配置完之后，我们在本地写完博客，提交到github之后，就可以按照流水线自动更新在线博客网站。
+
+![image-20210911124903269](https://oss.smart-lifestyle.cn/file/0jhjn.png)
 
 
 
