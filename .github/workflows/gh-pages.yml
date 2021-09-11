@@ -26,8 +26,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: setup node version
         uses: actions/setup-node@v2
-          with:
-            node-version: '12.x'
+        with:
+          node-version: '12.x'
       # Runs a single command using the runners shell
       # - name: Run a one-line script
       #   run: echo Hello, world!
@@ -38,6 +38,8 @@ jobs:
       #     echo Add other actions to build,
       #     echo test, and deploy your project.
       # Caching dependencies to speed up workflows. (GitHub will remove any cache entries that have not been accessed in over 7 days.)
+      - name: install hexo-cli
+        run: npm install -g hexo-cli
       - name: Cache node modules
         uses: actions/cache@v1
         id: cache
@@ -49,7 +51,6 @@ jobs:
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          npm install -g hexo-cli
           npm ci
 
       - name: generate public tatic files
@@ -59,8 +60,23 @@ jobs:
 
       - name: copy robots.txt to public directory
         run: cp robots.txt ./public
-      - name: test
-        run: ls ./public
+
+
+      - name: push public to gh-pages branch
+        env:
+          REMOTE_REPO: https://${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.GIT_REPOSITORY }}.git
+          REMOTE_BRANCH: gh-pages
+        run: |
+          cd ./public && git init && git add .
+          git config user.name "${{ secrets.GIT_USERNAME }}"
+          git config user.email "${{ secrets.GIT_USEREMAIL }}"
+          echo -n 'Files to Commit:' && ls -l | wc -l
+          git commit -m "github actions build at $(TZ=ANY-8 date +'%Y-%m-%d %H:%M:%S')" > /dev/null 2>&1
+          git push --force $REMOTE_REPO master:$REMOTE_BRANCH > /dev/null 2>&1
+
+      - name: deploy
+        run: |
+          echo build successfully, now you can redeploy your website
 
       
           
