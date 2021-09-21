@@ -4,6 +4,8 @@ tags:
   - Testing
 categories: book
 abbrlink: 59f6
+date: 2020-01-01 10:09:58
+description: hello world
 ---
 Welcome to [Hexo][1]! This is your very first post. Check [documentation][2] for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting][3] or you can ask me on [GitHub][4].
 

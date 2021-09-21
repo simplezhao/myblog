@@ -4,6 +4,8 @@ tags:
   - python library
 categories: python
 abbrlink: 205e
+date: 2020-06-30 10:09:58
+description: Python good packages
 ---
 
 ## 视觉

@@ -4,6 +4,8 @@ tags:
   - git commit
 categories: git
 abbrlink: 76bd
+date: 2020-11-24 10:09:58
+description: git commit 规范
 ---
 
 > 提交git 时，如何能将提交的信息写清晰明了，避免不规范的代码提交

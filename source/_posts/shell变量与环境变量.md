@@ -7,6 +7,8 @@ categories: linux
 description: shell变量与环境变量的区别
 abbrlink: 77ae
 keywords:
+date: 2021-02-27 10:09:58
+description: shell环境变量与变量的区别
 ---
 
 > Shell 变量只在主shell有效，子进程无效，环境变量在主shell和子进程都有效，可以通过export命令将shell变量变为环境变量

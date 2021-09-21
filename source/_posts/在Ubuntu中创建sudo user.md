@@ -4,6 +4,8 @@ tags:
   - ubuntu
 categories: linux
 abbrlink: c222
+date: 2020-04-27 10:09:58
+description: 创建超级用户
 ---
 * 创建用户
 ```sh

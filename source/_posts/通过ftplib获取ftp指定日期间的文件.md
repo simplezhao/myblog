@@ -5,6 +5,8 @@ tags:
   - python
 categories: python
 abbrlink: e530
+date: 2020-05-20 10:09:58
+description: ftplib的日期使用
 ---
 ## 使用python ftplib 库获取 某一天的文件列表，并下载到本地
 

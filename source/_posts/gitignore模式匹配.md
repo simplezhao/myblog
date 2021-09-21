@@ -5,6 +5,8 @@ tags:
   - gitignore
 categories: git
 abbrlink: 4da0
+date: 2020-10-26 10:09:58
+description: gitignore模式匹配
 ---
 * 匹配模式前使用 `/` 表示根目录
 		/filename 表示匹配根目录下的文件filename

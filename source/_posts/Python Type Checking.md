@@ -4,6 +4,8 @@ tags:
   - python
 abbrlink: acc1
 categories: python
+date: 2020-11-30 10:09:58
+description: python类型检查
 ---
 
 > 参考：

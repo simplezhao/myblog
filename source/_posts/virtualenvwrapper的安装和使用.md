@@ -4,6 +4,8 @@ tags:
   - virtualenv
 categories: python
 abbrlink: 9fc5
+date: 2020-04-26 10:09:58
+description: virtualenvwrapper的使用
 ---
 
 
@@ -25,7 +27,7 @@ source /usr/local/bin/virtualenvwrapper.sh
 # 应用新的配置文件，以zshrc为例
 source ~/.zshrc
 ```
-​
+
 ### 使用
 ```sh
 # 查看当前系统虚拟环境列表
@@ -37,7 +39,7 @@ rmvirtualenv [name]
 # 应用某个虚拟环境
 workon [name]
 ```
-​
+
 ### 参考
 1. [virtualenvwrapper.readthedocs.io][1]
 	 ​

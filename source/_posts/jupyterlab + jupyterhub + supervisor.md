@@ -4,6 +4,8 @@ tags:
   - jupyterlab
 categories: python
 abbrlink: 93be
+date: 2020-05-26 10:09:58
+description: jupyterlab的使用
 ---
 > 记录在jupyterhub 中使用jupyterlab，并且使用supervisor管理进程运行
 > supervisor 在非root用户下运行和管理进程

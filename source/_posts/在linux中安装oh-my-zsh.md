@@ -4,6 +4,8 @@ tags:
   - oh-my-zsh
 categories: zsh
 abbrlink: ea0a
+date: 2020-04-26 10:09:58
+description: 安装oh-my-zsh
 ---
 
 > oh-my-zsh 是zsh的管理配置工具，因此在使用oh-my-zsh之前安装zsh

@@ -6,8 +6,8 @@ tags:
 categories: 部署
 description: 通过github actions部署hexo博客
 abbrlink: 9f77
-date: 
-keywords:
+date: 2021-03-26 10:09:58
+description: github action初识
 ---
 
 > 最近将hex博客部署由手动执行，改为通过github actions自动部署，这里做下记录

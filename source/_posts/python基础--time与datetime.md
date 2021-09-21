@@ -6,6 +6,8 @@ categories: python
 description: str、time、datetime之间的转换
 abbrlink: 3a95
 keywords:
+date: 2021-04-30 10:09:58
+description: python datetime
 ---
 
 在HTTP API接口，以及跟数据库交互时经常用到时间戳（时间），这里整理python中常见的time、datetime用法，以及之间的相互转化方法

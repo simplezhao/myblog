@@ -4,6 +4,8 @@ tags:
   - docker
 categories: docker
 abbrlink: c5ac
+date: 2020-12-26 10:09:58
+description: docker 部署操作
 ---
 - [x]() 磁盘初始化
 - [x]() 修改系统时区为UTC+8

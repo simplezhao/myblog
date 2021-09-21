@@ -7,6 +7,8 @@ categories: python
 keywords: 'openpyxl, python'
 description: 使用openpyxl对excel读写操作
 abbrlink: df7e
+date: 2021-03-30 10:09:58
+description: Python与excel
 ---
 
 >使用openpyxl对excel文件进行读写

@@ -4,6 +4,8 @@ tags:
   - dependency
 categories: python
 abbrlink: aaa7
+date: 2021-01-30 10:09:58
+description: 打包工具poetry的使用
 ---
 
 > 参考：

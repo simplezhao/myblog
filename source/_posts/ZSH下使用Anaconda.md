@@ -5,6 +5,8 @@ tags:
   - ZSH
 categories: python
 abbrlink: e37f
+date: 2019-06-30 10:09:58
+description: Anaconda在zsh下无法找到
 ---
 
 > 在zsh下面找不到conda或者查看python，并不是用的anaconda版本的
