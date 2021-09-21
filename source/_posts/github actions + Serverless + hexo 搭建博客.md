@@ -10,6 +10,10 @@ date: 2021-09-10 23:26:08
 keywords:
 ---
 
+> 2021年9月21日：新增404页面的展示
+>
+> 20201年9月10日：基本功能
+
 ## 背景
 
 从最开始的ECS（阿里云云服务器）到后来的轻量应用服务器，都是在伴随着新用户打折的优惠上，续费下去，但是最近轻量应用服务器器到期了，在没有大优惠的情况下一年的费用需要600多软妹币，于是开始动手将博客部署到serverless服务上，基本上对于我这种访问量极低的博主来说，费用基本接近于0
@@ -335,6 +339,77 @@ steps中包括如下actions
 
 
 
+## 404页面
+
+1. 在hexo中增加404.html，qq404.html文件，放在source文件夹下面
+
+   ![image-20210922000046337](https://oss.smart-lifestyle.cn/file/j193w.png)
+
+   为什么是两个404文件？qq404里面放的是腾讯公益404页面，但是我想在这个页面上增加一个返回我的主页的按钮，需要通过iframe嵌套这个腾讯404页面，代码如下。
+
+   
+
+   qq404.html
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="zh-CN">
+   <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+   </head>
+   
+   <body>
+    
+    <script type="text/javascript" src="https://qzonestyle.gtimg.cn/qzone/hybrid/app/404/search_children.js" charset="utf-8" homePageUrl="https://blog.smart-lifestyle.cn/" homePageName="回到我的主页"></script>
+   </body>
+   </html>
+   ```
+
+   404.html
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="zh-CN">
+   <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+     <meta name="theme-color" content="#222">
+     <meta name="generator" content="Hexo 5.4.0">
+     <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
+     <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+     <style>
+       body {margin:0; padding:0;}
+       .button {margin: 10px 10px; border-radius: 4px;}
+       .button:hover {background-color: #222; color: #eee; }
+     </style>
+     <title>simplezhao的博客 - 专注于物联网架构和产品</title>
+     
+   </head>
+   
+   <body>
+    <div>
+     <button class="button" onclick="location.href='https://blog.smart-lifestyle.cn'">回到我的主页</button>
+    </div>
+   <iframe src="./qq404.html" width="100%" height="700" frameborder="0" ></iframe>
+   </body>
+   </html>
+   ```
+
+2. 在hexo _config.yml中修改skip_render，自动从source文件夹下查找，所有不要加source
+
+   ```yaml
+   skip_render: [404.html, qq404.html, '*.html', robots.txt]
+   ```
+
+3. 在腾讯对象存储，保存网页的桶中找到静态网站的配置，更改错误文档为404.html
+
+   ![image-20210922001015308](https://oss.smart-lifestyle.cn/file/uv767.png)
+
+
+
 ## 总结
 
 整个流程配置完之后，我们在本地写完博客，提交到github之后，就可以按照流水线自动更新在线博客网站。
@@ -364,4 +439,8 @@ steps中包括如下actions
 [5] [timezone - Why does TZ=UTC-8 produce dates that are UTC+8? - Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/104088/why-does-tz-utc-8-produce-dates-that-are-utc8)
 
 [6] [FreeSSL首页 - FreeSSL.cn一个提供免费HTTPS证书申请的网站](https://freessl.cn/)
+
+[7] [Configuration | Hexo](https://hexo.io/docs/configuration#Directory)
+
+[8] [Hexo跳过指定文件的渲染 | Hello Memo (iitii.github.io)](https://iitii.github.io/2019/02/15/1/)
 
