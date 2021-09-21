@@ -7,6 +7,8 @@ categories: python
 keywords: pydantic
 description: 使用pydantic对入参校验
 abbrlink: e075
+date: 2021-03-29 10:09:58
+description: pydantic基础用法
 ---
 
 > 使用pydantic校验输入参数，可以省去后续函数体内的校验，并可以作为一个通用的校验器方便其他方法调用，做的入参校验与入参调用的解耦
