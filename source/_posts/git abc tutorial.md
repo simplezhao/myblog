@@ -36,6 +36,16 @@ git init
 git remote add origin https://github.com/simplezhao/git-abc.git
 ```
 
+### 修改远程分支
+
+* `git remote set-url origin [url]`
+
+```bash
+git remote set-url origin https://newgit-repo.git
+```
+
+
+
 ### 抓取远程代码
 
 * `git fetch <remote>`
@@ -201,6 +211,19 @@ git push origin main
 git branch hotfix
 git checkout hotfix
 ```
+
+### 修改分支名字
+
+现在git默认分支为master，但是更通用的主分支为main，可以通过下面的命令修改
+
+* git branch -m main
+
+```bash
+# 切换到master分支
+git branch -m main
+```
+
+
 
 ### 分支合并
 
