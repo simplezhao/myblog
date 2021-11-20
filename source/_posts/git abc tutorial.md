@@ -238,13 +238,25 @@ git merge hotfix
 
 
 
-### 分支删除
+### 分支本地删除
 
 * `git branch -d <branch>`
+* `git branch -D <branch>` 强制删除本地分支
 
 ```bash
 git branch -d hotfix
 ```
+
+### 删除远程分支
+
+* `git push origin :branch`
+
+```bash
+git push origin :hotfix
+git push origin --delete hotfix
+```
+
+
 
 ### 打标签
 

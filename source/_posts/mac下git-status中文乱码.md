@@ -2,10 +2,11 @@
 title: mac下git status中文乱码
 tags:
   - git
-date: 2021-09-22 09:18:47
 categories: 工具
-keywords:
 description: 在mac命令行下中文乱码的问题
+abbrlink: a13
+date: 2021-09-22 09:18:47
+keywords:
 ---
 
 文件名字是中文时，mac下执行git status命令查看状态时，会显示一堆unicode编码的字符，不便于查看，因为默认情况下对于大于0x80的文件路径字符会进行编码，可以将`core.quotePath`设置为false，来取消强制编码

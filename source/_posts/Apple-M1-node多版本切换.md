@@ -3,10 +3,11 @@ title: Apple M1 node多版本切换
 tags:
   - nvm
   - node
-date: 2021-10-11 16:35:53
 categories: node
-keywords:
 description: Apple M1下，如果管理多个版本的node
+abbrlink: aa65
+date: 2021-10-11 16:35:53
+keywords:
 ---
 
 本文介绍如何使用nvm在Macbook M1下管理多个版本（架构）的node

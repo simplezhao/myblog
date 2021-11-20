@@ -3,10 +3,11 @@ title: 浅谈python生成短随机数
 tags:
   - python
   - 随机数
-date: 2021-09-29 12:53:44
 categories: python
-keywords:
 description: 介绍几种生成短随机数的方法
+abbrlink: 6ae6
+date: 2021-09-29 12:53:44
+keywords:
 ---
 
 

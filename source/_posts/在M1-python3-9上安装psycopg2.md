@@ -3,10 +3,11 @@ title: 在 Apple M1 python3.9上安装psycopg2
 tags:
   - python
   - psycopg2
-date: 2021-09-28 16:36:04
 categories: python
-keywords:
 description: 在Apple M1做python开发，需要重新编译psycopg2
+abbrlink: '6e90'
+date: 2021-09-28 16:36:04
+keywords:
 ---
 
 

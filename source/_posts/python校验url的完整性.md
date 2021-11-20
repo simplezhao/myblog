@@ -4,10 +4,11 @@ tags:
   - python
   - urlparse
   - 正则表达
-date: 2021-09-28 10:55:30
 categories: python
+description: '校验url是否完整，比如http(s)://www.baidu.com'
+abbrlink: 2c0e
+date: 2021-09-28 10:55:30
 keywords:
-description: 校验url是否完整，比如http(s)://www.baidu.com
 ---
 
 在抓取链接之后，我们需要对链接进行清洗，把格式不正确的链接去除，以便后面数据抓取
