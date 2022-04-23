@@ -417,7 +417,7 @@ server {
 
 
 
-![image-20220423215521287](/Users/simple/Library/Application Support/typora-user-images/image-20220423215521287.png)
+![image-20220423215521287](https://oss.smart-lifestyle.cn/file/a6nh5.png)
 
 ![image-20220423215614112](https://oss.smart-lifestyle.cn/file/der2y.png)
 
