@@ -419,6 +419,12 @@ server {
 
 ![image-20220423215614112](https://oss.smart-lifestyle.cn/file/der2y.png)
 
+
+
+## 后记
+
+随着自己逐渐向云原生方向发展，目前正在充分的撸厂商的各种免费云产品，而不是向以前只撸虚机，然后搭建服务
+
 ## 参考
 
 [1] [排查授权请求错误 - GitHub Docs](https://docs.github.com/cn/developers/apps/managing-oauth-apps/troubleshooting-authorization-request-errors)
