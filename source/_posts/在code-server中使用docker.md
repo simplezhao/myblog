@@ -17,8 +17,6 @@ docker默认是以root用户运行的，如果你也是通过root身份登录的
 
 **以下操作命令都是在Ubuntu系统下执行**
 
-**以下操作是在Ubuntu系统下执行**
-
 ## 安装docker插件
 
 > 第一步是先安装docker，(*￣︶￣)
@@ -29,11 +27,11 @@ docker默认是以root用户运行的，如果你也是通过root身份登录的
 
 
 
-
-
 点击docker图标，各种提示Failed to connect
 
-<img src="https://oss.smart-lifestyle.cn/file/bckgw.png" alt="image-20220426150451206" style="zoom:67%;" />
+![access failed](https://oss.smart-lifestyle.cn/file/bckgw.png)
+
+
 
 
 
