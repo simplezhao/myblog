@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.loli.net/css?family=Noto Sans SC:300,300italic,400,400italic,700,700italic|JetBrains Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://blog.smart-lifestyle.cn').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="你需要了解的RESTFul API设计规则">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RESTFul API设计规则">
+<meta property="og:url" content="https://blog.smart-lifestyle.cn/posts/81a9/index.html">
+<meta property="og:site_name" content="simplezhao的博客">
+<meta property="og:description" content="你需要了解的RESTFul API设计规则">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-30T15:21:05.000Z">
+<meta property="article:modified_time" content="2022-05-05T14:53:03.075Z">
+<meta property="article:author" content="simple">
+<meta property="article:tag" content="api">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog.smart-lifestyle.cn/posts/81a9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>RESTFul API设计规则 - simplezhao的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="simplezhao的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">simplezhao的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">slow is smooth and smooth is fast</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">71</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">70</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">26</span></a>
+
+  </li>
+        <li class="menu-item menu-item-读书">
+
+    <a href="/categories/book" rel="section"><i class="fa fa-fw fa-coffee"></i>读书</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/81a9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/static/avatar/simplezhao_cartoon2.jpg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="专注于物联网架构和产品">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simplezhao的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          RESTFul API设计规则
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-30 15:21:05" itemprop="dateCreated datePublished" datetime="2021-11-30T15:21:05+00:00">2021-11-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-05 14:53:03" itemprop="dateModified" datetime="2022-05-05T14:53:03+00:00">2022-05-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%BC%80%E5%8F%91/" itemprop="url" rel="index">
+                    <span itemprop="name">web开发</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+            <div class="post-description">你需要了解的RESTFul API设计规则</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>总结一下restful api在设计时的一些规则</p>
+</blockquote>
+<p>首先应该满足，无论API内部如何实现，任何客户端（python、c#、C++等）都应该能够代用API，</p>
+<p>引入版本管理，对于已发布的API，保持已使用的客户端不受影响</p>
+<h2 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h2><p>RESTful API设计的主要原则</p>
+<ul>
+<li>REST API围绕资源设计，资源是可由客户端访问的任何类型的对象、数据或服务</li>
+<li>每一个资源都有一个标识符，即唯一标识该资源的URI</li>
+<li>通过JSON作为数据交换格式</li>
+<li>REST API使用同一接口（POST新增、GET获取、DELETE删除、PUT修改等）</li>
+<li>REST API使用无状态模型（最好）</li>
+</ul>
+<h3 id="URI基于（复数）名词，且简洁"><a href="#URI基于（复数）名词，且简洁" class="headerlink" title="URI基于（复数）名词，且简洁"></a>URI基于（复数）名词，且简洁</h3><p>资源的URI基于名词而不是动词（对资源执行的操作），资源是一个集合，最好用名词的复数</p>
+<ul>
+<li>用名词不用动词</li>
+</ul>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 好</span><br><span class="line">https://d-wz.cc/orders</span><br><span class="line"># 不好</span><br><span class="line">https://d-wz.cc/create-order  </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>避免设计过长的资源URI</li>
+</ul>
+<p>避免请求复杂度避免超过<strong>集合/项目/集合</strong>的资源</p>
+<p>比如查询某个客户某个订单的产品有哪些</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 请过过于复杂</span><br><span class="line">https://d-wz.cc/customers/2/orders/100/products</span><br></pre></td></tr></table></figure>
+
+<p>拆分为2步</p>
+<ol>
+<li>先获取客户订单号列表</li>
+<li>再获取订单号下面的产品列表</li>
+<li>如果查询某个产品详细信息，可以再加一步</li>
+</ol>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 第一步 </span><br><span class="line">https://d-wz.cc/customers/2/orders</span><br><span class="line"># 第二步</span><br><span class="line">https://d-wz.cc/orders/100/products</span><br></pre></td></tr></table></figure>
+
+<h3 id="按照HTTP定义方法实现"><a href="#按照HTTP定义方法实现" class="headerlink" title="按照HTTP定义方法实现"></a>按照HTTP定义方法实现</h3><ol>
+<li>根据HTTP方法定义API操作</li>
+</ol>
+<ul>
+<li><strong>GET</strong> 检索位于指定 URI 处的资源。 响应消息的正文包含所请求资源的详细信息。</li>
+<li><strong>POST</strong> 在指定的 URI 处创建新资源。 请求消息的正文将提供新资源的详细信息。 请注意，POST 还用于触发不实际创建资源的操作。</li>
+<li><strong>PUT</strong> 在指定的 URI 处创建或替换资源。 请求消息的正文指定要创建或更新的资源。</li>
+<li><strong>PATCH</strong> 对资源执行部分更新。 请求正文包含要应用到资源的一组更改。</li>
+<li><strong>DELETE</strong> 删除位于指定 URI 处的资源</li>
+</ul>
+<p>特定请求的影响应取决于资源是集合还是单个子项。 下表总结了大多数 RESTful 实现使用电子商务示例采用的共同约定。 并非所有这些请求都可能会实现 — ，这取决于特定方案。</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>资源</strong></th>
+<th align="left"><strong>POST</strong></th>
+<th align="left"><strong>GET</strong></th>
+<th align="left"><strong>PUT</strong></th>
+<th align="left"><strong>DELETE</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">/customers</td>
+<td align="left">创建新客户</td>
+<td align="left">检索所有客户</td>
+<td align="left">批量更新客户</td>
+<td align="left">删除所有客户</td>
+</tr>
+<tr>
+<td align="left">/customers/1</td>
+<td align="left">错误</td>
+<td align="left">检索客户 1 的详细信息</td>
+<td align="left">如果客户 1 存在，则更新其详细信息</td>
+<td align="left">删除客户 1</td>
+</tr>
+<tr>
+<td align="left">/customers/1/orders</td>
+<td align="left">创建客户 1 的新订单</td>
+<td align="left">检索客户 1 的所有订单</td>
+<td align="left">批量更新客户 1 的订单</td>
+<td align="left">删除客户 1 的所有订单</td>
+</tr>
+</tbody></table>
+<ol start="2">
+<li>使用HTPP标准规范实现返回码</li>
+</ol>
+<p>客户端发送给服务端的content-type，如果服务端不支持，返回415错误</p>
+<p>客户端请求包含accept，如果服务端无法匹配，返回406错误</p>
+<ul>
+<li>get方法<ol>
+<li>成功返回200， 找不到返回404</li>
+</ol>
+</li>
+<li>post方法<pre><code>   1. 创建新资源返回201，新资源的URI包含在响应的Location标头中
+2. 如果处理但未创建新资源，返回200
+3. 客户端将无效数据放入到请求，服务端返回400
+</code></pre>
+</li>
+<li>delete方法<pre><code>  1. 删除成功返回204
+</code></pre>
+<ol start="2">
+<li>资源不存在返回404</li>
+</ol>
+</li>
+</ul>
+<ol start="3">
+<li>异步操作中的规范</li>
+</ol>
+<p>异步操作，是请求发送到服务端后，服务端需要一段时间才能处理完成的，如果需要等待该操作完成后才向客户端发送响应，延迟太大，这时候需要考虑异步操作，首先返回状态码202，表示请求接受处理，但尚未完成，然后在返回内容中，包含一个链接，用户可以去查询请求的当前状态</p>
+<p>第一步，先返回202状态法，并同时将后续查询状态URI放到Location中</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">202</span> Accepted</span><br><span class="line"><span class="attribute">Location</span><span class="punctuation">: </span>/api/status/12345</span><br></pre></td></tr></table></figure>
+
+<p>客户端向状态终结点发送GET请求，响应中返回之前请求的状态</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/json</span><br><span class="line"></span><br><span class="line"><span class="json">&#123;</span></span><br><span class="line"><span class="json">    <span class="attr">&quot;status&quot;</span>:<span class="string">&quot;In progress&quot;</span>,</span></span><br><span class="line"><span class="json">    <span class="attr">&quot;link&quot;</span>: &#123; <span class="attr">&quot;rel&quot;</span>:<span class="string">&quot;cancel&quot;</span>, <span class="attr">&quot;method&quot;</span>:<span class="string">&quot;delete&quot;</span>, <span class="attr">&quot;href&quot;</span>:<span class="string">&quot;/api/status/12345&quot;</span> &#125;</span></span><br><span class="line"><span class="json">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果异步操作创建了新资源，状态终结点返回状态码303，并包含一个location标头用于提供新资源的URI</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">303</span> See Other</span><br><span class="line"><span class="attribute">Location</span><span class="punctuation">: </span>/api/orders/12345</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>对于终结点带不带’/‘都应该支持</p>
+<p>用一个URI以’/‘结尾或者不带’/‘服务端都应该支持</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">下面应该返回同样内容</span><br><span class="line">curl https://d-wz.cc/api/cats/</span><br><span class="line">curl https://d-wz.cc/api/cats</span><br></pre></td></tr></table></figure></li>
+<li><p>401和403区别</p>
+<ul>
+<li><p>401 表示用户名或者密码错误，或者无法识别用户身份</p>
+</li>
+<li><p>403 表示能够识别用户身份，但是他没有权限去操作</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="返回数据需要筛选和分页"><a href="#返回数据需要筛选和分页" class="headerlink" title="返回数据需要筛选和分页"></a>返回数据需要筛选和分页</h3><p>前端展示的数据往往是所有数据的一小部分，通过筛选和分页减少对服务端和客户端的压力，在GET请求中使用query方式，比如增加page表示第几页，page_size表示每页的数量，bool值表示状态等等</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">GET</span><span class="punctuation">: </span>/books?published=true&amp;page=2&amp;page_size=10</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="API设计时要考虑版本"><a href="#API设计时要考虑版本" class="headerlink" title="API设计时要考虑版本"></a>API设计时要考虑版本</h3><p>尽可能保证释放出去的API，客户在使用后不用修改接口</p>
+<p>目前考虑两种方式做版本控制</p>
+<ol>
+<li>在URI中增加版本号，对于URI一致的，以前存在的URI按照以前一样继续运行，如果新版增加了新的返回字段，则通过增加版本号的方式管理</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://adventure-works.com/v2/customers/3</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="2">
+<li>查询字符串方式版本控制</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://adventure-works.com/customers/3?version=2</span><br></pre></td></tr></table></figure>
+
+<p>注意：某些较旧的 Web 浏览器和 Web 代理不会缓存在 URI 中包含查询字符串的请求的响应。 这可能会降低使用 web API 的 web 应用程序的性能，并从这类 web 浏览器中运行。</p>
+<p>URI 版本控制和查询字符串版本控制方案都是缓存友好的，因为同一 URI/查询字符串组合每次都指向相同的数据。</p>
+<h3 id="API发布要有配套接口文档支持"><a href="#API发布要有配套接口文档支持" class="headerlink" title="API发布要有配套接口文档支持"></a>API发布要有配套接口文档支持</h3><p>比如使用swagger管理API文档，在API发布时，同样要发布接口文档，来方便用户了解如何调用你的API</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/azure/architecture/best-practices/api-design">Web API 设计最佳做法 - Azure Architecture Center | Microsoft Docs</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://abdulrwahab.medium.com/api-architecture-best-practices-for-designing-rest-apis-bf907025f5f">API Architecture — Design Best Practices for REST APIs | by Abdul Wahab | Oct, 2021 | Medium</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/azure/architecture/patterns/async-request-reply">异步Request-Reply模式 - Azure Architecture Center | Microsoft Docs</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://mathieu.fenniak.net/the-api-checklist/">The Web API Checklist – 43 Things To Think About When Designing, Testing, and Releasing your API (fenniak.net)</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/api/" rel="tag"><i class="fa fa-tag"></i> api</a>
+              <a href="/tags/web/" rel="tag"><i class="fa fa-tag"></i> web</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/bf91/" rel="prev" title="在Azure Pipeline上编译React Native Android APP">
+      <i class="fa fa-chevron-left"></i> 在Azure Pipeline上编译React Native Android APP
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/73e5/" rel="next" title="linux下配置v2ray客户端">
+      linux下配置v2ray客户端 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-number">1.</span> <span class="nav-text">设计原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#URI%E5%9F%BA%E4%BA%8E%EF%BC%88%E5%A4%8D%E6%95%B0%EF%BC%89%E5%90%8D%E8%AF%8D%EF%BC%8C%E4%B8%94%E7%AE%80%E6%B4%81"><span class="nav-number">1.1.</span> <span class="nav-text">URI基于（复数）名词，且简洁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%89%E7%85%A7HTTP%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">按照HTTP定义方法实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE%E9%9C%80%E8%A6%81%E7%AD%9B%E9%80%89%E5%92%8C%E5%88%86%E9%A1%B5"><span class="nav-number">1.3.</span> <span class="nav-text">返回数据需要筛选和分页</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API%E8%AE%BE%E8%AE%A1%E6%97%B6%E8%A6%81%E8%80%83%E8%99%91%E7%89%88%E6%9C%AC"><span class="nav-number">1.4.</span> <span class="nav-text">API设计时要考虑版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API%E5%8F%91%E5%B8%83%E8%A6%81%E6%9C%89%E9%85%8D%E5%A5%97%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E6%94%AF%E6%8C%81"><span class="nav-number">1.5.</span> <span class="nav-text">API发布要有配套接口文档支持</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="simple"
+      src="https://oss.smart-lifestyle.cn/static/avatar/simplezhao_cartoon2.jpg">
+  <p class="site-author-name" itemprop="name">simple</p>
+  <div class="site-description" itemprop="description">专注于物联网架构和产品</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/simplezhao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;simplezhao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhaogang@smart-lifestyle.cn" title="E-Mail → mailto:zhaogang@smart-lifestyle.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">simple</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">86k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:36</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

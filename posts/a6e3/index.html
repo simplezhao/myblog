@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.loli.net/css?family=Noto Sans SC:300,300italic,400,400italic,700,700italic|JetBrains Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://blog.smart-lifestyle.cn').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="在腾讯轻量服务器上搭建vscode在线版code server，并使用github账号授权访问">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搞了一个浏览器版VS Code Server">
+<meta property="og:url" content="https://blog.smart-lifestyle.cn/posts/a6e3/index.html">
+<meta property="og:site_name" content="simplezhao的博客">
+<meta property="og:description" content="在腾讯轻量服务器上搭建vscode在线版code server，并使用github账号授权访问">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/4uyym.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/18nzr.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/kaawc.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/hkzvv.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/wme6e.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/mwadc.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/swtfp.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/ldqul.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/ywaip.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/cjgr1.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/y49cb.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/2x3rd.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/i84hp.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/399ju.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/t0m13.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/opgzl.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/2h5s8.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/04jmq.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/8awk2.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/2xoco.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/uv1hl.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/utszp.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/a6nh5.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/der2y.png">
+<meta property="article:published_time" content="2022-04-22T14:54:12.000Z">
+<meta property="article:modified_time" content="2022-05-05T14:53:03.075Z">
+<meta property="article:author" content="simple">
+<meta property="article:tag" content="code server">
+<meta property="article:tag" content="oauth">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oss.smart-lifestyle.cn/file/4uyym.png">
+
+<link rel="canonical" href="https://blog.smart-lifestyle.cn/posts/a6e3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>搞了一个浏览器版VS Code Server - simplezhao的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="simplezhao的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">simplezhao的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">slow is smooth and smooth is fast</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">71</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">70</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">26</span></a>
+
+  </li>
+        <li class="menu-item menu-item-读书">
+
+    <a href="/categories/book" rel="section"><i class="fa fa-fw fa-coffee"></i>读书</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/a6e3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/static/avatar/simplezhao_cartoon2.jpg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="专注于物联网架构和产品">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simplezhao的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          搞了一个浏览器版VS Code Server
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-22 14:54:12" itemprop="dateCreated datePublished" datetime="2022-04-22T14:54:12+00:00">2022-04-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-05 14:53:03" itemprop="dateModified" datetime="2022-05-05T14:53:03+00:00">2022-05-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
+            <div class="post-description">在腾讯轻量服务器上搭建vscode在线版code server，并使用github账号授权访问</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>工作用的Mac电脑是ARM芯片的，而目前部署的服务大部分还都是amd64架构的，手头上新购了几台轻量服务器，因此搞了一个在线版的vscode来方便开发，实际用过之后确实挺香(*￣︶￣)</p>
+</blockquote>
+<p><strong>本方案所有实现都是在腾讯云上，如果是其他云厂商，请参考对标服务</strong></p>
+<p>下面介绍如何在轻量服务器上搭建一个基于浏览器的<a target="_blank" rel="noopener" href="https://coder.com/docs/code-server/latest/guide">VS Code Server</a>，其实只是整理了官方文档</p>
+<h2 id="整体介绍"><a href="#整体介绍" class="headerlink" title="整体介绍"></a>整体介绍</h2><p>本着能省就省同时兼顾安全的角度，部署使用了如下资源：</p>
+<ul>
+<li><p>腾讯云服务</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/lighthouse">轻量应用服务器(Ubuntu 20.04)</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/877/18675">内网互联</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/1154/39271">函数服务</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/628">API网关</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/1141/50310">容器镜像服务（个人版）</a></li>
+</ul>
+</li>
+<li><p>软件部署</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://freessl.cn/">https证书</a>，提供https访问</li>
+<li><a target="_blank" rel="noopener" href="https://nginx.org/en/">Nginx</a>，对Code Server进行反向代理</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/coder/code-server">Code Server</a>， 在线版VS Code</li>
+<li><a target="_blank" rel="noopener" href="https://oauth2-proxy.github.io/oauth2-proxy/">OAuth Proxy</a>，提供github OAuth认证</li>
+</ul>
+</li>
+</ul>
+<p>整体架构如下图所示</p>
+<ol>
+<li>将code server部署在轻量服务器中，使用nginx做反向代理，并启用https加密访问</li>
+<li>在云函数中部署OAuth Proxy，并通过API网关对内网开放authorization接口</li>
+<li>轻量服务器和云函数在不同的VPC内，为了实现内网访问，通过云联网打通两个VPC</li>
+<li>最终用户在浏览器里输入url，然后通过github认证登录到Code Server上</li>
+</ol>
+<p><img src="https://oss.smart-lifestyle.cn/file/4uyym.png" alt="codeserver架构"></p>
+<p>最终效果，通过浏览器访问，跟本地VS Code几乎没有任何区别</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/18nzr.png" alt="image-20220422214335880"></p>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>下面分步骤介绍完整的部署过程，包括下面的步骤</p>
+<ol>
+<li>在轻量服务器中部署Code Server和Nginx</li>
+<li>在云函数中部署OAuth2 Proxy，并在API网关中配置触发器</li>
+<li>配置云联网，打通VPC</li>
+<li>调试</li>
+</ol>
+<h3 id="在轻量服务器中部署Code-Server和Nginx"><a href="#在轻量服务器中部署Code-Server和Nginx" class="headerlink" title="在轻量服务器中部署Code Server和Nginx"></a>在轻量服务器中部署Code Server和Nginx</h3><h4 id="部署Code-Server"><a href="#部署Code-Server" class="headerlink" title="部署Code Server"></a>部署Code Server</h4><p>参考官方通过命令脚本的安装方式，<a target="_blank" rel="noopener" href="https://coder.com/docs/code-server/latest/install#installsh">Install - code-server v4.3.0 docs (coder.com)</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://code-server.dev/install.sh | sh</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<h3 id="Detection-reference"><a href="#Detection-reference" class="headerlink" title="Detection reference"></a>Detection reference</h3><ul>
+<li>For Debian and Ubuntu, code-server will install the latest deb package.(如果是Ubuntu系统，code server会使用最新的deb包安装)</li>
+<li>For Fedora, CentOS, RHEL and openSUSE, code-server will install the latest RPM package.</li>
+</ul>
+</blockquote>
+<p>安装完成后，code server的配置文件在<code>$HOME/.config/code-server/config.yaml</code>，而插件等都会安装到<code>$HOME/.local/share/code-server</code>中</p>
+<p>因为后面使用OAuth2 Proxy来做认证，所以在配置文件中将auth改为None，并且修改code server默认端口，且只能本机访问（后面会使用nginx代理转发）</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">bind-addr:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:32000</span></span><br><span class="line"><span class="attr">auth:</span> <span class="string">none</span></span><br><span class="line"><span class="attr">cert:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>启动code server，并设为开机自启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> --now code-server@<span class="variable">$USER</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="部署Nginx"><a href="#部署Nginx" class="headerlink" title="部署Nginx"></a>部署Nginx</h4><p>使用apt-get直接安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
+
+<h5 id="增加https配置文件"><a href="#增加https配置文件" class="headerlink" title="增加https配置文件"></a>增加https配置文件</h5><p>此处参考：<a target="_blank" rel="noopener" href="https://coder.com/docs/code-server/latest/guide#using-lets-encrypt-with-nginx">Usage - code-server v4.3.0 docs (coder.com)</a></p>
+<p>新增<code> /etc/nginx/sites-available/code-server.https.conf</code>文件</p>
+<p>使用nginx反向代理code server，此处不是最终完整配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl http2 default_server;</span><br><span class="line">    listen [::]:443;</span><br><span class="line">    server_name code.smart-lifestyle.cn;</span><br><span class="line">    ssl_certificate /etc/nginx/ssl/full_chain.pem;</span><br><span class="line">    ssl_certificate_key /etc/nginx/ssl/private.key;</span><br><span class="line">    ssl_session_cache shared:SSL:1m;</span><br><span class="line">    ssl_session_timeout 10m;</span><br><span class="line">    ssl_ciphers HIGH:!aNULL:!MD5;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://127.0.0.1:32000/;</span><br><span class="line">      	proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">      	proxy_set_header Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">      	proxy_set_header Connection upgrade;</span><br><span class="line">      	proxy_set_header Accept-Encoding gzip;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中，</p>
+<ul>
+<li><p>ssl_certificate /etc/nginx/ssl/full_chain.pem;</p>
+</li>
+<li><p>ssl_certificate_key /etc/nginx/ssl/private.key;</p>
+</li>
+</ul>
+<p>分别为网站的公钥和私钥，可以在<a target="_blank" rel="noopener" href="https://freessl.cn/">FreeSSL首页 - FreeSSL.cn一个提供免费HTTPS证书申请的网站</a>申请</p>
+<p>然后执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 此处才是加code-server配置加入到nginx配置中</span></span><br><span class="line">sudo ln -s /etc/nginx/sites-available/code-server.https.conf /etc/nginx/sites-enabled/code-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新加载配置文件</span></span><br><span class="line">sudo nginx -s reload</span><br></pre></td></tr></table></figure>
+
+
+
+<p>此时可以通过https://你的域名，来访问code server，但是因为是直接暴露在公网中，需要增加认证手段，来避免其他人可以直接访问</p>
+<h3 id="在云函数中部署OAuth2-Proxy，并在API网关中配置触发器"><a href="#在云函数中部署OAuth2-Proxy，并在API网关中配置触发器" class="headerlink" title="在云函数中部署OAuth2 Proxy，并在API网关中配置触发器"></a>在云函数中部署OAuth2 Proxy，并在API网关中配置触发器</h3><h4 id="部署OAuth2-Proxy"><a href="#部署OAuth2-Proxy" class="headerlink" title="部署OAuth2 Proxy"></a>部署OAuth2 Proxy</h4><p>OAuth2 Proxy提供了多种OAuth2源，这里我选择了GitHub，OAuth2 Proxy使用go 语言开发，虽然云函数提供了go语言的支持，将OAuth2 Proxy最终部署应该还是需要一点点适配工作</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/kaawc.png" alt="image-20220423142804041"></p>
+<p>云函数支持以容器镜像的形式部署服务，因此可以直接拉去OAuth2 Proxy的镜像来部署，需要注意的是，云函数默认监听端口为9000，且不能修改，因此需要将OAuth2 Proxy的监听端口也调整为9000</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/hkzvv.png" alt="image-20220423145027200"></p>
+<h5 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h5><p>如果使用容器镜像部署云函数，镜像来源只能选择腾讯云个人版或者企业版的镜像服务，因此需要将OAuth2 Proxy的镜像先拉到本地，然后推送到腾讯云的镜像服务中（个人版免费）</p>
+<ol>
+<li><p>从OAuth2 Proxy<a target="_blank" rel="noopener" href="https://quay.io/repository/oauth2-proxy/oauth2-proxy?tab=tags&tag=latest">官方镜像仓库</a>拉去镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull quay.io/oauth2-proxy/oauth2-proxy:latest</span><br></pre></td></tr></table></figure></li>
+<li><p>在本地打上tag，tag名为在腾讯云镜像服务创建的镜像的镜像地址，然后上传镜像，具体如何使用腾讯云镜像服务，可以参考官方文档：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/1141/50310">容器镜像服务 个人版操作指南 - 操作指南 - 文档中心 - 腾讯云 (tencent.com)</a></p>
+</li>
+<li><p>在github上创建一个application</p>
+<p>在github Developer settings中新建一个OAuth APP</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/wme6e.png" alt="image-20220423204710201"></p>
+<p>回调地址修改为你实际的回调地址：<a target="_blank" rel="noopener" href="https://your-code-server-domain/oauth2/callback">https://your-code-server-domain/oauth2/callback</a></p>
+<p>/oauth2/callback 需要在之前的nginx配置中增加一条代理记录，后面会介绍</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/mwadc.png" alt="image-20220423204935842"></p>
+<p>创建完应用后，记录你的Client ID、Client Secret后面会使用</p>
+</li>
+<li><p>云函数创建一个函数服务</p>
+<ul>
+<li>选择使用容器镜像</li>
+<li>基础配置选择Web函数</li>
+<li>函数代码选择上一步选择的镜像</li>
+</ul>
+<p><img src="https://oss.smart-lifestyle.cn/file/swtfp.png" alt="image-20220423202037576"></p>
+<p>在高级配置中，增加环境变量，来配置github 认证，需要配置的字段有：</p>
+<ul>
+<li><p>OAUTH2_PROXY_CLIENT_ID=<Your github app client id></p>
+</li>
+<li><p>OAUTH2_PROXY_CLIENT_SECRET=<Your github app client secret></p>
+</li>
+<li><p>OAUTH2_PROXY_COOKIE_SECRET=&lt;随机生成&gt;</p>
+</li>
+<li><p>OAUTH2_PROXY_EMAIL_DOMAINS=*</p>
+</li>
+<li><p>OAUTH2_PROXY_GITHUB_USERS=<your github name> 保证认证后只有你可以访问</p>
+</li>
+<li><p>OAUTH2_PROXY_HTTP_ADDRESS=0.0.0.0:9000 # 这里是修改OAuth2 Proxy监听地址，需要改为9000</p>
+</li>
+<li><p>OAUTH2_PROXY_PROVIDER=github</p>
+</li>
+<li><p>OAUTH2_PROXY_REDIRECT_URL=<your redirect url in app settings></p>
+</li>
+</ul>
+<p>详细配置请参考官方：<a target="_blank" rel="noopener" href="https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider#github-auth-provider">OAuth Provider Configuration | OAuth2 Proxy (oauth2-proxy.github.io)</a></p>
+<p>下文介绍，在使用环境变量配置OAuth2 Proxy时，在文档的配置字段前加上OAUTH2_PROXY，同时连字符(-)改为下划线（_)</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/ldqul.png" alt="image-20220423210548845"></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/ywaip.png" alt="image-20220423205906590"></p>
+<p>触发器先选择默认，后面需要删除重新建，默认生成的API网关触发配置，支持公网访问，而我只想让这个服务只能内网访问，既保证安全，<strong>有避免公网资源的浪费</strong></p>
+<p>熟悉腾讯云API网关的话，可以先在API网关创建一个服务，然后再此处选择自定义触发器</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/cjgr1.png" alt="image-20220423202303118"></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/y49cb.png" alt="image-20220423203119102"></p>
+</li>
+</ol>
+<h4 id="部署内网API服务"><a href="#部署内网API服务" class="headerlink" title="部署内网API服务"></a>部署内网API服务</h4><ol>
+<li>为云函数创建一个内网访问的API网关触发器</li>
+</ol>
+<p>在API网关中，创建一个API网关服务</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/2x3rd.png" alt="image-20220423203527650"></p>
+<ul>
+<li>访问方式选择内网VPC</li>
+<li>所属VPC选择跟OAuth2 Proxy服务同一个VPC</li>
+</ul>
+<p><img src="https://oss.smart-lifestyle.cn/file/i84hp.png" alt="image-20220423203658410"></p>
+<ol start="2">
+<li><p>在云函数中，重新配置触发器</p>
+<p>删除之前的触发器，新建触发器</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/399ju.png" alt="image-20220322230121860"></p>
+<p>选择自定义触发器，并选择之前创建的API网关服务</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/t0m13.png" alt="image-20220322230157775"></p>
+<p>配置完之后，可以查看到内网访问路径，在没有配置云联网之前，轻量服务器是无法访问到这个云函数服务</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/opgzl.png" alt="image-20220423213305703"></p>
+</li>
+</ol>
+<h3 id="配置云联网打通VPC"><a href="#配置云联网打通VPC" class="headerlink" title="配置云联网打通VPC"></a>配置云联网打通VPC</h3><p>在轻量服务器的管理界面–内网互联中，选择服务器所在的区域，新建个内网互联</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/2h5s8.png" alt="image-20220423212226912"></p>
+<p>在内网互联配置中，将轻量服务器VPC和云函数所在VPC关联进去</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/04jmq.png" alt="image-20220423212342714"></p>
+<p>由于我的轻量服务器和云函数都在北京区域，因此两个VPC之间是内网访问，因此互相访问是免费的</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/8awk2.png" alt="image-20220423213011059"></p>
+<p>登录轻量服务器，访问OAuth2 Proxy url，如果能返回html页面表明，服务成功运行，且可以内网访问</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://service-oll9qkj1-1258647687-in.bj.apigw.tencentcs.com:9003/release/</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://oss.smart-lifestyle.cn/file/2xoco.png" alt="image-20220423213458827"></p>
+<h3 id="配置nginx，增加auth认证"><a href="#配置nginx，增加auth认证" class="headerlink" title="配置nginx，增加auth认证"></a>配置nginx，增加auth认证</h3><p>最后我们在重新修改code-server.https.conf，新增auth部分功能，官方参考：<a target="_blank" rel="noopener" href="https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview/#configuring-for-use-with-the-nginx-auth_request-directive">Configuring for use with the Nginx <code>auth_request</code> directive</a></p>
+<p>完整code-server.https.conf文件代码如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl http2 default_server;</span><br><span class="line">    listen [::]:443;</span><br><span class="line">    server_name _;</span><br><span class="line">    ssl_certificate /etc/nginx/ssl/full_chain.pem;</span><br><span class="line">    ssl_certificate_key /etc/nginx/ssl/private.key;</span><br><span class="line">    ssl_session_cache shared:SSL:1m;</span><br><span class="line">    ssl_session_timeout 10m;</span><br><span class="line">    ssl_ciphers HIGH:!aNULL:!MD5;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line">    location /oauth2/ &#123;</span><br><span class="line">      	proxy_pass       http://service-oll9qkj1-1258647687-in.bj.apigw.tencentcs.com:8003;</span><br><span class="line">      	proxy_set_header Host                    <span class="variable">$proxy_host</span>;</span><br><span class="line">      	proxy_set_header X-Real-IP               <span class="variable">$remote_addr</span>;</span><br><span class="line">      	proxy_set_header X-Scheme                <span class="variable">$scheme</span>;</span><br><span class="line">      	proxy_set_header X-Auth-Request-Redirect <span class="variable">$request_uri</span>;</span><br><span class="line">      	<span class="comment"># or, if you are handling multiple domains:</span></span><br><span class="line">      	<span class="comment"># proxy_set_header X-Auth-Request-Redirect $scheme://$host$request_uri;</span></span><br><span class="line">    &#125;</span><br><span class="line">    location = /oauth2/auth &#123;</span><br><span class="line">      	proxy_pass       http://service-oll9qkj1-1258647687-in.bj.apigw.tencentcs.com:8003;</span><br><span class="line">      	proxy_set_header Host             <span class="variable">$proxy_host</span>;</span><br><span class="line">      	proxy_set_header X-Real-IP        <span class="variable">$remote_addr</span>;</span><br><span class="line">      	proxy_set_header X-Scheme         <span class="variable">$scheme</span>;</span><br><span class="line">      	<span class="comment"># nginx auth_request includes headers but not body</span></span><br><span class="line">      	proxy_set_header Content-Length   <span class="string">&quot;&quot;</span>;</span><br><span class="line">     	proxy_pass_request_body           off;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">     	auth_request /oauth2/auth;</span><br><span class="line">    	error_page 401 = /oauth2/sign_in;</span><br><span class="line"></span><br><span class="line">    	<span class="comment"># pass information via X-User and X-Email headers to backend,</span></span><br><span class="line">    	<span class="comment"># requires running with --set-xauthrequest flag</span></span><br><span class="line">    	auth_request_set <span class="variable">$user</span>   <span class="variable">$upstream_http_x_auth_request_user</span>;</span><br><span class="line">    	auth_request_set <span class="variable">$email</span>  <span class="variable">$upstream_http_x_auth_request_email</span>;</span><br><span class="line">    	proxy_set_header X-User  <span class="variable">$user</span>;</span><br><span class="line">    	proxy_set_header X-Email <span class="variable">$email</span>;</span><br><span class="line"></span><br><span class="line">    	<span class="comment"># if you enabled --pass-access-token, this will pass the token to the backend</span></span><br><span class="line">    	auth_request_set <span class="variable">$token</span>  <span class="variable">$upstream_http_x_auth_request_access_token</span>;</span><br><span class="line">    	proxy_set_header X-Access-Token <span class="variable">$token</span>;</span><br><span class="line">      	<span class="comment"># if you enabled --cookie-refresh, this is needed for it to work with auth_request</span></span><br><span class="line">    	auth_request_set <span class="variable">$auth_cookie</span> <span class="variable">$upstream_http_set_cookie</span>;</span><br><span class="line">    	add_header Set-Cookie <span class="variable">$auth_cookie</span>;</span><br><span class="line"></span><br><span class="line">    	<span class="comment"># When using the --set-authorization-header flag, some provider&#x27;s cookies can exceed the 4kb</span></span><br><span class="line">    	<span class="comment"># limit and so the OAuth2 Proxy splits these into multiple parts.</span></span><br><span class="line">    	<span class="comment"># Nginx normally only copies the first `Set-Cookie` header from the auth_request to the response,</span></span><br><span class="line">    	<span class="comment"># so if your cookies are larger than 4kb, you will need to extract additional cookies manually.</span></span><br><span class="line">    	auth_request_set <span class="variable">$auth_cookie_name_upstream_1</span> <span class="variable">$upstream_cookie_auth_cookie_name_1</span>;</span><br><span class="line"></span><br><span class="line">    	<span class="comment"># Extract the Cookie attributes from the first Set-Cookie header and append them</span></span><br><span class="line">    	<span class="comment"># to the second part ($upstream_cookie_* variables only contain the raw cookie content)</span></span><br><span class="line">    	<span class="keyword">if</span> (<span class="variable">$auth_cookie</span> ~* <span class="string">&quot;(; .*)&quot;</span>) &#123;</span><br><span class="line">            <span class="built_in">set</span> <span class="variable">$auth_cookie_name_0</span> <span class="variable">$auth_cookie</span>;</span><br><span class="line">            <span class="built_in">set</span> <span class="variable">$auth_cookie_name_1</span> <span class="string">&quot;auth_cookie_name_1=$auth_cookie_name_upstream_1<span class="variable">$1</span>&quot;</span>;</span><br><span class="line">    	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment"># Send both Set-Cookie headers now if there was a second part</span></span><br><span class="line">    	<span class="keyword">if</span> (<span class="variable">$auth_cookie_name_upstream_1</span>) &#123;</span><br><span class="line">    	    add_header Set-Cookie <span class="variable">$auth_cookie_name_0</span>;</span><br><span class="line">    	    add_header Set-Cookie <span class="variable">$auth_cookie_name_1</span>;</span><br><span class="line">   	&#125;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://127.0.0.1:32000/;</span><br><span class="line">      	proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">      	proxy_set_header Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">      	proxy_set_header Connection upgrade;</span><br><span class="line">      	proxy_set_header Accept-Encoding gzip;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置完成之后，重启nginx</p>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><img src="https://oss.smart-lifestyle.cn/file/uv1hl.png" alt="image-20220423215409071"></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/utszp.png" alt="image-20220423215456692"></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/a6nh5.png" alt="image-20220423215521287"></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/der2y.png" alt="image-20220423215614112"></p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>随着自己逐渐向云原生方向发展，腾讯云在这方面做的还是不错目前正在充分的撸厂商的各种免费云产品，而不是像以前只撸虚机，然后搭建各种服务</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://docs.github.com/cn/developers/apps/managing-oauth-apps/troubleshooting-authorization-request-errors">排查授权请求错误 - GitHub Docs</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview/#environment-variables">Overview | OAuth2 Proxy (oauth2-proxy.github.io)</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://coder.com/docs/code-server/latest/guide">Usage - code-server v4.3.0 docs (coder.com)</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview/#configuring-for-use-with-the-nginx-auth_request-directive">Overview | OAuth2 Proxy (oauth2-proxy.github.io)</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/code-server/" rel="tag"><i class="fa fa-tag"></i> code server</a>
+              <a href="/tags/oauth/" rel="tag"><i class="fa fa-tag"></i> oauth</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/73e5/" rel="prev" title="linux下配置v2ray客户端">
+      <i class="fa fa-chevron-left"></i> linux下配置v2ray客户端
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/e029/" rel="next" title="在code server中使用docker">
+      在code server中使用docker <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">整体介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2"><span class="nav-number">2.</span> <span class="nav-text">部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E8%BD%BB%E9%87%8F%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%AD%E9%83%A8%E7%BD%B2Code-Server%E5%92%8CNginx"><span class="nav-number">2.1.</span> <span class="nav-text">在轻量服务器中部署Code Server和Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2Code-Server"><span class="nav-number">2.1.1.</span> <span class="nav-text">部署Code Server</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Detection-reference"><span class="nav-number">2.2.</span> <span class="nav-text">Detection reference</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2Nginx"><span class="nav-number">2.2.1.</span> <span class="nav-text">部署Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0https%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">增加https配置文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E4%BA%91%E5%87%BD%E6%95%B0%E4%B8%AD%E9%83%A8%E7%BD%B2OAuth2-Proxy%EF%BC%8C%E5%B9%B6%E5%9C%A8API%E7%BD%91%E5%85%B3%E4%B8%AD%E9%85%8D%E7%BD%AE%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">2.3.</span> <span class="nav-text">在云函数中部署OAuth2 Proxy，并在API网关中配置触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2OAuth2-Proxy"><span class="nav-number">2.3.1.</span> <span class="nav-text">部署OAuth2 Proxy</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">流程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E5%86%85%E7%BD%91API%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.3.2.</span> <span class="nav-text">部署内网API服务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E4%BA%91%E8%81%94%E7%BD%91%E6%89%93%E9%80%9AVPC"><span class="nav-number">2.4.</span> <span class="nav-text">配置云联网打通VPC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEnginx%EF%BC%8C%E5%A2%9E%E5%8A%A0auth%E8%AE%A4%E8%AF%81"><span class="nav-number">2.5.</span> <span class="nav-text">配置nginx，增加auth认证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-number">3.</span> <span class="nav-text">效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-number">4.</span> <span class="nav-text">后记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="simple"
+      src="https://oss.smart-lifestyle.cn/static/avatar/simplezhao_cartoon2.jpg">
+  <p class="site-author-name" itemprop="name">simple</p>
+  <div class="site-description" itemprop="description">专注于物联网架构和产品</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/simplezhao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;simplezhao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhaogang@smart-lifestyle.cn" title="E-Mail → mailto:zhaogang@smart-lifestyle.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">simple</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">86k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:36</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.loli.net/css?family=Noto Sans SC:300,300italic,400,400italic,700,700italic|JetBrains Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://blog.smart-lifestyle.cn').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="通过github actions将hexo博客编译后生成静态文件，然后serverless自动获取分支代码部署网站">
+<meta property="og:type" content="article">
+<meta property="og:title" content="github actions + serverless + hexo 搭建博客">
+<meta property="og:url" content="https://blog.smart-lifestyle.cn/posts/186f/index.html">
+<meta property="og:site_name" content="simplezhao的博客">
+<meta property="og:description" content="通过github actions将hexo博客编译后生成静态文件，然后serverless自动获取分支代码部署网站">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/2z2j0.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/by7fr.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/bifuy.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/1i7ek.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/4q9e7.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/xsnza.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/7tuxq.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/5a2pl.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/66q6f.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/p9c2k.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/fbz1o.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/yasz4.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/xg2x7.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/2vses.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/zb5z8.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/buzmw.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/x1n8d.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/j193w.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/uv767.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/0jhjn.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/mub2b.png">
+<meta property="article:published_time" content="2021-09-10T23:26:08.000Z">
+<meta property="article:modified_time" content="2022-05-05T14:53:03.075Z">
+<meta property="article:author" content="simple">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="serverless">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oss.smart-lifestyle.cn/file/2z2j0.png">
+
+<link rel="canonical" href="https://blog.smart-lifestyle.cn/posts/186f/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>github actions + serverless + hexo 搭建博客 - simplezhao的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="simplezhao的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">simplezhao的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">slow is smooth and smooth is fast</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">71</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">70</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">26</span></a>
+
+  </li>
+        <li class="menu-item menu-item-读书">
+
+    <a href="/categories/book" rel="section"><i class="fa fa-fw fa-coffee"></i>读书</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/186f/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/static/avatar/simplezhao_cartoon2.jpg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="专注于物联网架构和产品">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simplezhao的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          github actions + serverless + hexo 搭建博客
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-09-10 23:26:08" itemprop="dateCreated datePublished" datetime="2021-09-10T23:26:08+00:00">2021-09-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-05 14:53:03" itemprop="dateModified" datetime="2022-05-05T14:53:03+00:00">2022-05-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/serverless/" itemprop="url" rel="index">
+                    <span itemprop="name">serverless</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>14 分钟</span>
+            </span>
+            <div class="post-description">通过github actions将hexo博客编译后生成静态文件，然后serverless自动获取分支代码部署网站</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>2021年9月21日：新增404页面的展示</p>
+<p>20201年9月10日：基本功能</p>
+</blockquote>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>从最开始的ECS（阿里云云服务器）到后来的轻量应用服务器，都是在伴随着新用户打折的优惠上，续费下去，但是最近轻量应用服务器器到期了，在没有大优惠的情况下一年的费用需要600多软妹币，于是开始动手将博客部署到serverless服务上，基本上对于我这种访问量极低的博主来说，费用基本接近于0</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/2z2j0.png" alt="image-20210911093216962"></p>
+<h2 id="serverless的选择"><a href="#serverless的选择" class="headerlink" title="serverless的选择"></a>serverless的选择</h2><p>经过对比，选择了腾讯云的<a target="_blank" rel="noopener" href="https://console.cloud.tencent.com/sls">Serverless应用</a>，本身博客的内容都是静态文件，而且腾讯也是将静态网站托管到它的对象存储服务上。虽然也可以直接在对象存储直接托管，但是腾讯云的Serverless应用在部署上提供了代码托管方式，检测到代码分支上的变动，会自动触发构建</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/by7fr.png" alt="image-20210911095143015"></p>
+<p>下面开干！</p>
+<h2 id="搭建过程"><a href="#搭建过程" class="headerlink" title="搭建过程"></a>搭建过程</h2><h3 id="开通serverless应用，建站"><a href="#开通serverless应用，建站" class="headerlink" title="开通serverless应用，建站"></a>开通serverless应用，建站</h3><p>新建应用</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/bifuy.png" alt="image-20210911100249575"></p>
+<p>选择快速部署一个Website静态网站</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/1i7ek.png" alt="image-20210911100406421"></p>
+<p>开启跨域访问配置（如果你的网站访问第三方资源）</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/4q9e7.png" alt="image-20210911100923927"></p>
+<p>其他按照流程点击下一步执行就可以</p>
+<p>完成之后，点击访问地址可以看到一个简单的Demo页面。同时也在对象储存中创建了一个跟网址前缀一样的存储桶（这个地址就是对象存储静态网站功能提供的）</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/xsnza.png" alt="image-20210911101411755"></p>
+<h3 id="绑定域名和证书"><a href="#绑定域名和证书" class="headerlink" title="绑定域名和证书"></a>绑定域名和证书</h3><p>这里先不着急去部署我们的网站内容，先去绑定我们自己的域名以及https证书，要不然你的博客只能通过腾讯对象存储提供的一个四级域名去访问</p>
+<h4 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h4><p>绑定域名之前第一是你必须有自己的域名，各个云厂商基本都提供域名注册服务，这里注册过程不再介绍，第二是域名需要备案，否则也无法绑定成功</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/7tuxq.png" alt="image-20210911102552375"></p>
+<p>在对象存储服务中，找到你博客对应的桶</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/5a2pl.png" alt="image-20210911102232485"></p>
+<p>点击进去之后，选择域名与传输管理中的自定义源站域名</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/66q6f.png" alt="image-20210911102349968"></p>
+<p>在自定义源站域名中添加域名</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/p9c2k.png" alt="image-20210911102725447"></p>
+<p>同时，你也需要在你域名服务商那里增加一项CNAME解析</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/fbz1o.png" alt="image-20210911103016315"></p>
+<p>这是你通过http://自定义域名可以访问到你的网站</p>
+<h4 id="绑定证书"><a href="#绑定证书" class="headerlink" title="绑定证书"></a>绑定证书</h4><p>如果你不需要让用户通过https访问你的博客，那可以忽略本节，但是强烈建议开启https，毕竟安全又免费，可以在这个<a target="_blank" rel="noopener" href="https://freessl.cn/">网站</a>上申请免费的证书。拿到证书（公钥和私钥）之后， 点击绑定证书，如果你不是在腾讯云申请的证书，选择自有证书，将公钥、私钥粘贴进去就可以。腾讯云证书直接在证书列表选择就可以</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/yasz4.png" alt="image-20210911103552585"></p>
+<p>以上操作完成之后，如果你通过https://你的博客域名，访问还是显示的没有证书，因为默认情况下，还是将https的访问重新定向回了http，我们需要修改储存桶的配置才可以使用https</p>
+<p>在静态网站配置中，使能强制HTTPS，默认没有使能</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/xg2x7.png" alt="image-20210911104131084"></p>
+<p>此时再通过https://你的博客域名就可以访问到你的博客（可能需要手动清除一下缓存，或者开启一个浏览器隐私窗口）</p>
+<h2 id="部署hexo博客"><a href="#部署hexo博客" class="headerlink" title="部署hexo博客"></a>部署hexo博客</h2><p>大致流程为：使用github管理源码（md文件），并通过github actions将hexo内容编译为静态文件，并推送到新的分支gh_pages，在腾讯云Serverless应用那里，会监测gh_pages，自动构建</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/2vses.png" alt="流程"></p>
+<h3 id="github-actions实现"><a href="#github-actions实现" class="headerlink" title="github actions实现"></a>github actions实现</h3><p>新建一个workflow</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/zb5z8.png" alt="image-20210911120703454"></p>
+<p>具体实现如下</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is a basic workflow to help you get started with Actions</span></span><br><span class="line"></span><br><span class="line"><span class="attr">name:</span> <span class="string">build</span> <span class="string">and</span> <span class="string">publish</span> <span class="string">gh-pages</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Controls when the workflow will run</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="comment"># Triggers the workflow on push or pull request events but only for the master branch</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line">  <span class="attr">pull_request:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Allows you to run this workflow manually from the Actions tab</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A workflow run is made up of one or more jobs that can run sequentially or in parallel</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="comment"># This workflow contains a single job called &quot;build&quot;</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="comment"># The type of runner that the job will run on</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Steps represent a sequence of tasks that will be executed as part of the job</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="comment"># Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">setup</span> <span class="string">node</span> <span class="string">version</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="string">&#x27;12.x&#x27;</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># Caching dependencies to speed up workflows. (GitHub will remove any cache entries that have not been accessed in over 7 days.)</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">install</span> <span class="string">hexo-cli</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">-g</span> <span class="string">hexo-cli</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Cache</span> <span class="string">node</span> <span class="string">modules</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/cache@v1</span></span><br><span class="line">        <span class="attr">id:</span> <span class="string">cache</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">node_modules</span></span><br><span class="line">          <span class="attr">key:</span> <span class="string">$&#123;&#123;</span> <span class="string">runner.os</span> <span class="string">&#125;&#125;-node-$&#123;&#123;</span> <span class="string">hashFiles(&#x27;**/package-lock.json&#x27;)</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">restore-keys:</span> <span class="string">|</span></span><br><span class="line"><span class="string">            $&#123;&#123; runner.os &#125;&#125;-node-</span></span><br><span class="line"><span class="string"></span>      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Dependencies</span></span><br><span class="line">        <span class="attr">if:</span> <span class="string">steps.cache.outputs.cache-hit</span> <span class="type">!=</span> <span class="string">&#x27;true&#x27;</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          npm ci</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">generate</span> <span class="string">public</span> <span class="string">tatic</span> <span class="string">files</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          hexo clean</span></span><br><span class="line"><span class="string">          hexo g</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">copy</span> <span class="string">robots.txt</span> <span class="string">to</span> <span class="string">public</span> <span class="string">directory</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">cp</span> <span class="string">robots.txt</span> <span class="string">./public</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">push</span> <span class="string">public</span> <span class="string">to</span> <span class="string">gh-pages</span> <span class="string">branch</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">          <span class="attr">REMOTE_REPO:</span> <span class="string">https://$&#123;&#123;</span> <span class="string">secrets.GIT_TOKEN</span> <span class="string">&#125;&#125;@github.com/$&#123;&#123;</span> <span class="string">secrets.GIT_REPOSITORY</span> <span class="string">&#125;&#125;.git</span></span><br><span class="line">          <span class="attr">REMOTE_BRANCH:</span> <span class="string">gh-pages</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          cd ./public &amp;&amp; git init &amp;&amp; git add .</span></span><br><span class="line"><span class="string">          git config user.name &quot;$&#123;&#123; secrets.GIT_USERNAME &#125;&#125;&quot;</span></span><br><span class="line"><span class="string">          git config user.email &quot;$&#123;&#123; secrets.GIT_USEREMAIL &#125;&#125;&quot;</span></span><br><span class="line"><span class="string">          echo -n &#x27;Files to Commit:&#x27; &amp;&amp; ls -l | wc -l</span></span><br><span class="line"><span class="string">          git commit -m &quot;github actions build at $(TZ=ANY-8 date +&#x27;%Y-%m-%d %H:%M:%S&#x27;)&quot; &gt; /dev/null 2&gt;&amp;1</span></span><br><span class="line"><span class="string">          git push --force $REMOTE_REPO master:$REMOTE_BRANCH &gt; /dev/null 2&gt;&amp;1</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">deploy</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          echo build successfully, now you can redeploy your website</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      </span><br><span class="line">          </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>steps中包括如下actions</p>
+<ol>
+<li><p>actions/checkout@v2 </p>
+<p>获取master分支代码</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br></pre></td></tr></table></figure></li>
+<li><p>actions/setup-node@v2</p>
+<p>安装node，版本为12.x</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">setup</span> <span class="string">node</span> <span class="string">version</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="string">&#x27;12.x&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>npm install -g hexo-cli</p>
+<p>安装hexo cli</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">install</span> <span class="string">hexo-cli</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">-g</span> <span class="string">hexo-cli</span></span><br></pre></td></tr></table></figure></li>
+<li><p>actions/cache@v1 | npm ci</p>
+<p>安装npm依赖包，并使能缓存</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Cache</span> <span class="string">node</span> <span class="string">modules</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/cache@v1</span></span><br><span class="line">        <span class="attr">id:</span> <span class="string">cache</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">node_modules</span></span><br><span class="line">          <span class="attr">key:</span> <span class="string">$&#123;&#123;</span> <span class="string">runner.os</span> <span class="string">&#125;&#125;-node-$&#123;&#123;</span> <span class="string">hashFiles(&#x27;**/package-lock.json&#x27;)</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">restore-keys:</span> <span class="string">|</span></span><br><span class="line"><span class="string">            $&#123;&#123; runner.os &#125;&#125;-node-</span></span><br><span class="line"><span class="string"></span>      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Dependencies</span></span><br><span class="line">        <span class="attr">if:</span> <span class="string">steps.cache.outputs.cache-hit</span> <span class="type">!=</span> <span class="string">&#x27;true&#x27;</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">npm</span> <span class="string">ci</span></span><br></pre></td></tr></table></figure></li>
+<li><p>hexo clean | hexo g</p>
+<p>清空并部署</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">generate</span> <span class="string">public</span> <span class="string">tatic</span> <span class="string">files</span></span><br><span class="line">       <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">         hexo clean</span></span><br><span class="line"><span class="string">         hexo g</span></span><br></pre></td></tr></table></figure></li>
+<li><p>cp robots.txt ./public</p>
+<p>将自定义限制爬虫文件复制到public即生成的静态文件的文件夹中</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">copy</span> <span class="string">robots.txt</span> <span class="string">to</span> <span class="string">public</span> <span class="string">directory</span></span><br><span class="line">       <span class="attr">run:</span> <span class="string">cp</span> <span class="string">robots.txt</span> <span class="string">./public</span></span><br></pre></td></tr></table></figure></li>
+<li><p>将代码推送到gh-pages分支</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">push</span> <span class="string">public</span> <span class="string">to</span> <span class="string">gh-pages</span> <span class="string">branch</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">          <span class="attr">REMOTE_REPO:</span> <span class="string">https://$&#123;&#123;</span> <span class="string">secrets.GIT_TOKEN</span> <span class="string">&#125;&#125;@github.com/$&#123;&#123;</span> <span class="string">secrets.GIT_REPOSITORY</span> <span class="string">&#125;&#125;.git</span></span><br><span class="line">          <span class="attr">REMOTE_BRANCH:</span> <span class="string">gh-pages</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          cd ./public &amp;&amp; git init &amp;&amp; git add .</span></span><br><span class="line"><span class="string">          git config user.name &quot;$&#123;&#123; secrets.GIT_USERNAME &#125;&#125;&quot;</span></span><br><span class="line"><span class="string">          git config user.email &quot;$&#123;&#123; secrets.GIT_USEREMAIL &#125;&#125;&quot;</span></span><br><span class="line"><span class="string">          echo -n &#x27;Files to Commit:&#x27; &amp;&amp; ls -l | wc -l</span></span><br><span class="line"><span class="string">          git commit -m &quot;github actions build at $(TZ=ANY-8 date +&#x27;%Y-%m-%d %H:%M:%S&#x27;)&quot; &gt; /dev/null 2&gt;&amp;1</span></span><br><span class="line"><span class="string">          git push --force $REMOTE_REPO master:$REMOTE_BRANCH &gt; /dev/null 2&gt;&amp;1</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">deploy</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">echo</span> <span class="string">build</span> <span class="string">successfully,</span> <span class="string">now</span> <span class="string">you</span> <span class="string">can</span> <span class="string">redeploy</span> <span class="string">your</span> <span class="string">website</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>这里面涉及到的secret变量可以在，代码仓库secrets中添加</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/buzmw.png" alt="image-20210911121933711"></p>
+<p>​    </p>
+<p>补充：</p>
+<p><code>$(TZ=ANY-8 date +&#39;%Y-%m-%d %H:%M:%S&#39;)</code> github action默认时区为UTC时间，这是TZ=ANY-8将时区变为UCT8时间</p>
+<p>​    </p>
+</li>
+</ol>
+<h3 id="在Serverless中配置代码托管"><a href="#在Serverless中配置代码托管" class="headerlink" title="在Serverless中配置代码托管"></a>在Serverless中配置代码托管</h3><p>在开发部署中选择代码托管，选择github（需要授权代码源），然后选择blog仓库的gh-pages分支，选择自动触发构建</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/x1n8d.png" alt="image-20210911122509404"></p>
+<p>这样我们的工作流就配置完了</p>
+<h2 id="404页面"><a href="#404页面" class="headerlink" title="404页面"></a>404页面</h2><ol>
+<li><p>在hexo中增加404.html，qq404.html文件，放在source文件夹下面</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/j193w.png" alt="image-20210922000046337"></p>
+<p>为什么是两个404文件？qq404里面放的是腾讯公益404页面，但是我想在这个页面上增加一个返回我的主页的按钮，需要通过iframe嵌套这个腾讯404页面，代码如下。</p>
+<p>qq404.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-CN&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1, maximum-scale=2&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"> <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;https://qzonestyle.gtimg.cn/qzone/hybrid/app/404/search_children.js&quot;</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span> <span class="attr">homePageUrl</span>=<span class="string">&quot;https://blog.smart-lifestyle.cn/&quot;</span> <span class="attr">homePageName</span>=<span class="string">&quot;回到我的主页&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>404.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-CN&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1, maximum-scale=2&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;theme-color&quot;</span> <span class="attr">content</span>=<span class="string">&quot;#222&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;generator&quot;</span> <span class="attr">content</span>=<span class="string">&quot;Hexo 5.4.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;apple-touch-icon&quot;</span> <span class="attr">sizes</span>=<span class="string">&quot;180x180&quot;</span> <span class="attr">href</span>=<span class="string">&quot;/images/favicon.ico&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;icon&quot;</span> <span class="attr">type</span>=<span class="string">&quot;image/png&quot;</span> <span class="attr">sizes</span>=<span class="string">&quot;32x32&quot;</span> <span class="attr">href</span>=<span class="string">&quot;/images/favicon.ico&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;icon&quot;</span> <span class="attr">type</span>=<span class="string">&quot;image/png&quot;</span> <span class="attr">sizes</span>=<span class="string">&quot;16x16&quot;</span> <span class="attr">href</span>=<span class="string">&quot;/images/favicon-16x16.ico&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;mask-icon&quot;</span> <span class="attr">href</span>=<span class="string">&quot;/images/favicon.ico&quot;</span> <span class="attr">color</span>=<span class="string">&quot;#222&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-tag">body</span> &#123;<span class="attribute">margin</span>:<span class="number">0</span>; <span class="attribute">padding</span>:<span class="number">0</span>;&#125;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.button</span> &#123;<span class="attribute">margin</span>: <span class="number">10px</span> <span class="number">10px</span>; <span class="attribute">border-radius</span>: <span class="number">4px</span>;&#125;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.button</span><span class="selector-pseudo">:hover</span> &#123;<span class="attribute">background-color</span>: <span class="number">#222</span>; <span class="attribute">color</span>: <span class="number">#eee</span>; &#125;</span></span><br><span class="line"><span class="css">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>simplezhao的博客 - 专注于物联网架构和产品<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  </span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;button&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;location.href=&#x27;https://blog.smart-lifestyle.cn&#x27;&quot;</span>&gt;</span>回到我的主页<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;./qq404.html&quot;</span> <span class="attr">width</span>=<span class="string">&quot;100%&quot;</span> <span class="attr">height</span>=<span class="string">&quot;700&quot;</span> <span class="attr">frameborder</span>=<span class="string">&quot;0&quot;</span> &gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>在hexo _config.yml中修改skip_render，自动从source文件夹下查找，所有不要加source</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">skip_render:</span> [<span class="number">404.</span><span class="string">html</span>, <span class="string">qq404.html</span>, <span class="string">&#x27;*.html&#x27;</span>, <span class="string">robots.txt</span>]</span><br></pre></td></tr></table></figure></li>
+<li><p>在腾讯对象存储，保存网页的桶中找到静态网站的配置，更改错误文档为404.html</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/uv767.png" alt="image-20210922001015308"></p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>整个流程配置完之后，我们在本地写完博客，提交到github之后，就可以按照流水线自动更新在线博客网站。</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/0jhjn.png" alt="image-20210911124903269"></p>
+<p>一点感悟：</p>
+<p>腾讯云的Serverless应用整合了自家的各种服务，比如对象存储的网站托管、而代码托管使用的coding来获取授权</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/mub2b.png" alt="image-20210911003110757"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://github.com/marketplace/actions/hexo-action">Hexo Action · Actions · GitHub Marketplace</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://github.com/BryanSchuetz/jekyll-deploy-gh-pages/blob/master/deploy/entrypoint.sh">jekyll-deploy-gh-pages/entrypoint.sh at master · BryanSchuetz/jekyll-deploy-gh-pages (github.com)</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://github.com/NickSchimek/deploy_jamstack_action/blob/main/deploy.sh">deploy_jamstack_action/deploy.sh at main · NickSchimek/deploy_jamstack_action (github.com)</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/161969042">使用 GitHub Actions 自动部署 Hexo 博客到 GitHub Pages - 知乎 (zhihu.com)</a></p>
+<p>[5] <a target="_blank" rel="noopener" href="https://unix.stackexchange.com/questions/104088/why-does-tz-utc-8-produce-dates-that-are-utc8">timezone - Why does TZ=UTC-8 produce dates that are UTC+8? - Unix &amp; Linux Stack Exchange</a></p>
+<p>[6] <a target="_blank" rel="noopener" href="https://freessl.cn/">FreeSSL首页 - FreeSSL.cn一个提供免费HTTPS证书申请的网站</a></p>
+<p>[7] <a target="_blank" rel="noopener" href="https://hexo.io/docs/configuration#Directory">Configuration | Hexo</a></p>
+<p>[8] <a target="_blank" rel="noopener" href="https://iitii.github.io/2019/02/15/1/">Hexo跳过指定文件的渲染 | Hello Memo (iitii.github.io)</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/hexo/" rel="tag"><i class="fa fa-tag"></i> hexo</a>
+              <a href="/tags/serverless/" rel="tag"><i class="fa fa-tag"></i> serverless</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/de6/" rel="prev" title="在apple M1上构建x86_64 Docker镜像">
+      <i class="fa fa-chevron-left"></i> 在apple M1上构建x86_64 Docker镜像
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/163c/" rel="next" title="node查看process架构">
+      node查看process架构 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#serverless%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">2.</span> <span class="nav-text">serverless的选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">搭建过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E9%80%9Aserverless%E5%BA%94%E7%94%A8%EF%BC%8C%E5%BB%BA%E7%AB%99"><span class="nav-number">3.1.</span> <span class="nav-text">开通serverless应用，建站</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D%E5%92%8C%E8%AF%81%E4%B9%A6"><span class="nav-number">3.2.</span> <span class="nav-text">绑定域名和证书</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D"><span class="nav-number">3.2.1.</span> <span class="nav-text">绑定域名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E8%AF%81%E4%B9%A6"><span class="nav-number">3.2.2.</span> <span class="nav-text">绑定证书</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2hexo%E5%8D%9A%E5%AE%A2"><span class="nav-number">4.</span> <span class="nav-text">部署hexo博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#github-actions%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.1.</span> <span class="nav-text">github actions实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8Serverless%E4%B8%AD%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%A0%81%E6%89%98%E7%AE%A1"><span class="nav-number">4.2.</span> <span class="nav-text">在Serverless中配置代码托管</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#404%E9%A1%B5%E9%9D%A2"><span class="nav-number">5.</span> <span class="nav-text">404页面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="simple"
+      src="https://oss.smart-lifestyle.cn/static/avatar/simplezhao_cartoon2.jpg">
+  <p class="site-author-name" itemprop="name">simple</p>
+  <div class="site-description" itemprop="description">专注于物联网架构和产品</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/simplezhao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;simplezhao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhaogang@smart-lifestyle.cn" title="E-Mail → mailto:zhaogang@smart-lifestyle.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">simple</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">86k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:36</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

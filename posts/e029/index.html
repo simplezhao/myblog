@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.loli.net/css?family=Noto Sans SC:300,300italic,400,400italic,700,700italic|JetBrains Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://blog.smart-lifestyle.cn').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="配置docker运行模式为rootless，这样non-root用户也可以访问">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在code server中使用docker">
+<meta property="og:url" content="https://blog.smart-lifestyle.cn/posts/e029/index.html">
+<meta property="og:site_name" content="simplezhao的博客">
+<meta property="og:description" content="配置docker运行模式为rootless，这样non-root用户也可以访问">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/okqw8.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/bckgw.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/vb0bh.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/etact.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/7h9xk.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/eyur9.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/q3thf.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/3ehj3.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/4gjvw.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/6hfz0.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/uqlgn.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/fz5dv.png">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/8gpp2.png">
+<meta property="article:published_time" content="2022-04-27T15:07:42.000Z">
+<meta property="article:modified_time" content="2022-05-05T14:53:03.075Z">
+<meta property="article:author" content="simple">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="code server">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oss.smart-lifestyle.cn/file/okqw8.png">
+
+<link rel="canonical" href="https://blog.smart-lifestyle.cn/posts/e029/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>在code server中使用docker - simplezhao的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="simplezhao的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">simplezhao的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">slow is smooth and smooth is fast</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">71</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">70</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">26</span></a>
+
+  </li>
+        <li class="menu-item menu-item-读书">
+
+    <a href="/categories/book" rel="section"><i class="fa fa-fw fa-coffee"></i>读书</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/e029/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/static/avatar/simplezhao_cartoon2.jpg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="专注于物联网架构和产品">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simplezhao的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          在code server中使用docker
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-27 15:07:42" itemprop="dateCreated datePublished" datetime="2022-04-27T15:07:42+00:00">2022-04-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-05 14:53:03" itemprop="dateModified" datetime="2022-05-05T14:53:03+00:00">2022-05-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+            <div class="post-description">配置docker运行模式为rootless，这样non-root用户也可以访问</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>上一篇部署了code server，<a href="https://blog.smart-lifestyle.cn/posts/a6e3/">搞了一个浏览器版VS Code Server - simplezhao的博客 (smart-lifestyle.cn)</a></p>
+<p>在code server部署完之后，安装docker插件，却无法连接docker，改怎么解决呢</p>
+</blockquote>
+<p>docker默认是以root用户运行的，如果你也是通过root身份登录的主机，应该不会有该问题，下面介绍的非root用户如何解决</p>
+<p><strong>以下操作命令都是在Ubuntu系统下执行</strong></p>
+<h2 id="安装docker插件"><a href="#安装docker插件" class="headerlink" title="安装docker插件"></a>安装docker插件</h2><blockquote>
+<p>第一步是先安装docker，(*￣︶￣)</p>
+</blockquote>
+<p>首先你得在code server中安装docker插件，直接在插件中搜索即可</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/okqw8.png" alt="image-20220427153653431"></p>
+<p>点击docker图标，各种提示Failed to connect</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/bckgw.png" alt="access failed"></p>
+<h2 id="以rootless模式运行docker"><a href="#以rootless模式运行docker" class="headerlink" title="以rootless模式运行docker"></a>以rootless模式运行docker</h2><p>在docker插件上也介绍了，如何在vscode中使用docker</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/vb0bh.png" alt="image-20220427154201414"></p>
+<p>打开<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/security/rootless/">链接</a>按照步骤执行</p>
+<ol>
+<li><p>安装<code>uidmap</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install uidmap</span><br></pre></td></tr></table></figure></li>
+<li><p>安装<code>dbus-user-session</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y dbus-user-session</span><br></pre></td></tr></table></figure></li>
+<li><p>将之前docker停止</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> --now docker.service docker.socket</span><br><span class="line"></span><br><span class="line">sudo rm /var/run/docker.sock</span><br></pre></td></tr></table></figure></li>
+<li><p>使用当前non-root用户安装docker</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dockerd-rootless-setuptool.sh install</span><br><span class="line"></span><br><span class="line">systemctl --user start docker</span><br></pre></td></tr></table></figure></li>
+<li><p>开机启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo loginctl enable-linger $(whoami)</span><br></pre></td></tr></table></figure></li>
+<li><p>将docker host加入到环境变量中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取当前用户XDG_RUNTIME_DIR</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$XDG_RUNTIME_DIR</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将下面两行加入到.bashrc或者.zshrc中，具体看用的哪种shell</span></span><br><span class="line"><span class="comment"># run/user/1000 为echo $XDG_RUNTIME_DIR的结果</span></span><br><span class="line"><span class="built_in">export</span> PATH=/usr/bin:<span class="variable">$PATH</span></span><br><span class="line"><span class="built_in">export</span> DOCKER_HOST=unix:///run/user/1000/docker.sock</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure></li>
+<li><p>运行docker 命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 此时就可以运行docker 命令</span></span><br><span class="line">docker run -d -p 6379:6379 redis:latest</span><br><span class="line"></span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line">CONTAINER ID   IMAGE          COMMAND                  CREATED       STATUS       PORTS                                       NAMES</span><br><span class="line">5e416fb0fa5d   redis:latest   <span class="string">&quot;docker-entrypoint.s…&quot;</span>   7 hours ago   Up 7 hours   0.0.0.0:6379-&gt;6379/tcp, :::6379-&gt;6379/tcp   gifted_diffie</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="在code-server中生效docker操作"><a href="#在code-server中生效docker操作" class="headerlink" title="在code server中生效docker操作"></a>在code server中生效docker操作</h2><p>前面一路很顺利，但是发现在code server中还是不能用😓</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/etact.png" alt="image-20220427213459661"></p>
+<p>而我们在之前的环境变量中已经配置了DOCKER_HOST = <code>export DOCKER_HOST=unix:///run/user/1000/docker.sock</code></p>
+<p>经过测试发现，在vscode terminal和 自己电脑上使用iterm通过ssh连接服务器之后的结果竟然不一样</p>
+<ul>
+<li>echo  $XDG_RUNTIME_DIR</li>
+</ul>
+<p>​    在iterm上</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/7h9xk.png" alt="image-20220427213948405"></p>
+<p>​    </p>
+<p>​    在vscode terminal上</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/eyur9.png" alt="image-20220427214104155"></p>
+<p><strong>在vscode terminal <code> $XDG_RUNTIME_DIR</code>为空</strong>，这里没有再深入去看什么原因，而我已在之前的设置中将<code>$XDG_RUNTIME_DIR</code>替换为实际的结果<code>run/user/1000</code></p>
+<ul>
+<li>DOCKER_HOST没有生效</li>
+</ul>
+<p>在vscode docker的上下文配置中，有两个contexts，一个default（使用当前DOCKER_HOST），另外一个是rootless</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/q3thf.png" alt="image-20220427214524692"></p>
+<p>在code server中<code>$DOCKER_HOST</code>也是返回为空</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/3ehj3.png" alt="image-20220427214721962"></p>
+<p>因为没有连接到正确的docker.sock上，所以一直出错</p>
+<h3 id="在code-server上切换contexts为rootless"><a href="#在code-server上切换contexts为rootless" class="headerlink" title="在code server上切换contexts为rootless"></a>在code server上切换contexts为rootless</h3><p>在command palette中找到<code>Docker Contexts: Use</code></p>
+<p><img src="https://oss.smart-lifestyle.cn/file/4gjvw.png" alt="image-20220427215039799"></p>
+<p>将其调整为rootless</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/6hfz0.png" alt="image-20220426220112259"></p>
+<p>然后就可以在code server中使用docker 了</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/uqlgn.png" alt="image-20220427215239438"></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>除了上面提到的问题</p>
+<p>$DOCKER_HOST、$XDG_RUNTIME_DIR在 code server terminal中为空</p>
+<p>还有一个问题：</p>
+<p>在code server terminal中为空无法使用<code>systemctl --user restart|start|status  docker.service</code>命令</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/fz5dv.png" alt="image-20220427215515635"></p>
+<p>这个问题在<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/security/rootless/#troubleshooting">troubleshooting</a>中也提到了，但我没去解决，如果重启就在iterm中操作</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/8gpp2.png" alt="image-20220427215701871"></p>
+<p>这两个问题等后面有时间再去解决吧</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/linux-postinstall/">Post-installation steps for Linux | Docker Documentation</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://github.com/microsoft/vscode-docker/wiki/Troubleshooting">Troubleshooting · microsoft/vscode-docker Wiki (github.com)</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://docs.docker.com/engine/security/rootless/#troubleshooting">Run the Docker daemon as a non-root user (Rootless mode) | Docker Documentation</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
+              <a href="/tags/code-server/" rel="tag"><i class="fa fa-tag"></i> code server</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/a6e3/" rel="prev" title="搞了一个浏览器版VS Code Server">
+      <i class="fa fa-chevron-left"></i> 搞了一个浏览器版VS Code Server
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/48c4/" rel="next" title="mac m1下安装kafka for python">
+      mac m1下安装kafka for python <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85docker%E6%8F%92%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">安装docker插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5rootless%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8Cdocker"><span class="nav-number">2.</span> <span class="nav-text">以rootless模式运行docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8code-server%E4%B8%AD%E7%94%9F%E6%95%88docker%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">在code server中生效docker操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8code-server%E4%B8%8A%E5%88%87%E6%8D%A2contexts%E4%B8%BArootless"><span class="nav-number">3.1.</span> <span class="nav-text">在code server上切换contexts为rootless</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="simple"
+      src="https://oss.smart-lifestyle.cn/static/avatar/simplezhao_cartoon2.jpg">
+  <p class="site-author-name" itemprop="name">simple</p>
+  <div class="site-description" itemprop="description">专注于物联网架构和产品</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/simplezhao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;simplezhao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhaogang@smart-lifestyle.cn" title="E-Mail → mailto:zhaogang@smart-lifestyle.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">simple</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">86k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:36</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.loli.net/css?family=Noto Sans SC:300,300italic,400,400italic,700,700italic|JetBrains Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://blog.smart-lifestyle.cn').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="使用Azure DevOps中的Pipeline来编译基于RN的Android APP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Azure Pipeline上编译React Native Android APP">
+<meta property="og:url" content="https://blog.smart-lifestyle.cn/posts/bf91/index.html">
+<meta property="og:site_name" content="simplezhao的博客">
+<meta property="og:description" content="使用Azure DevOps中的Pipeline来编译基于RN的Android APP">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://oss.smart-lifestyle.cn/file/3adoj.png">
+<meta property="article:published_time" content="2021-11-13T22:04:16.000Z">
+<meta property="article:modified_time" content="2022-05-05T14:53:03.075Z">
+<meta property="article:author" content="simple">
+<meta property="article:tag" content="DevOps">
+<meta property="article:tag" content="React Native">
+<meta property="article:tag" content="Pipeline">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oss.smart-lifestyle.cn/file/3adoj.png">
+
+<link rel="canonical" href="https://blog.smart-lifestyle.cn/posts/bf91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>在Azure Pipeline上编译React Native Android APP - simplezhao的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="simplezhao的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">simplezhao的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">slow is smooth and smooth is fast</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">71</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">70</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">26</span></a>
+
+  </li>
+        <li class="menu-item menu-item-读书">
+
+    <a href="/categories/book" rel="section"><i class="fa fa-fw fa-coffee"></i>读书</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.smart-lifestyle.cn/posts/bf91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://oss.smart-lifestyle.cn/static/avatar/simplezhao_cartoon2.jpg">
+      <meta itemprop="name" content="simple">
+      <meta itemprop="description" content="专注于物联网架构和产品">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="simplezhao的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          在Azure Pipeline上编译React Native Android APP
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-13 22:04:16" itemprop="dateCreated datePublished" datetime="2021-11-13T22:04:16+00:00">2021-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-05 14:53:03" itemprop="dateModified" datetime="2022-05-05T14:53:03+00:00">2022-05-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DevOps/" itemprop="url" rel="index">
+                    <span itemprop="name">DevOps</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
+            <div class="post-description">使用Azure DevOps中的Pipeline来编译基于RN的Android APP</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文介绍在Azure Pipeline上搭建Android 编译打包过程以及中间遇到的问题，最终将打包好的APP发布到微软APP Center中</p>
+<p><img src="https://oss.smart-lifestyle.cn/file/3adoj.png" alt="image-20211114074340599"></p>
+<h2 id="流水线"><a href="#流水线" class="headerlink" title="流水线"></a>流水线</h2><p>流水线的Pipeline配置如下（实际使用的是Pipeline的经典模式，即图形化模式，下面配置跟实际稍微有区别）</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">pool:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">Azure</span> <span class="string">Pipelines</span></span><br><span class="line"><span class="comment">#Your build pipeline references an undefined variable named ‘envconfig.secureFilePath’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972</span></span><br><span class="line"><span class="comment">#Your build pipeline references an undefined variable named ‘keystorefile.secureFilePath’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972</span></span><br><span class="line"><span class="comment">#Your build pipeline references an undefined variable named ‘envconfig.secureFilePath’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972</span></span><br><span class="line"></span><br><span class="line"><span class="attr">steps:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">DownloadSecureFile@1</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Download keystore file&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">secureFile:</span> <span class="string">xxx.xxx.xxx.keystore</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">DownloadSecureFile@1</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Download envconfig&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">secureFile:</span> <span class="string">.env.prod</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">script:</span> <span class="string">|</span></span><br><span class="line"><span class="string">   echo &quot;link env file&quot;</span></span><br><span class="line"><span class="string">   ln -s $(envconfig.secureFilePath) ./ </span></span><br><span class="line"><span class="string">   echo &quot;link keystore&quot;</span></span><br><span class="line"><span class="string">   ln -s $(keystorefile.secureFilePath) ./android/app</span></span><br><span class="line"><span class="string"></span>  <span class="attr">workingDirectory:</span> <span class="string">./</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;link env file and keystore file&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">NodeTool@0</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Use Node 14&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">versionSpec:</span> <span class="number">14</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">geeklearningio.gl-vsts-tasks-yarn.yarn-installer-task.YarnInstaller@3</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Use Yarn 1.22&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">versionSpec:</span> <span class="number">1.22</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">Cache@2</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">Cache</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">key:</span> <span class="string">&#x27;yarn | &quot;$(Agent.OS)&quot; | yarn.lock&#x27;</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">&#x27;./node_modules&#x27;</span></span><br><span class="line">    <span class="attr">cacheHitVar:</span> <span class="string">&#x27;yarn | &quot;$(Agent.OS)&quot;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">geeklearningio.gl-vsts-tasks-yarn.yarn-task.Yarn@3</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Yarn add jetifier&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">projectDirectory:</span> <span class="string">./</span></span><br><span class="line">    <span class="attr">arguments:</span> <span class="string">&#x27;add jetifier&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">script:</span> <span class="string">&#x27;npx jetify&#x27;</span></span><br><span class="line">  <span class="attr">workingDirectory:</span> <span class="string">./</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;npx jetify&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">geeklearningio.gl-vsts-tasks-yarn.yarn-task.Yarn@3</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Yarn  install&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">projectDirectory:</span> <span class="string">./</span></span><br><span class="line">    <span class="attr">arguments:</span> <span class="string">install</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">geeklearningio.gl-vsts-tasks-yarn.yarn-task.Yarn@3</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Yarn build&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">projectDirectory:</span> <span class="string">./</span></span><br><span class="line">    <span class="attr">arguments:</span> <span class="string">&#x27;sh:assemble:android:prod&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">CopyFiles@2</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Copy Files to: $(build.artifactstagingdirectory)&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">SourceFolder:</span> <span class="string">&#x27;$(system.defaultworkingdirectory)&#x27;</span></span><br><span class="line">    <span class="attr">Contents:</span> <span class="string">&#x27;**/*.apk&#x27;</span></span><br><span class="line">    <span class="attr">TargetFolder:</span> <span class="string">&#x27;$(build.artifactstagingdirectory)&#x27;</span></span><br><span class="line">  <span class="attr">condition:</span> <span class="string">succeededOrFailed()</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">PublishBuildArtifacts@1</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Publish Artifact: drop&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">PathtoPublish:</span> <span class="string">&#x27;$(build.artifactstagingdirectory)&#x27;</span></span><br><span class="line">  <span class="attr">condition:</span> <span class="string">succeededOrFailed()</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">AppCenterTest@1</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Test with Visual Studio App Center&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">appFile:</span> <span class="string">&#x27;**/*.apk&#x27;</span></span><br><span class="line">    <span class="attr">prepareTests:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">runTests:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">enabled:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">condition:</span> <span class="string">succeededOrFailed()</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">AppCenterDistribute@2</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Deploy **/*.apk to Visual Studio App Center&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">serverEndpoint:</span> <span class="string">&#x27;service name&#x27;</span></span><br><span class="line">    <span class="attr">appSlug:</span> <span class="string">&#x27;org/appname&#x27;</span></span><br><span class="line">    <span class="attr">appFile:</span> <span class="string">&#x27;**/*.apk&#x27;</span></span><br><span class="line">    <span class="attr">symbolsIncludeParentDirectory:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">releaseNotesInput:</span> <span class="string">&#x27;new release&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="下载机密文件和配置文件"><a href="#下载机密文件和配置文件" class="headerlink" title="### 下载机密文件和配置文件"></a>### 下载机密文件和配置文件</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">DownloadSecureFile@1</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Download keystore file&#x27;</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">keystorefile</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">secureFile:</span> <span class="string">xxx.xxx.xxx.keystore</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">DownloadSecureFile@1</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Download envconfig&#x27;</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">envconfig</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">secureFile:</span> <span class="string">.env.prod</span></span><br></pre></td></tr></table></figure>
+
+<p>Azure DevOps Pipeline中提供了安全文件的下载，我们在环境中使用的keystore文件以及env文件是不能直接提交到代码中，第一是为了安全，如果泄漏后果很严重，第二是方便多个环境（开发、测试、生产）的配置</p>
+<p>在实际使用中，通过<code>keystorefile.secureFilePath</code>和<code>envconfig.secureFilePath</code>来使用这两个文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">script:</span> <span class="string">|</span></span><br><span class="line"><span class="string">   echo &quot;link env file&quot;</span></span><br><span class="line"><span class="string">   ln -s $(envconfig.secureFilePath) ./ </span></span><br><span class="line"><span class="string">   echo &quot;link keystore&quot;</span></span><br><span class="line"><span class="string">   ln -s $(keystorefile.secureFilePath) ./android/app</span></span><br><span class="line"><span class="string"></span>  <span class="attr">workingDirectory:</span> <span class="string">./</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;link env file and keystore file&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="安装指定版本的node、yarn"><a href="#安装指定版本的node、yarn" class="headerlink" title="安装指定版本的node、yarn"></a>安装指定版本的node、yarn</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">NodeTool@0</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Use Node 14&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">versionSpec:</span> <span class="number">14</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">geeklearningio.gl-vsts-tasks-yarn.yarn-installer-task.YarnInstaller@3</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Use Yarn 1.22&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">versionSpec:</span> <span class="number">1.22</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">Cache@2</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">Cache</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">key:</span> <span class="string">&#x27;yarn | &quot;$(Agent.OS)&quot; | yarn.lock&#x27;</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">&#x27;./node_modules&#x27;</span></span><br><span class="line">    <span class="attr">cacheHitVar:</span> <span class="string">&#x27;yarn | &quot;$(Agent.OS)&quot;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">geeklearningio.gl-vsts-tasks-yarn.yarn-task.Yarn@3</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Yarn add jetifier&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">projectDirectory:</span> <span class="string">./</span></span><br><span class="line">    <span class="attr">arguments:</span> <span class="string">&#x27;add jetifier&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">script:</span> <span class="string">&#x27;npx jetify&#x27;</span></span><br><span class="line">  <span class="attr">workingDirectory:</span> <span class="string">./</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;npx jetify&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">geeklearningio.gl-vsts-tasks-yarn.yarn-task.Yarn@3</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Yarn  install&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">projectDirectory:</span> <span class="string">./</span></span><br><span class="line">    <span class="attr">arguments:</span> <span class="string">install</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="编译apk"><a href="#编译apk" class="headerlink" title="编译apk"></a>编译apk</h3><p>这里实际执行sh:assemble:android:prod命令为：<code>cd android/ &amp;&amp; export ENVFILE=.env.beta &amp;&amp; ./gradlew assembleBetaRelease &amp;&amp; cd ..</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">geeklearningio.gl-vsts-tasks-yarn.yarn-task.Yarn@3</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Yarn build&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">projectDirectory:</span> <span class="string">./</span></span><br><span class="line">    <span class="attr">arguments:</span> <span class="string">&#x27;sh:assemble:android:prod&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="分发到appcenter"><a href="#分发到appcenter" class="headerlink" title="分发到appcenter"></a>分发到appcenter</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">PublishBuildArtifacts@1</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Publish Artifact: drop&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">PathtoPublish:</span> <span class="string">&#x27;$(build.artifactstagingdirectory)&#x27;</span></span><br><span class="line">  <span class="attr">condition:</span> <span class="string">succeededOrFailed()</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">AppCenterTest@1</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Test with Visual Studio App Center&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">appFile:</span> <span class="string">&#x27;**/*.apk&#x27;</span></span><br><span class="line">    <span class="attr">prepareTests:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">runTests:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">enabled:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">condition:</span> <span class="string">succeededOrFailed()</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">AppCenterDistribute@2</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;Deploy **/*.apk to Visual Studio App Center&#x27;</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">serverEndpoint:</span> <span class="string">&#x27;service name&#x27;</span></span><br><span class="line">    <span class="attr">appSlug:</span> <span class="string">&#x27;org/appname&#x27;</span></span><br><span class="line">    <span class="attr">appFile:</span> <span class="string">&#x27;**/*.apk&#x27;</span></span><br><span class="line">    <span class="attr">symbolsIncludeParentDirectory:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">releaseNotesInput:</span> <span class="string">&#x27;new release&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="问题总结"><a href="#问题总结" class="headerlink" title="问题总结"></a>问题总结</h2><p>大部分问题在于引用环境变量，引用机密文件上，导致在编译时找不到一些内容而出错</p>
+<h3 id="问题1-android-support-annotation-does-not-exist"><a href="#问题1-android-support-annotation-does-not-exist" class="headerlink" title="问题1 android.support.annotation does not exist"></a>问题1 <code>android.support.annotation does not exist</code></h3><p>安装jetifier</p>
+<p><code>yarn add jetifier</code></p>
+<p><code>npx jetify</code></p>
+<h3 id="问题2-缓存node依赖"><a href="#问题2-缓存node依赖" class="headerlink" title="问题2 缓存node依赖"></a>问题2 缓存node依赖</h3><p>为了避免每次build时都重新下载node依赖，azure pipeline提供了管道缓存，查看<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/azure/devops/pipelines/release/caching?view=azure-devops">参考地址</a></p>
+<p>但是由于时间问题没有调通</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">task:</span> <span class="string">Cache@2</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">Cache</span></span><br><span class="line">  <span class="attr">inputs:</span></span><br><span class="line">    <span class="attr">key:</span> <span class="string">&#x27;yarn | &quot;$(Agent.OS)&quot; | yarn.lock&#x27;</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">&#x27;./node_modules&#x27;</span></span><br><span class="line">    <span class="attr">cacheHitVar:</span> <span class="string">&#x27;yarn | &quot;$(Agent.OS)&quot;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="gradle-file-project-env-get-filename"><a href="#gradle-file-project-env-get-filename" class="headerlink" title="gradle file(project.env.get(filename))"></a>gradle file(project.env.get(filename))</h3><p>这里的filename只能是文件名，而且gradle会自动加上完整的android/app/filename，如果这里写的是其他路径的文件会找不到（即使写的绝对路径），因此通过软连接的形式，将文件链接到android/app文件夹下</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">script:</span> <span class="string">|</span></span><br><span class="line"><span class="string">   echo &quot;link env file&quot;</span></span><br><span class="line"><span class="string">   ln -s $(envconfig.secureFilePath) ./ </span></span><br><span class="line"><span class="string">   echo &quot;link keystore&quot;</span></span><br><span class="line"><span class="string">   ln -s $(keystorefile.secureFilePath) ./android/app</span></span><br><span class="line"><span class="string"></span>  <span class="attr">workingDirectory:</span> <span class="string">./</span></span><br><span class="line">  <span class="attr">displayName:</span> <span class="string">&#x27;link env file and keystore file&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/56667264/react-native-build-error-package-android-support-annotation-does-not-exist">react native build error: package android.support.annotation does not exist - Stack Overflow</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://github.com/staff0rd/react-native-pipeline/blob/master/azure-pipelines-android.yml">react-native-pipeline/azure-pipelines-android.yml at master · staff0rd/react-native-pipeline (github.com)</a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://blog.logrocket.com/continuous-deployment-of-react-native-app-with-azure-devops/">Continuous deployment of React Native app with Azure DevOps - LogRocket Blog</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/azure/devops/pipelines/release/caching?view=azure-devops">管道缓存 - Azure Pipelines | Microsoft Docs</a></p>
+<p>[5] <a target="_blank" rel="noopener" href="https://medium.com/@liam.e.andrew/continuous-integration-for-react-native-with-azure-pipelines-245d90948f6a">Continuous Integration for React Native with Azure Pipelines | by Liam Andrew | Medium</a></p>
+<p>[6] <a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/azure/devops/pipelines/tasks/utility/download-secure-file?view=azure-devops">下载安全文件任务 - Azure Pipelines | Microsoft Docs</a></p>
+<p>[7] <a target="_blank" rel="noopener" href="https://github.com/luggit/react-native-config/issues/314">gradle.properties doesn’t process project.env.get(“_keystore_file”) · Issue #314 · luggit/react-native-config (github.com)</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/DevOps/" rel="tag"><i class="fa fa-tag"></i> DevOps</a>
+              <a href="/tags/React-Native/" rel="tag"><i class="fa fa-tag"></i> React Native</a>
+              <a href="/tags/Pipeline/" rel="tag"><i class="fa fa-tag"></i> Pipeline</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/aa65/" rel="prev" title="Apple M1 node多版本切换">
+      <i class="fa fa-chevron-left"></i> Apple M1 node多版本切换
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/81a9/" rel="next" title="RESTFul API设计规则">
+      RESTFul API设计规则 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="nav-number">1.</span> <span class="nav-text">流水线</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E6%9C%BA%E5%AF%86%E6%96%87%E4%BB%B6%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">### 下载机密文件和配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%8C%87%E5%AE%9A%E7%89%88%E6%9C%AC%E7%9A%84node%E3%80%81yarn"><span class="nav-number">1.2.</span> <span class="nav-text">安装指定版本的node、yarn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%8C%85"><span class="nav-number">1.3.</span> <span class="nav-text">安装依赖包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91apk"><span class="nav-number">1.4.</span> <span class="nav-text">编译apk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%8F%91%E5%88%B0appcenter"><span class="nav-number">1.5.</span> <span class="nav-text">分发到appcenter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">问题总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%981-android-support-annotation-does-not-exist"><span class="nav-number">2.1.</span> <span class="nav-text">问题1 android.support.annotation does not exist</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%982-%E7%BC%93%E5%AD%98node%E4%BE%9D%E8%B5%96"><span class="nav-number">2.2.</span> <span class="nav-text">问题2 缓存node依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gradle-file-project-env-get-filename"><span class="nav-number">2.3.</span> <span class="nav-text">gradle file(project.env.get(filename))</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="simple"
+      src="https://oss.smart-lifestyle.cn/static/avatar/simplezhao_cartoon2.jpg">
+  <p class="site-author-name" itemprop="name">simple</p>
+  <div class="site-description" itemprop="description">专注于物联网架构和产品</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/simplezhao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;simplezhao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhaogang@smart-lifestyle.cn" title="E-Mail → mailto:zhaogang@smart-lifestyle.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">simple</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">86k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:36</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
